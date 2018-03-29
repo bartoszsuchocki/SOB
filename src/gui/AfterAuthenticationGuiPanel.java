@@ -8,27 +8,31 @@ import javax.swing.SwingConstants;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
-	JLabel logoLabel; //na nazwê programu
-	JLabel iconLabel; //na ikonê programu
+	private JLabel logoLabel; //na nazwê programu
+	private JLabel iconLabel; //na ikonê programu
 	MainWindow mainWindow; //potrzebny, zeby np. uzyc funkcji changeGui
+	private final int width=700;
+	private final int height=500;
 	public AfterAuthenticationGuiPanel(MainWindow mainWindow)
 	{
+		
 		this.mainWindow = mainWindow;
+		setLayout(null);
+		
+		setBounds(0,0,width,height);
+		
 		
 		/*tu trzeba zdefiniowac jak bêdzie wygl¹daæ logo naszego systemu wyswietlane na kazdym (oprocz logowania i rejestracji) gui.*/
-		logoLabel = new JLabel("System Obs\u0142ugi Biblioteki"); 
-		logoLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		logoLabel.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		logoLabel.setBounds(66, 0, 634, 64);
-		add(logoLabel);
-		
 		iconLabel = new JLabel("");
-		iconLabel.setIcon(new ImageIcon(RegistrationPanel.class.getResource("/javax/swing/plaf/metal/icons/Error.gif")));
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		iconLabel.setFont(new Font("Tahoma", Font.ITALIC, 32));
-		iconLabel.setBackground(Color.ORANGE);
-		iconLabel.setBounds(10, 0, 46, 64);
+		iconLabel.setIcon(new ImageIcon(tmpPanel.class.getResource("/javax/swing/plaf/metal/icons/Question.gif")));
+		iconLabel.setBounds(47, 0, 40, 64);
 		add(iconLabel);
+		
+		logoLabel = new JLabel("System Obs\u0142ugi Biblioteki");
+		logoLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		logoLabel.setBounds(97, 0, 231, 64);
+		add(logoLabel);
 		
 		/*koniec definiowania logo*/
 		
