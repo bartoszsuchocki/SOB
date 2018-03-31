@@ -56,6 +56,7 @@ public class LoginekPanel extends JPanel {
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				mainWindow.changeGui("wyszukajUser");
 			}
 		});
 		loginButton.setBounds(234, 244, 98, 23);
