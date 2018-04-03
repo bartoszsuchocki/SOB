@@ -91,14 +91,9 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
 
         /*Tabelka*/
 
-        Object [][] data = new Object[][]
-                {
-                {"Ksiazka 1", "Autor 1", "1", "Wypożyczona"},
-                {"Ksiazka 2", "Autor 2", "2", "Niewypożyczona"},
-                {"Ksiazka 3", "Autor 3", "3", "Niewypożyczona"}
-        };
 
-        BooksTableModel booksTableModel=new BooksTableModel(data);
+
+        BooksTableModel booksTableModel=new BooksTableModel();
         booksTable = new JTable(booksTableModel);
 
 

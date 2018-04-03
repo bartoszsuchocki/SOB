@@ -10,10 +10,16 @@ public class BooksTableModel extends AbstractTableModel
     private Object[][] books;
     private String[] columnsHeads;
 
-    public BooksTableModel(Object[][] books)
+    public BooksTableModel()
     {
         this.books=books;
         columnsHeads=new String[] { "Nazwa książki", "Autor", "Sygnatura", "Status"};
+        books = new Object[][]
+                {
+                        {"Ksiazka 1", "Autor 1", "1", "Wypożyczona"},
+                        {"Ksiazka 2", "Autor 2", "2", "Niewypożyczona"},
+                        {"Ksiazka 3", "Autor 3", "3", "Niewypożyczona"}
+                };
     }
 
 
