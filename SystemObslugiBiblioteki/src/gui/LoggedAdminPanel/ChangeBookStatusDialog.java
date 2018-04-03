@@ -5,6 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+interface ChangeBookStatusInterface
+{
+
+    void deleteButtonPressed();
+    void giveBackButtonPressed();
+}
+
 public class ChangeBookStatusDialog extends JDialog
 {
     private static final String DIALOG_TITLE="Zmiana statusu książki";
@@ -19,9 +26,14 @@ public class ChangeBookStatusDialog extends JDialog
     private JButton deleteButton;
     private JButton giveBackButton;
 
-    public ChangeBookStatusDialog()
+    ChangeBookStatusInterface changeBookStatusInterface;
+
+
+    public ChangeBookStatusDialog(ChangeBookStatusInterface changeBookStatusInterface)
     {
         super();
+        this.changeBookStatusInterface=changeBookStatusInterface;
+
         setBounds(100, 100, 200, 150);
         setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setTitle(DIALOG_TITLE);
@@ -37,7 +49,7 @@ public class ChangeBookStatusDialog extends JDialog
             public void actionPerformed(ActionEvent e)
             {
                 JOptionPane.showMessageDialog(null, "Udało się usunąć książkę");
-
+                changeBookStatusInterface.deleteButtonPressed();
                 //JOptionPane.showMessageDialog(null, "Nie udało sie usunąć ksiżki");
                 dispose();
             }
@@ -52,7 +64,7 @@ public class ChangeBookStatusDialog extends JDialog
             public void actionPerformed(ActionEvent e)
             {
                 JOptionPane.showMessageDialog(null, "Udało się zwrócić książkę");
-
+                changeBookStatusInterface.giveBackButtonPressed();
                 //JOptionPane.showMessageDialog(null, "Nie udało się zwrócić książki");
                 dispose();
             }
@@ -71,6 +83,12 @@ public class ChangeBookStatusDialog extends JDialog
         });
         this.add(cancelButton);
 
+
+
+    }
+
+    public void showDialog()
+    {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
 

@@ -1,9 +1,13 @@
 package gui.LoggedAdminPanel;
 
 import gui.AfterAuthenticationGuiPanel;
+import gui.BooksTableModel;
 import gui.MainWindow;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,20 +16,25 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
     private static final String SIGN_UP_BUTTON_TEXT ="Wyloguj";
     private static final String SEARCH_FIELD_TEXT="Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107\"";
     private static final String SEARCH_BUTTON_TEXT="Szukaj";
-    private static final String ADD_BOOK_BUTTON ="Dodaj książkę";
+    private static final String ADD_BOOK_BUTTON_TEXT ="Dodaj książkę";
+    private static final String CHANGE_STATUS_BUTTON_TEXT="Zmień status";
 
     private JLabel searchFieldLabel;
     private JButton signUpButton;
     private JButton searchButton;
     private JTextField searchBookTextField;
     private JTable booksTable;
+    private JScrollPane booksScrollPane;
     private JButton addBookButton;
+    private JButton changeStatusButton;
+
+
 
 
     public LoggedAdminPanel(MainWindow mainWindow)
     {
         super(mainWindow);
-
+        setLayout(null);
         /*Przycisk 'Wyloguj się' */
         signUpButton = new JButton(SIGN_UP_BUTTON_TEXT);
         signUpButton.setBounds(576, 11, 89, 23);
@@ -41,7 +50,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
 
 
         /*Przycisk 'Dodaj nową ksiązke'*/
-        addBookButton=new JButton(ADD_BOOK_BUTTON);
+        addBookButton=new JButton(ADD_BOOK_BUTTON_TEXT);
         addBookButton.setBounds(53, 52, 201, 23);
         addBookButton.addActionListener(new ActionListener()
         {
@@ -79,9 +88,53 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
         });
         add(searchButton);
 
+
         /*Tabelka*/
-        booksTable = new JTable();
-        booksTable.setBounds(52, 154, 474, 211);
-        add(booksTable);
+
+        Object [][] data = new Object[][]
+                {
+                {"Ksiazka 1", "Autor 1", "1", "Wypożyczona"},
+                {"Ksiazka 2", "Autor 2", "2", "Niewypożyczona"},
+                {"Ksiazka 3", "Autor 3", "3", "Niewypożyczona"}
+        };
+
+        BooksTableModel booksTableModel=new BooksTableModel(data);
+        booksTable = new JTable(booksTableModel);
+
+
+        booksScrollPane=new JScrollPane(booksTable);
+
+
+
+        booksScrollPane.setBounds(52, 154, 474, 211);
+
+        add(booksScrollPane);
+
+        changeStatusButton=new JButton(CHANGE_STATUS_BUTTON_TEXT);
+        changeStatusButton.setBounds(531, 154, 150, 23);
+        changeStatusButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                int indexesSelected[]=booksTable.getSelectedRows();
+
+                new ChangeBookStatusDialog(new ChangeBookStatusInterface()
+                {
+                    @Override
+                    public void deleteButtonPressed()
+                    {
+                        //Usuwamy z bazy danych ksiązki o indeksach z tablicy indexesSelected
+                    }
+
+                    @Override
+                    public void giveBackButtonPressed()
+                    {
+                        //Oddajemy te ksiązki
+                    }
+                }).showDialog();
+            }
+        });
+        add(changeStatusButton);
     }
 }
