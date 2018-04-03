@@ -12,7 +12,6 @@ public class BooksTableModel extends AbstractTableModel
 
     public BooksTableModel()
     {
-        this.books=books;
         columnsHeads=new String[] { "Nazwa książki", "Autor", "Sygnatura", "Status"};
         books = new Object[][]
                 {
