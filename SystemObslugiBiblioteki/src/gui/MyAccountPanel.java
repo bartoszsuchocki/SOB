@@ -8,6 +8,9 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 	private JTable tableWypozyczone;
@@ -17,24 +20,42 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 		super(mainWindow);
 		
 		JButton btnWyloguj = new JButton("Wyloguj");
+		btnWyloguj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainWindow.changeGui("logowanie");
+			}
+		});
 		btnWyloguj.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		JButton btnNewButton = new JButton("Wypo\u017Cyczanie");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainWindow.changeGui("wypozyczanie");
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		JScrollPane scrollPaneTab = new JScrollPane();
+		
+		JLabel lblMojeWypoyczoneKsiki = new JLabel("Moje wypo\u017Cyczone ksi\u0105\u017Cki");
+		lblMojeWypoyczoneKsiki.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(56, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(47)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(405)
 							.addComponent(btnNewButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnWyloguj, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
-					.addGap(61))
+							.addComponent(btnWyloguj, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(10)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblMojeWypoyczoneKsiki)
+								.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(60, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -43,19 +64,17 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnWyloguj)
 						.addComponent(btnNewButton))
-					.addGap(92)
+					.addGap(72)
+					.addComponent(lblMojeWypoyczoneKsiki)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(77, Short.MAX_VALUE))
 		);
 		
-		String[] columnNames = {"Sygnatura",
-								"Tytu³",
-								"Autor"};
+		BooksTableModel booksTableModel=new BooksTableModel();
+		tableWypozyczone = new JTable(booksTableModel);
 		
-		Object[][] data = {{"S102", "Pan Tadeusz", "Adam Mickiewicz" },
-							{"S190", "Lalka", "Boles³aw Prus"}};
-		
-		tableWypozyczone = new JTable(data, columnNames);
+		tableWypozyczone = new JTable(booksTableModel);
 		scrollPaneTab.setViewportView(tableWypozyczone);
 		setLayout(groupLayout);
 

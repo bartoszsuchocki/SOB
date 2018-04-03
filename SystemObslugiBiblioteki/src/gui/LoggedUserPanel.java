@@ -18,21 +18,34 @@ import javax.swing.JSeparator;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import gui.LoggedAdminPanel.ChangeBookStatusDialog;
+
 import javax.swing.JScrollPane;
 import java.awt.Font;
 
 public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 	private JTextField textFieldWyszukiwanie;
-	private JTable tableWyszukane;
-	private JTable tableWyszukane_1;
+	private JTable booksTable;
+
+	
 
 	public LoggedUserPanel(MainWindow mainWindow){
 		super(mainWindow);
 		
 		JSeparator separator = new JSeparator();
 		
+		/*Przycisk Moje konto*/
+		
 		JButton btnMojeKonto = new JButton("Moje Konto");
+		btnMojeKonto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainWindow.changeGui("mojeKonto");
+			}
+		});
 		btnMojeKonto.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
+		/*Przycisk Wyloguj*/
 		
 		JButton btnWyloguj = new JButton("Wyloguj");
 		btnWyloguj.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -56,15 +69,20 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		
-		
-				String[] columnNames = {"Sygnatura",
-										"Tytu³",
-										"Autor"};
-				Object[][] data = {{"S102", "Pan Tadeusz", "Adam Mickiewicz" },
-									{"S190", "Lalka", "Boles³aw Prus"}};
 				
-				JScrollPane scrollPaneTab = new JScrollPane();
+				/*Tabelka*/
+		
+				BooksTableModel booksTableModel=new BooksTableModel();
+				booksTable = new JTable(booksTableModel);
+        
+				JScrollPane scrollPaneTab = new JScrollPane(booksTable);
+				
+				/*Wypo¿yczanie ksi¹¿ek*/
+				
+				JButton btnWypozycz = new JButton("Wypo\u017Cycz zaznaczone ksi\u0105\u017Cki");
+			
+				btnWypozycz.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				
 				GroupLayout groupLayout = new GroupLayout(this);
 				groupLayout.setHorizontalGroup(
 					groupLayout.createParallelGroup(Alignment.LEADING)
@@ -82,12 +100,13 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(53)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(scrollPaneTab, GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
-										.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-											.addComponent(textFieldWyszukiwanie, GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+										.addComponent(scrollPaneTab, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(textFieldWyszukiwanie, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
 											.addGap(5)
-											.addComponent(btnWyszukaj)))))
-							.addGap(55))
+											.addComponent(btnWyszukaj))
+										.addComponent(btnWypozycz))))
+							.addGap(44))
 				);
 				groupLayout.setVerticalGroup(
 					groupLayout.createParallelGroup(Alignment.LEADING)
@@ -102,15 +121,18 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 								.addComponent(btnMojeKonto))
 							.addGap(5)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textFieldWyszukiwanie)
+								.addComponent(textFieldWyszukiwanie, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnWyszukaj, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addGap(11)
-							.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(162, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnWypozycz)
+							.addGap(7)
+							.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(86, Short.MAX_VALUE))
 				);
 				
-				JTable tableWyszukane_1_1 = new JTable(data, columnNames);
-				scrollPaneTab.setViewportView(tableWyszukane_1_1);
+				
+				
+				scrollPaneTab.setViewportView(booksTable);
 				setLayout(groupLayout);
 		
 
