@@ -14,10 +14,10 @@ import java.awt.event.ActionListener;
 public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
 {
     private static final String SIGN_UP_BUTTON_TEXT ="Wyloguj";
-    private static final String SEARCH_FIELD_TEXT="Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107\"";
+    private static final String SEARCH_FIELD_TEXT="Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107";
     private static final String SEARCH_BUTTON_TEXT="Szukaj";
-    private static final String ADD_BOOK_BUTTON_TEXT ="Dodaj książkę";
-    private static final String CHANGE_STATUS_BUTTON_TEXT="Zmień status";
+    private static final String ADD_BOOK_BUTTON_TEXT ="Dodaj ksi\u0105\u017Ck\u0119";
+    private static final String CHANGE_STATUS_BUTTON_TEXT="Zmie\u0144 status";
 
     private JLabel searchFieldLabel;
     private JButton signUpButton;
