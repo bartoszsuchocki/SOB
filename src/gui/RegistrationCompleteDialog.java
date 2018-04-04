@@ -20,22 +20,7 @@ public class RegistrationCompleteDialog extends JDialog {
 	private final String TITLE="Registration complete"; 
 	private final String MSG="Registrated succesfully!";
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			RegistrationCompleteDialog dialog = new RegistrationCompleteDialog();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public RegistrationCompleteDialog(MainWindow mainWindow) {
 		this.setTitle(TITLE);
 		

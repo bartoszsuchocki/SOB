@@ -24,6 +24,8 @@ public class LoginekPanel extends JPanel {
 	
 	public LoginekPanel(MainWindow mainWindow) {
 		
+		setSize(700,500);
+		
 		JLabel lblLogowanieDoSystemu = new JLabel("Logowanie do systemu");
 		lblLogowanieDoSystemu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogowanieDoSystemu.setFont(new Font("Tahoma", Font.PLAIN, 18));

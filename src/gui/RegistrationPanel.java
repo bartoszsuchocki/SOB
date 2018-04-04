@@ -15,6 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class RegistrationPanel extends JPanel {
 	private JTextField loginTextField;
@@ -25,13 +27,12 @@ public class RegistrationPanel extends JPanel {
 
 	
 	public RegistrationPanel(MainWindow mainWindow) {
-		setLayout(null);
+		
+		setSize(700,500);
 		
 		JLabel logoLabel = new JLabel("System Obs\u0142ugi Biblioteki");
 		logoLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		logoLabel.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		logoLabel.setBounds(66, 0, 634, 64);
-		add(logoLabel);
 		
 		JLabel iconLabel = new JLabel("");
 		/*iconLabel.setIcon(new ImageIcon(RegistrationPanel.class.getResource("/javax/swing/plaf/metal/icons/Error.gif")));
@@ -44,26 +45,18 @@ public class RegistrationPanel extends JPanel {
 		JLabel titleLabel = new JLabel("Rejestracja");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		titleLabel.setBounds(267, 138, 211, 44);
-		add(titleLabel);
 		
 		loginTextField = new JTextField();
 		loginTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loginTextField.setColumns(10);
-		loginTextField.setBounds(267, 193, 211, 20);
-		add(loginTextField);
 		
 		JLabel loginLabel = new JLabel("Login");
 		loginLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		loginLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		loginLabel.setBounds(191, 193, 46, 20);
-		add(loginLabel);
 		
 		JLabel peselLabel = new JLabel("Pesel");
 		peselLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		peselLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		peselLabel.setBounds(203, 224, 34, 14);
-		add(peselLabel);
 		
 		JButton registrationButton = new JButton("Zarejestruj");
 		registrationButton.addActionListener(new ActionListener() {
@@ -97,8 +90,8 @@ public class RegistrationPanel extends JPanel {
 					
 					
 					   //jesli sie powiodlo - dialog z przyciskiem ok i powrot do logowania
-						JOptionPane.showMessageDialog(RegistrationPanel.this, "Poprawnie zarejestrowano", "Zarejestrowano",
-								JOptionPane.PLAIN_MESSAGE);
+						RegistrationCompleteDialog registrationCompleteDialog = new RegistrationCompleteDialog(mainWindow);
+						registrationCompleteDialog.setVisible(true);
 						
 						komunikatOBledzie="";
 					
@@ -114,8 +107,6 @@ public class RegistrationPanel extends JPanel {
 			}
 		});
 		registrationButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		registrationButton.setBounds(267, 306, 98, 23);
-		add(registrationButton);
 		
 		JButton backButton = new JButton("Cofnij");
 		backButton.addActionListener(new ActionListener() {
@@ -124,36 +115,93 @@ public class RegistrationPanel extends JPanel {
 			}
 		});
 		backButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		backButton.setBounds(375, 306, 103, 23);
-		add(backButton);
 		
 		firstPasswordField = new JPasswordField();
 		firstPasswordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstPasswordField.setBounds(267, 250, 211, 20);
-		add(firstPasswordField);
 		
 		JLabel firstPasswordLabel = new JLabel("Has\u0142o");
 		firstPasswordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		firstPasswordLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstPasswordLabel.setBounds(203, 253, 34, 14);
-		add(firstPasswordLabel);
 		
 		JLabel repeatPasswordLabel = new JLabel("Powt\u00F3rz has\u0142o");
 		repeatPasswordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		repeatPasswordLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		repeatPasswordLabel.setBounds(150, 281, 87, 14);
-		add(repeatPasswordLabel);
 		
 		repeatPasswordField = new JPasswordField();
 		repeatPasswordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		repeatPasswordField.setBounds(267, 278, 211, 20);
-		add(repeatPasswordField);
 		
 		peselTextField = new JTextField();
 		peselTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		peselTextField.setColumns(10);
-		peselTextField.setBounds(267, 223, 211, 20);
-		add(peselTextField);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(66)
+					.addComponent(logoLabel, GroupLayout.PREFERRED_SIZE, 634, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(267)
+					.addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(191)
+					.addComponent(loginLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(203)
+					.addComponent(peselLabel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addComponent(peselTextField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(203)
+					.addComponent(firstPasswordLabel)
+					.addGap(30)
+					.addComponent(firstPasswordField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(150)
+					.addComponent(repeatPasswordLabel)
+					.addGap(30)
+					.addComponent(repeatPasswordField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(267)
+					.addComponent(registrationButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(logoLabel, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addGap(74)
+					.addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(loginLabel, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(1)
+							.addComponent(peselLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+						.addComponent(peselTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addGap(7)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(firstPasswordLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+						.addComponent(firstPasswordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addGap(8)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(repeatPasswordLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+						.addComponent(repeatPasswordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addGap(8)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(registrationButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+		);
+		setLayout(groupLayout);
 
 	}
 	private boolean loginCorrect(String login)
