@@ -56,6 +56,7 @@ public class LoginekPanel extends JPanel {
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				mainWindow.changeGui("wypozyczanie");
 			}
 		});
 		loginButton.setBounds(234, 244, 98, 23);
@@ -77,13 +78,13 @@ public class LoginekPanel extends JPanel {
 		btnWejdzJakoGo.setBounds(234, 278, 140, 30);
 		add(btnWejdzJakoGo);
 		
-		JLabel lblNewLabel = new JLabel("");
+		/*JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBackground(Color.ORANGE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 32));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setIcon(new ImageIcon(LoginekPanel.class.getResource("/javax/swing/plaf/metal/icons/Warn.gif")));
 		lblNewLabel.setBounds(10, 0, 46, 64);
-		add(lblNewLabel);
+		add(lblNewLabel);*/
 		
 		JLabel lblSystemObsugiBiblioteki = new JLabel("System Obs\u0142ugi Biblioteki");
 		lblSystemObsugiBiblioteki.setHorizontalAlignment(SwingConstants.LEFT);

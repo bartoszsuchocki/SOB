@@ -50,7 +50,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
 
 
         /*Przycisk 'Dodaj nową ksiązke'*/
-        addBookButton=new JButton(ADD_BOOK_BUTTON_TEXT);
+        addBookButton=new JButton("Dodaj ksi\u0105\u017Ck\u0119");
         addBookButton.setBounds(53, 52, 201, 23);
         addBookButton.addActionListener(new ActionListener()
         {
@@ -105,7 +105,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel
 
         add(booksScrollPane);
 
-        changeStatusButton=new JButton(CHANGE_STATUS_BUTTON_TEXT);
+        changeStatusButton=new JButton("Zmie\u0144 status");
         changeStatusButton.setBounds(531, 154, 150, 23);
         changeStatusButton.addActionListener(new ActionListener()
         {

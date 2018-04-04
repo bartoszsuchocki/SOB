@@ -19,6 +19,8 @@ public class MainWindow {
 	private LoginekPanel loginPanel;
 	private RegistrationPanel registrationPanel;
 	private GuestGui guestGui;
+	private LoggedUserPanel loggedUserPanel;
+	private MyAccountPanel myAccountPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -46,9 +48,13 @@ public class MainWindow {
 		
 		loginPanel = new LoginekPanel(this);
 		registrationPanel = new RegistrationPanel(this);
+		loggedUserPanel = new LoggedUserPanel(this);
+		myAccountPanel = new MyAccountPanel(this);
 
 		frame.getContentPane().add(loginPanel, "logowanie");
 		frame.getContentPane().add(registrationPanel, "rejestracja");
+		frame.getContentPane().add(loggedUserPanel, "wypozyczanie");
+		frame.getContentPane().add(myAccountPanel, "mojeKonto");
 		
 		
 	}

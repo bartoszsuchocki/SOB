@@ -34,12 +34,12 @@ public class RegistrationPanel extends JPanel {
 		add(logoLabel);
 		
 		JLabel iconLabel = new JLabel("");
-		iconLabel.setIcon(new ImageIcon(RegistrationPanel.class.getResource("/javax/swing/plaf/metal/icons/Error.gif")));
+		/*iconLabel.setIcon(new ImageIcon(RegistrationPanel.class.getResource("/javax/swing/plaf/metal/icons/Error.gif")));
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		iconLabel.setFont(new Font("Tahoma", Font.ITALIC, 32));
 		iconLabel.setBackground(Color.ORANGE);
 		iconLabel.setBounds(10, 0, 46, 64);
-		add(iconLabel);
+		add(iconLabel);*/
 		
 		JLabel titleLabel = new JLabel("Rejestracja");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
