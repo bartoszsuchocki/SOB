@@ -7,6 +7,9 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import gui.LoggedAdminPanel.LoggedAdminPanel;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -18,9 +21,10 @@ public class MainWindow {
 	private JFrame frame;
 	private LoginekPanel loginPanel;
 	private RegistrationPanel registrationPanel;
-	private GuestGui guestGui;
+	private GuestPanel guestPanel;
 	private LoggedUserPanel loggedUserPanel;
 	private MyAccountPanel myAccountPanel;
+	private LoggedAdminPanel loggedAdminPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,11 +54,15 @@ public class MainWindow {
 		registrationPanel = new RegistrationPanel(this);
 		loggedUserPanel = new LoggedUserPanel(this);
 		myAccountPanel = new MyAccountPanel(this);
+		guestPanel = new GuestPanel(this);
+		loggedAdminPanel = new LoggedAdminPanel(this);
 
 		frame.getContentPane().add(loginPanel, "logowanie");
 		frame.getContentPane().add(registrationPanel, "rejestracja");
 		frame.getContentPane().add(loggedUserPanel, "wypozyczanie");
 		frame.getContentPane().add(myAccountPanel, "mojeKonto");
+		frame.getContentPane().add(guestPanel, "gosc");
+		frame.getContentPane().add(loggedAdminPanel, "admin");
 		
 		
 	}
