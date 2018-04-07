@@ -12,12 +12,12 @@ public class BooksTableModel extends AbstractTableModel
 
     public BooksTableModel()
     {
-        columnsHeads=new String[] { "Nazwa ksi¹¿ki", "Autor", "Sygnatura", "Status"};
+        columnsHeads=new String[] { "Nazwa ksi\u0105\u017Cki", "Autor", "Sygnatura", "Status"};
         books = new Object[][]
                 {
-                        {"Ksiazka 1", "Autor 1", "1", "Wypo¿yczona"},
-                        {"Ksiazka 2", "Autor 2", "2", "Niewypo¿yczona"},
-                        {"Ksiazka 3", "Autor 3", "3", "Niewypo¿yczona"}
+                        {"Ksi\u0105\u017Cka 1", "Autor 1", "1", "Wypo\u017Cyczona"},
+                        {"Ksi\u0105\u017Cka 2", "Autor 2", "2", "Niewypo\u017Cyczona"},
+                        {"Ksi\u0105\u017Cka 3", "Autor 3", "3", "Niewypo\u017Cyczona"}
                 };
     }
 

@@ -14,11 +14,14 @@ interface ChangeBookStatusInterface
 
 public class ChangeBookStatusDialog extends JDialog
 {
-    private static final String DIALOG_TITLE="Zmiana statusu ksi��ki";
+
+
+    private static final String DIALOG_TITLE="Zmiana statusu ksi\u0105\u017Cki";
     private static final String CANCEL_BUTTON_TEXT="Cofnij";
     private static final String DELETE_BUTTON_TEXT="Delete";
     private static final String GIVE_BACK_BUTTON="Oddaj";
-    private static final String LABEL_TEXT="Zmie� status ksi��ki";
+    private static final String LABEL_TEXT="Zmie\u0144 status ksi\u0105\u017Cki";
+
 
 
     private JLabel msgLabel;
@@ -48,9 +51,9 @@ public class ChangeBookStatusDialog extends JDialog
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JOptionPane.showMessageDialog(null, "Udało się usunąć książkę");
+                JOptionPane.showMessageDialog(null, "Uda\u0142o si\u0119 usun\u0105\u0107 ksi\u0105\u017Ck\u0119");
                 changeBookStatusInterface.deleteButtonPressed();
-                //JOptionPane.showMessageDialog(null, "Nie udało sie usunąć ksiżki");
+                //JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 usun\u0105\u0107 ksi\u0105\u017Cki");
                 dispose();
             }
         });
@@ -63,9 +66,9 @@ public class ChangeBookStatusDialog extends JDialog
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JOptionPane.showMessageDialog(null, "Udało się zwrócić książkę");
+                JOptionPane.showMessageDialog(null, "Uda\u0142o si\u0119 zwr\u00F3ci\u0107 ksi\u0105\u017Ck\u0119");
                 changeBookStatusInterface.giveBackButtonPressed();
-                //JOptionPane.showMessageDialog(null, "Nie udało się zwrócić książki");
+                //JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 zwr\u00F3ci\u0107 ksi\u0105\u017Aki");
                 dispose();
             }
         });
