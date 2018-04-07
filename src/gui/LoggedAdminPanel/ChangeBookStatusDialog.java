@@ -14,11 +14,11 @@ interface ChangeBookStatusInterface
 
 public class ChangeBookStatusDialog extends JDialog
 {
-    private static final String DIALOG_TITLE="Zmiana statusu ksiÄ…Å¼ki";
+    private static final String DIALOG_TITLE="Zmiana statusu ksi¹¿ki";
     private static final String CANCEL_BUTTON_TEXT="Cofnij";
     private static final String DELETE_BUTTON_TEXT="Delete";
     private static final String GIVE_BACK_BUTTON="Oddaj";
-    private static final String LABEL_TEXT="ZmieÅ„ status ksiÄ…Å¼ki";
+    private static final String LABEL_TEXT="Zmieñ status ksi¹¿ki";
 
 
     private JLabel msgLabel;

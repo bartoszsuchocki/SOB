@@ -7,13 +7,13 @@ import java.awt.event.ActionListener;
 
 public class AddNewBookDialog extends JFrame
 {
-    private static final String DIALOG_TITLE="Dodawanie ksiÄ…Å¼ki";
+    private static final String DIALOG_TITLE="Dodawanie ksi¹¿ki";
 
     private class AddNewBookDialogPanel extends JPanel
     {
-        private static final String NAME_LABEL_TEXT="Wpisz nazwÄ™";
+        private static final String NAME_LABEL_TEXT="Wpisz nazwê";
         private static final String AUTHOR_LABEL_TEXT="Wpisz autora";
-        private static final String SIGNATURE_LABEL_TEXT="Wpisz sygnaturÄ™";
+        private static final String SIGNATURE_LABEL_TEXT="Wpisz sygnaturê";
         private static final String OK_BUTTON_TEXT="OK";
         private static final String CANCEL_BUTTON_TEXT="NIE";
         private static final String UNDO_BUTTON_TEXT="Cofnij";
