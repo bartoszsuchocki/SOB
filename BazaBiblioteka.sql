@@ -192,8 +192,8 @@ BEGIN
 		SELECT us.*
 			FROM users us
 			WHERE us.login = login;
-	/*ELSE 
-		SELECT 'User not found' as Error*/
+	ELSE 
+		SELECT 'User not found' as Error;
 	END IF;
 END;
 //
