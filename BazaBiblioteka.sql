@@ -107,6 +107,7 @@ END;
 CREATE PROCEDURE getnewbooks ()
 BEGIN
 	SELECT * FROM books b
+		WHERE b.islent = 'NO'
 		ORDER BY b.date DESC
 		LIMIT 5;
 END;
@@ -114,17 +115,51 @@ END;
 
 
 //
-CREATE PROCEDURE updatebook
+CREATE PROCEDURE lentbook
 	(
     signature	VARCHAR(30),
-    islent		VARCHAR(4)
+    login 		VARCHAR(30)
     )
 BEGIN
-	UPDATE books b
-    SET b.islent = islent
-    WHERE b.signature = signature;
+	IF EXISTS
+		(SELECT * FROM books b
+			WHERE b.signature = signature
+            AND b.islent LIKE 'NO')
+		THEN
+		IF EXISTS
+			(SELECT * FROM users u
+				WHERE u.login = login)
+			THEN
+			UPDATE books b
+			SET b.islent = 'YES',
+				b.PESEL = (SELECT uw.PESEL FROM users uw 
+							WHERE uw.login = login)
+			WHERE b.signature = signature;
+		END IF;
+	END IF;
 END;
 //
+
+
+//
+CREATE PROCEDURE returnbook
+	(
+    signature 	VARCHAR(30)
+    )
+BEGIN
+	IF EXISTS
+		(SELECT * FROM books b
+			WHERE b.signature = signature
+			AND b.islent LIKE 'YES')
+		THEN
+        UPDATE books b 
+        SET b.islent = 'NO',
+			b.PESEL = NULL
+		WHERE b.signature = signature;
+	END IF;
+END;
+//
+
 
 //
 CREATE PROCEDURE deletebook
@@ -147,22 +182,23 @@ END;
 //
 CREATE PROCEDURE getuser
 	(
-    login		VARCHAR(30),
-    password	VARCHAR(30)
+    login		VARCHAR(30)
     )
 BEGIN
 	IF EXISTS 
 	(SELECT * FROM users u
 		WHERE u.login = login)
 	THEN
-		SELECT *.us, bs.signature, bs.title, bs.author, bs.date
-        FROM users us
-		INNER JOIN books bs on us.PESEL = bs.PESEL
-	
-	ELSEIF 
-        SELECT 'User not found' as Error
-	 END IF;
+		SELECT us.*
+			FROM users us
+			WHERE us.login = login;
+	/*ELSE 
+		SELECT 'User not found' as Error*/
+	END IF;
 END;
+//
+
+//
 
 delimiter ;
 
@@ -184,4 +220,8 @@ CALL adduser(98053198785, 'Antoni', 'Kowalski', 'antoni98', 'anton321');
 CALL adduser(98060698745, 'Filip', 'Wiśniewski', 'filipw', 'wisniafilip');
 CALL adduser(98020406789, 'Julia', 'Woźniak', 'julawu', '98julia');
 
-CALL updatebook('M001', 'YES');
+CALL lentbook('M001', 'zuziaaa');
+
+CALL returnbook('M001');
+
+/* CALL getuser('zuziaaa'); */
