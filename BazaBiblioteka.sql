@@ -173,10 +173,22 @@ END;
 //
 
 //
-CREATE PROCEDURE getbooks ()
+CREATE PROCEDURE getallbooks ()
 BEGIN
 	SELECT * FROM books b;
 END;
+//
+
+
+//
+CREATE PROCEDURE getbooks
+	(
+	title		VARCHAR(30)
+    )
+BEGIN
+	SELECT * FROM books b
+		WHERE b.title LIKE CONCAT("%",title,"%");
+END
 //
 
 //
@@ -225,3 +237,4 @@ CALL lentbook('M001', 'zuziaaa');
 CALL returnbook('M001');
 
 /* CALL getuser('zuziaaa'); */
+/* CALL getbooks('Tango'); */
