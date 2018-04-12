@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS biblioteka;
+﻿DROP DATABASE IF EXISTS biblioteka;
 
 CREATE database biblioteka;
 
@@ -168,7 +168,7 @@ CREATE PROCEDURE deletebook
     )
 BEGIN
 	DELETE FROM books
-    WHERE b.signature  = signature;
+    WHERE books.signature  = signature;
 END;
 //
 
