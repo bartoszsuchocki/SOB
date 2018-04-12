@@ -12,4 +12,8 @@ public class Admin extends User {
 	public int getRole() {
 		return role;
 	}
+	@Override
+	public String toString() {
+		return ("login: " + getLogin() + "\tpassword: " + getPassword());
+	}
 }
