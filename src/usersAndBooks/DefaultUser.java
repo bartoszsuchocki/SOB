@@ -3,9 +3,17 @@ package usersAndBooks;
 public class DefaultUser extends User {
 
 	final private int role = 0;
-	private long pesel;
 	private String name;
 	private String surname;
+	private long pesel;
+	
+	public DefaultUser(String name, String surname, String login, String password, long pesel) {
+		this.name = name;
+		this.surname = surname;
+		this.pesel = pesel;
+		this.setLogin(login);
+		this.setPassword(password);
+	}
 
 	public int getRole() {
 		return role;
