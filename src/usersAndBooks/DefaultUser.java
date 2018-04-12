@@ -42,5 +42,9 @@ public class DefaultUser extends User {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "login: " + getLogin() + "\tpassword: " + getPassword() + "\tname: " + name + "\tsurname: " + surname + "\tpesel: " + pesel;
+	}
 }
