@@ -192,22 +192,20 @@ END
 //
 
 //
-CREATE PROCEDURE getuser
-	(
+
+create PROCEDURE getuser
+	
+(
     login		VARCHAR(30)
-    )
-BEGIN
-	IF EXISTS 
-	(SELECT * FROM users u
-		WHERE u.login = login)
-	THEN
-		SELECT us.*
-			FROM users us
-			WHERE us.login = login;
-	ELSE 
-		SELECT 'User not found' as Error;
-	END IF;
+   )
+
+BEGIN 
+	SELECT * FROM users u
+	
+	WHERE u.login = login;
 END;
+
+
 //
 
 //
