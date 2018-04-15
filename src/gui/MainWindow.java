@@ -1,20 +1,11 @@
 package gui;
+import java.awt.CardLayout;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import java.awt.CardLayout;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
+import facade.UserService;
 import gui.LoggedAdminPanel.LoggedAdminPanel;
-
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
@@ -25,6 +16,7 @@ public class MainWindow {
 	private LoggedUserPanel loggedUserPanel;
 	private MyAccountPanel myAccountPanel;
 	private LoggedAdminPanel loggedAdminPanel;
+	private UserService userService;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -45,6 +37,7 @@ public class MainWindow {
 	}
 	
 	private void initialize() {
+		userService = new UserService();
 		frame = new JFrame();
 		frame.setBounds(100,100,700,500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,4 +65,9 @@ public class MainWindow {
 		CardLayout cl = (CardLayout)frame.getContentPane().getLayout();
 		cl.show(frame.getContentPane(), whichGui);
 	}
+	public UserService getUserService()
+	{
+		return userService;
+	}
+	
 }

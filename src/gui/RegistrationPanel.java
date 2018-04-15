@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import database.DataBase;
 import usersAndBooks.DefaultUser;
@@ -32,6 +33,7 @@ public class RegistrationPanel extends JPanel {
 	private DataBase db;
 	private DefaultUser duser;
 	private User user;
+	private String errorBuffer;
 
 	public RegistrationPanel(MainWindow mainWindow) {
 
@@ -88,52 +90,88 @@ public class RegistrationPanel extends JPanel {
 		JButton registrationButton = new JButton("Zarejestruj");
 		registrationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String komunikatOBledzie = "";
-				if (!loginCorrect(loginTextField.getText())) {
-					komunikatOBledzie = "Podano bledny login!";
+				
+				String login = loginTextField.getText();
+				String firstPassword = String.valueOf(firstPasswordField.getPassword());
+				if (!loginCorrect(login)) {
+					wyswietlKomunikatOBledzie("Podano b³êdny login!");
+					
 				} else if (!peselCorrect(peselTextField.getText())) {
 					peselTextField.setText("");
-					komunikatOBledzie = "Podano bledny pesel!";
-				} else if (!(passwordsCorrect(String.valueOf(firstPasswordField.getPassword()),
+					wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
+				} else if (!(passwordsCorrect(firstPassword,
 						String.valueOf(repeatPasswordField.getPassword())))) {
 					firstPasswordField.setText("");
 					repeatPasswordField.setText("");
-					komunikatOBledzie = "Ktores haslo jest bledne!";
+					wyswietlKomunikatOBledzie("Któreœ has³o jest b³êdne!");
 				} else {
-
-					DataBase db = new DataBase();
-					User user = db.getUser(loginTextField.getText());
-
-					if (user != null)
-						// sprawdz czy jest juz taki uzytkownik
-						// jesli tak, to komunikat o bledzie
-						komunikatOBledzie = "Istnieje taki uzytkownik";
-					else {
-						if (db.addUser(Long.valueOf(peselTextField.getText()), "", "", loginTextField.getText(),
-								String.valueOf(firstPasswordField.getPassword())) == 1)
-						// jesli sie powiodlo - dialog z przyciskiem ok i powrot do logowania
+					
+					
+					
+					new Runnable() {
+						public void run()
 						{
-							RegistrationCompleteDialog registrationCompleteDialog = new RegistrationCompleteDialog(
-									mainWindow);
-							registrationCompleteDialog.setVisible(true);
-
-							komunikatOBledzie = "";
+							errorBuffer="";
+							User user = mainWindow.getUserService().authenticate(login, firstPassword);
+							if(user!=null) //juz taki istnieje
+							{
+								errorBuffer="Login zajêty!";
+							}
+							else
+							{
+								//sprobuj dodac typa
+							}
+							SwingUtilities.invokeLater(new Runnable(){
+								public void run()
+								{
+									if(errorBuffer.equals(""))
+									{
+										//wyswietl, ze jest super za pomoca RegistrationCompleteDialog
+									}
+									JOptionPane.showMessageDialog(RegistrationPanel.this, errorBuffer, "Blednie podane dane",
+											JOptionPane.ERROR_MESSAGE);
+									
+									
+									
+									firstPasswordField.setText(""); //to dla przykladu, ze z tego w¹tku mogê zmieniaæ wszystkie komponenty gui
+									repeatPasswordField.setText("");
+									
+								}
+							});
+							
 						}
-						// jesli nie - dialog z komunikatem i przyciskiem ok
-						else {
-							loginTextField.setText("");
-							peselTextField.setText("");
-							firstPasswordField.setText("");
-							repeatPasswordField.setText("");
-							komunikatOBledzie = "Nie udalo sie zarejestrowac. Sproboj ponownie";
-
-						}
-					}
-
-				}
-				if (!(komunikatOBledzie.equals(""))) {
-					JOptionPane.showMessageDialog(RegistrationPanel.this, komunikatOBledzie, "Blednie podane dane",
-							JOptionPane.ERROR_MESSAGE);
+					}.run();
+					
+//					if (user != null)
+//						// sprawdz czy jest juz taki uzytkownik
+//						// jesli tak, to komunikat o bledzie
+//						komunikatOBledzie = "Istnieje taki uzytkownik";
+//					else {
+//						if (db.addUser(Long.valueOf(peselTextField.getText()), "", "", loginTextField.getText(),
+//								String.valueOf(firstPasswordField.getPassword())) == 1)
+//						// jesli sie powiodlo - dialog z przyciskiem ok i powrot do logowania
+//						{
+//							RegistrationCompleteDialog registrationCompleteDialog = new RegistrationCompleteDialog(
+//									mainWindow);
+//							registrationCompleteDialog.setVisible(true);
+//
+//							komunikatOBledzie = "";
+//						}
+//						// jesli nie - dialog z komunikatem i przyciskiem ok
+//						else {
+//							loginTextField.setText("");
+//							peselTextField.setText("");
+//							firstPasswordField.setText("");
+//							repeatPasswordField.setText("");
+//							komunikatOBledzie = "Nie udalo sie zarejestrowac. Sproboj ponownie";
+//
+//						}
+//					}
+//
+//				}
+//				if (!(komunikatOBledzie.equals(""))) {
+//					JOptionPane.showMessageDialog(RegistrationPanel.this, komunikatOBledzie, "Blednie podane dane",
+//							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -196,6 +234,11 @@ public class RegistrationPanel extends JPanel {
 		setLayout(groupLayout);
 
 	}
+	
+	private void Register()
+	{
+		
+	}
 
 	private boolean loginCorrect(String login) {
 		return !(login.equals(""));
@@ -216,5 +259,10 @@ public class RegistrationPanel extends JPanel {
 			}
 		}
 		return !(pesel.equals("")) && pesel.trim().length() == 11;
+	}
+	private void wyswietlKomunikatOBledzie(String komunikat)
+	{
+		JOptionPane.showMessageDialog(RegistrationPanel.this, komunikat, "Blednie podane dane",
+				JOptionPane.ERROR_MESSAGE);
 	}
 }
