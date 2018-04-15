@@ -128,7 +128,7 @@ public class RegistrationPanel extends JPanel {
 								//sprobuj dodac typa
 							}
 							try {
-								Thread.sleep(10000);
+								Thread.sleep(3000);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -152,7 +152,7 @@ public class RegistrationPanel extends JPanel {
 							});
 							
 						}
-					}.start();;
+					}.start();
 					
 //					if (user != null)
 //						// sprawdz czy jest juz taki uzytkownik
