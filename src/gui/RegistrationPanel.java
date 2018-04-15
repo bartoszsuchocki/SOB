@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import database.DataBase;
 import usersAndBooks.DefaultUser;
@@ -18,8 +19,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Callable;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -106,9 +109,12 @@ public class RegistrationPanel extends JPanel {
 					wyswietlKomunikatOBledzie("Któreœ has³o jest b³êdne!");
 				} else {
 					
+						
 					
 					
-					new Runnable() {
+					
+					
+					new Thread() {
 						public void run()
 						{
 							errorBuffer="";
@@ -120,6 +126,12 @@ public class RegistrationPanel extends JPanel {
 							else
 							{
 								//sprobuj dodac typa
+							}
+							try {
+								Thread.sleep(10000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 							SwingUtilities.invokeLater(new Runnable(){
 								public void run()
@@ -140,7 +152,7 @@ public class RegistrationPanel extends JPanel {
 							});
 							
 						}
-					}.run();
+					}.start();;
 					
 //					if (user != null)
 //						// sprawdz czy jest juz taki uzytkownik
@@ -265,4 +277,5 @@ public class RegistrationPanel extends JPanel {
 		JOptionPane.showMessageDialog(RegistrationPanel.this, komunikat, "Blednie podane dane",
 				JOptionPane.ERROR_MESSAGE);
 	}
+	
 }
