@@ -7,26 +7,18 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import database.DataBase;
 import usersAndBooks.DefaultUser;
 import usersAndBooks.User;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JProgressBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Callable;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class RegistrationPanel extends JPanel {
     private JTextField loginTextField;
@@ -103,9 +95,9 @@ public class RegistrationPanel extends JPanel {
                     loginTextField.setText("");
                     wyswietlKomunikatOBledzie("Podano b³êdny login!");
 
-                } else if (!peselCorrect(peselTextField.getText())) {
-                    peselTextField.setText("");
-                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
+//                } else if (!peselCorrect(peselTextField.getText())) {
+//                    peselTextField.setText("");
+//                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
                 } else if (!(passwordsCorrect(firstPassword,
                         String.valueOf(repeatPasswordField.getPassword())))) {
                     firstPasswordField.setText("");
@@ -116,22 +108,17 @@ public class RegistrationPanel extends JPanel {
                     new Thread() {
                         public void run() {
                             errorBuffer = "";
-                            User user = mainWindow.getUserService().authenticate(login, firstPassword);
-                            DataBase db = new DataBase();
+                            User user = mainWindow.getUserService().authenticate(login);
                             if (user != null) //juz taki istnieje
                             {
                                 errorBuffer = "Login zajêty!";
                             } else {
                                 //sprobuj dodac typa
-                                if (db.addUser(Long.valueOf(peselTextField.getText()), nameTextField.getText(), surnameTextField.getText(), loginTextField.getText(),
-                                        String.valueOf(firstPasswordField.getPassword())) == 1) {
-                                    errorBuffer = "";
-                                } else {
-                                    errorBuffer = "Nie udalo sie zarejestrowac";
-                                }
+                                errorBuffer = mainWindow.getUserService().register(loginTextField.getText(), peselTextField.getText(),
+                                        nameTextField.getText(), surnameTextField.getText(), String.valueOf(firstPasswordField.getPassword()));
                             }
                             try {
-                                Thread.sleep(30);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
+                                Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
                             } catch (InterruptedException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

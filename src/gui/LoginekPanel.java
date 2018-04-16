@@ -1,25 +1,22 @@
 package gui;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+
+import usersAndBooks.User;
+
+import javax.swing.*;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 public class LoginekPanel extends JPanel {
-	private JTextField textFieldLogin;
+	private JTextField loginTextField;
 	private JPasswordField passwordField;
+
+	private String errorBuffer;
+	private User user;
+	private String whichGui;
 
 	
 	public LoginekPanel(MainWindow mainWindow) {
@@ -37,10 +34,10 @@ public class LoginekPanel extends JPanel {
 		JLabel lblHaso = new JLabel("Has\u0142o");
 		lblHaso.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblHaso.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		textFieldLogin = new JTextField();
-		textFieldLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textFieldLogin.setColumns(10);
+
+		loginTextField = new JTextField();
+		loginTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loginTextField.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -49,10 +46,61 @@ public class LoginekPanel extends JPanel {
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(textFieldLogin.getText().equals("user"))
-					mainWindow.changeGui("wypozyczanie");
-				else if(textFieldLogin.getText().equals("admin"))
-					mainWindow.changeGui("admin");
+				String login = loginTextField.getText();
+				String password = String.valueOf(passwordField.getPassword());
+				if (!loginCorrect(login)) {
+					loginTextField.setText("");
+					wyswietlKomunikatOBledzie("Podano błędny login!");
+				} else {
+
+					new Thread() {
+						public void run() {
+							errorBuffer = "";
+							whichGui = "";
+							User user = mainWindow.getUserService().authenticate(login);
+							if (user == null) //juz taki istnieje
+							{
+								errorBuffer = "Nie ma takiego uzytkownika!";
+							} else {
+								user = mainWindow.getUserService().autheniticate(login, password);
+								if (user == null) {
+									errorBuffer = "Bledne haslo!";
+								} else {
+									errorBuffer = "";
+									if (user.getRole() == 1) {
+										whichGui = "wypozyczanie";
+									} else if (user.getRole() == 2) {
+										whichGui = "admin";
+									}
+								}
+							}
+							try {
+								Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									if (errorBuffer.equals("")) {
+										LoginCompleteDialog loginCompleteDialog = new LoginCompleteDialog(
+												mainWindow, whichGui);
+										loginCompleteDialog.setVisible(true);
+									} else {
+										JOptionPane.showMessageDialog(LoginekPanel.this, errorBuffer, "Blednie podane dane",
+												JOptionPane.ERROR_MESSAGE);
+									}
+
+									loginTextField.setText("");
+									passwordField.setText(""); //to dla przykladu, ze z tego wątku mogę zmieniać wszystkie komponenty gui
+
+								}
+							});
+
+						}
+					}.start();
+
+				}
 			}
 		});
 		
@@ -97,7 +145,7 @@ public class LoginekPanel extends JPanel {
 					.addGap(170)
 					.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(textFieldLogin, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+						.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(170)
 					.addComponent(lblHaso, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
@@ -123,7 +171,7 @@ public class LoginekPanel extends JPanel {
 						.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(2)
-							.addComponent(textFieldLogin, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
 					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblHaso, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -137,6 +185,15 @@ public class LoginekPanel extends JPanel {
 		);
 		setLayout(groupLayout);
 
+	}
+
+	private boolean loginCorrect(String login) {
+		return !(login.equals(""));
+	}
+
+	private void wyswietlKomunikatOBledzie(String komunikat) {
+		JOptionPane.showMessageDialog(LoginekPanel.this, komunikat, "Blednie podane dane",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 }

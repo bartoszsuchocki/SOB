@@ -2,7 +2,7 @@ package usersAndBooks;
 
 public class DefaultUser extends User {
 
-	final private int role = 0;
+	final private int role = 1;
 	private String name;
 	private String surname;
 	private long pesel;

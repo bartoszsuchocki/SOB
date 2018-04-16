@@ -1,8 +1,8 @@
 package usersAndBooks;
 
 public class Admin extends User {
-	
-	final private int role = 1;
+
+	final private int role = 2;
 	
 	public Admin(String login, String password) {
 		this.setLogin(login);
