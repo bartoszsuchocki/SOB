@@ -1,4 +1,4 @@
-﻿DROP DATABASE IF EXISTS biblioteka;
+DROP DATABASE IF EXISTS biblioteka;
 
 CREATE database biblioteka;
 
@@ -191,6 +191,22 @@ BEGIN
 END
 //
 
+
+//
+CREATE PROCEDURE getuserbooks
+	(
+    login		VARCHAR(30)
+    )
+BEGIN
+	SELECT * FROM books b
+		WHERE b.PESEL = 
+				(SELECT u.PESEL
+					FROM users u 
+					WHERE u.login = login);
+END
+//
+
+
 //
 
 create PROCEDURE getuser
@@ -201,8 +217,7 @@ create PROCEDURE getuser
 
 BEGIN 
 	SELECT * FROM users u
-	
-	WHERE u.login = login;
+		WHERE u.login = login;
 END;
 
 
@@ -230,9 +245,14 @@ CALL adduser(98053198785, 'Antoni', 'Kowalski', 'antoni98', 'anton321');
 CALL adduser(98060698745, 'Filip', 'Wiśniewski', 'filipw', 'wisniafilip');
 CALL adduser(98020406789, 'Julia', 'Woźniak', 'julawu', '98julia');
 
-CALL lentbook('M001', 'zuziaaa');
+CALL lentbook('M002', 'zuziaaa');
 
-CALL returnbook('M001');
+/* 
+CALL lentbook('M002', 'zuziaaa');
+CALL getuserbooks('zuziaaa'); 
+*/
+
+CALL returnbook('M002');
 
 /* CALL getuser('zuziaaa'); */
 /* CALL getbooks('Tango'); */
