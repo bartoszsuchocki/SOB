@@ -29,7 +29,7 @@ public class RegistrationPanel extends JPanel {
     private DataBase db;
     private DefaultUser duser;
     private User user;
-    private String errorBuffer;
+    private StringBuilder errorBuffer;
     private JTextField nameTextField;
     private JTextField surnameTextField;
 
@@ -89,16 +89,14 @@ public class RegistrationPanel extends JPanel {
         registrationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
-                String login = loginTextField.getText();
-                String firstPassword = String.valueOf(firstPasswordField.getPassword());
-                if (!loginCorrect(login)) {
+                if (!loginCorrect(loginTextField.getText())) {
                     loginTextField.setText("");
                     wyswietlKomunikatOBledzie("Podano b³êdny login!");
 
 //                } else if (!peselCorrect(peselTextField.getText())) {
 //                    peselTextField.setText("");
 //                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
-                } else if (!(passwordsCorrect(firstPassword,
+                } else if (!(passwordsCorrect(String.valueOf(firstPasswordField.getPassword()),
                         String.valueOf(repeatPasswordField.getPassword())))) {
                     firstPasswordField.setText("");
                     repeatPasswordField.setText("");
@@ -107,16 +105,13 @@ public class RegistrationPanel extends JPanel {
 
                     new Thread() {
                         public void run() {
-                            errorBuffer = "";
-                            User user = mainWindow.getUserService().authenticate(login);
-                            if (user != null) //juz taki istnieje
-                            {
-                                errorBuffer = "Login zajêty!";
-                            } else {
-                                //sprobuj dodac typa
-                                errorBuffer = mainWindow.getUserService().register(loginTextField.getText(), peselTextField.getText(),
-                                        nameTextField.getText(), surnameTextField.getText(), String.valueOf(firstPasswordField.getPassword()));
-                            }
+
+                            errorBuffer = new StringBuilder("");
+
+                            mainWindow.getUserService().register(loginTextField.getText(),
+                                    peselTextField.getText(), nameTextField.getText(), surnameTextField.getText(),
+                                    String.valueOf(firstPasswordField.getPassword()), errorBuffer);
+
                             try {
                                 Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
                             } catch (InterruptedException e) {
@@ -125,7 +120,7 @@ public class RegistrationPanel extends JPanel {
                             }
                             SwingUtilities.invokeLater(new Runnable() {
                                 public void run() {
-                                    if (errorBuffer.equals("")) {
+                                    if (String.valueOf(errorBuffer).equals("")) {
                                         //wyswietl, ze jest super za pomoca RegistrationCompleteDialog
                                         RegistrationCompleteDialog registrationCompleteDialog = new RegistrationCompleteDialog(
                                                 mainWindow);

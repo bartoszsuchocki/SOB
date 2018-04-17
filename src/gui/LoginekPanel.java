@@ -1,5 +1,6 @@
 package gui;
 
+import facade.UserService;
 import usersAndBooks.User;
 
 import javax.swing.*;
@@ -14,9 +15,9 @@ public class LoginekPanel extends JPanel {
 	private JTextField loginTextField;
 	private JPasswordField passwordField;
 
-	private String errorBuffer;
+	private StringBuilder errorBuffer;
 	private User user;
-	private String whichGui;
+	private StringBuilder whichGui;
 
 	
 	public LoginekPanel(MainWindow mainWindow) {
@@ -55,25 +56,12 @@ public class LoginekPanel extends JPanel {
 
 					new Thread() {
 						public void run() {
-							errorBuffer = "";
-							whichGui = "";
-							User user = mainWindow.getUserService().authenticate(login);
-							if (user == null) //juz taki istnieje
-							{
-								errorBuffer = "Nie ma takiego uzytkownika!";
-							} else {
-								user = mainWindow.getUserService().autheniticate(login, password);
-								if (user == null) {
-									errorBuffer = "Bledne haslo!";
-								} else {
-									errorBuffer = "";
-									if (user.getRole() == 1) {
-										whichGui = "wypozyczanie";
-									} else if (user.getRole() == 2) {
-										whichGui = "admin";
-									}
-								}
-							}
+							errorBuffer = new StringBuilder("");
+							whichGui = new StringBuilder("");
+
+							mainWindow.getUserService().autheniticate(loginTextField.getText(),
+									String.valueOf(passwordField.getPassword()), errorBuffer, whichGui);
+
 							try {
 								Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
 							} catch (InterruptedException e) {
@@ -82,9 +70,9 @@ public class LoginekPanel extends JPanel {
 							}
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {
-									if (errorBuffer.equals("")) {
+									if (String.valueOf(errorBuffer).equals("")) {
 										LoginCompleteDialog loginCompleteDialog = new LoginCompleteDialog(
-												mainWindow, whichGui);
+												mainWindow, String.valueOf(whichGui));
 										loginCompleteDialog.setVisible(true);
 									} else {
 										JOptionPane.showMessageDialog(LoginekPanel.this, errorBuffer, "Blednie podane dane",
