@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -19,21 +20,33 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import facade.UserService;
 import gui.LoggedAdminPanel.ChangeBookStatusDialog;
+import usersAndBooks.Book;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
 
 public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
+	
+	private static final String LEND_SUCCESS_MSG="Uda\u0142o si\u0119 wypo\u0105yczy\u0107 zaznaczone ksi\u0105\u017Cki";
+    private static final String LEND_UNSUCCESS_MSG="Nie uda\u0142o si\u0119 wypo\u0105yczy\u0107 zaznaczonych ksi\u0105\u017Aek";
+	
 	private JTextField textFieldWyszukiwanie;
 	private JTable booksTable;
 
-	
+	private UserService us;
 
 	public LoggedUserPanel(MainWindow mainWindow){
 		super(mainWindow);
 		
 		JSeparator separator = new JSeparator();
+		
+		us=mainWindow.getUserService();
+		
+		/*Model tabelki*/
+		BooksTableModel booksTableModel=new BooksTableModel(us.getNewBooks());
+
 		
 		/*Przycisk Moje konto*/
 		
@@ -66,23 +79,61 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		btnWyszukaj.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnWyszukaj.setToolTipText("");
 		btnWyszukaj.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				String title =textFieldWyszukiwanie.getText();
+            	if(title.isEmpty())
+            	{
+            		showMessage(EMPTY_SEARCH_FIELD_MSG);
+            	}
+            	else
+            	{
+            		List<Book> searchedBooks=us.searchForBook(title);
+            		if(searchedBooks==null||searchedBooks.size()==0)
+            			showMessage(EMPTY_SEARCH_LIST_MSG);
+            
+            		if(searchedBooks!=null) booksTableModel.setBooks(searchedBooks);
+            	}
 			}
 		});
 				
 				/*Tabelka*/
 		
-				BooksTableModel booksTableModel=new BooksTableModel();
 				booksTable = new JTable(booksTableModel);
         
 				JScrollPane scrollPaneTab = new JScrollPane(booksTable);
 				
-				/*Wypo¿yczanie ksi¹¿ek*/
+				/*Wypoï¿½yczanie ksiï¿½ï¿½ek*/
 				
 				JButton btnWypozycz = new JButton("Wypo\u017Cycz zaznaczone ksi\u0105\u017Cki");
+				
 			
 				btnWypozycz.setFont(new Font("Tahoma", Font.PLAIN, 11));
 				
+				btnWypozycz.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						int indexesSelected[]=booksTable.getSelectedRows();
+						boolean isLend=true;
+                    	
+                        for(int i=0; i<indexesSelected.length; i++)
+                        {
+                        	Book b=booksTableModel.getBook(indexesSelected[i]);
+                        	if(us.lendBook(b)==UserService.SUCCESS) 
+                        	{
+                        		b.setLent(!b.isLent());
+                        		booksTableModel.updateBook(indexesSelected[i], b);
+                        	}
+                        	else isLend=false;
+                        		
+                        }
+                        if(isLend) showMessage(LEND_SUCCESS_MSG);
+                        else showMessage(LEND_UNSUCCESS_MSG);
+						
+					}
+				});
 				GroupLayout groupLayout = new GroupLayout(this);
 				groupLayout.setHorizontalGroup(
 					groupLayout.createParallelGroup(Alignment.LEADING)

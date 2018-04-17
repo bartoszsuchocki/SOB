@@ -51,9 +51,8 @@ public class ChangeBookStatusDialog extends JDialog
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JOptionPane.showMessageDialog(null, "Uda\u0142o si\u0119 usun\u0105\u0107 ksi\u0105\u017Ck\u0119");
+              
                 changeBookStatusInterface.deleteButtonPressed();
-                //JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 usun\u0105\u0107 ksi\u0105\u017Cki");
                 dispose();
             }
         });
@@ -66,9 +65,9 @@ public class ChangeBookStatusDialog extends JDialog
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                JOptionPane.showMessageDialog(null, "Uda\u0142o si\u0119 zwr\u00F3ci\u0107 ksi\u0105\u017Ck\u0119");
+                
                 changeBookStatusInterface.giveBackButtonPressed();
-                //JOptionPane.showMessageDialog(null, "Nie uda\u0142o si\u0119 zwr\u00F3ci\u0107 ksi\u0105\u017Aki");
+
                 dispose();
             }
         });
