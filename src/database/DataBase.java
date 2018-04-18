@@ -348,8 +348,7 @@ public class DataBase
 	}
 
 	//do testowania/debuggowania
-	/*
-	public static void main(String[] args)
+/*	public static void main(String[] args)
 	{
 		DataBase db = new DataBase();
 		List<Book> l = db.getBooks("Sk¹piec");
@@ -358,14 +357,14 @@ public class DataBase
 			System.out.println(b.getSignature()+" "+b.getTitle()+ " "+b.getAuthor());
 		}
 		
-//		System.out.println(db.addBook("BBBB011", "Programowanie sob", "Bartosz Suchocki"));
-//		System.out.println(db.lendBook("BBBB011", "janko"));
-//		System.out.println(db.returnBook("BBBB011"));
-//		System.out.println(db.deleteBook("BBBB011"));
+		System.out.println(db.addBook("BBBB011", "Programowanie sob", "Bartosz Suchocki"));
+		System.out.println(db.lendBook("BBBB011", "janko"));
+		System.out.println(db.returnBook("BBBB011"));
+		System.out.println(db.deleteBook("BBBB011"));
 		
-//		System.out.println(db.addUser(9811250878L, "Bartosz", "Suchocki", "suchar1270", "haselko"));
-//		User user = db.getUser("suchar1270");
-//		System.out.println(user);
+		System.out.println(db.addUser(9811250878L, "Bartosz", "Suchocki", "suchar1270", "haselko"));
+		User user = db.getUser("suchar1270");
+		System.out.println(user);
 		
 //		User user = new DefaultUser("Jan", "Kowalik", "kowalik", "haslo", 99223308778L);
 //		System.out.println(db.addUser((DefaultUser)user));
@@ -373,10 +372,7 @@ public class DataBase
 		//do przetestowania jeszcze: zwracane wartosci jak nie znajdzie ksiazek/usera
 		
 	}
-	
 	*/
-	
-	
-	
+
 
 }

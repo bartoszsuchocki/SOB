@@ -4,13 +4,17 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
-	private JLabel logoLabel; //na nazwê programu
-	private JLabel iconLabel; //na ikonê programu
+	protected static final String EMPTY_SEARCH_FIELD_MSG="Wpisz dane do wyszukiwania";
+	protected static final String EMPTY_SEARCH_LIST_MSG="Nie ma takich ksi\u0105\u017Cek";
+	
+	private JLabel logoLabel; //na nazwï¿½ programu
+	private JLabel iconLabel; //na ikonï¿½ programu
 	MainWindow mainWindow; //potrzebny, zeby np. uzyc funkcji changeGui
 	private final int width=700;
 	private final int height=500;
@@ -23,7 +27,7 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 		setBounds(0,0,width,height);
 		
 		
-		/*tu trzeba zdefiniowac jak bêdzie wygl¹daæ logo naszego systemu wyswietlane na kazdym (oprocz logowania i rejestracji) gui.*/
+		/*tu trzeba zdefiniowac jak bï¿½dzie wyglï¿½daï¿½ logo naszego systemu wyswietlane na kazdym (oprocz logowania i rejestracji) gui.*/
 		/*iconLabel = new JLabel("");
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		iconLabel.setIcon(new ImageIcon(AfterAuthenticationGuiPanel.class.getResource("/javax/swing/plaf/metal/icons/Question.gif")));
@@ -41,6 +45,10 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 	}
 	
 	
-	
+	protected void showMessage(String msg)
+	{
+        JOptionPane.showMessageDialog(null, msg);
+
+	}
 
 }

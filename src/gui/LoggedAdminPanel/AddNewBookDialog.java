@@ -1,14 +1,22 @@
 package gui.LoggedAdminPanel;
 
 import javax.swing.*;
+
+import database.DataBase;
+import facade.UserService;
+import usersAndBooks.Book;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class AddNewBookDialog extends JFrame
 {
 
     private static final String DIALOG_TITLE="Dodawanie ksi\u0105\u017Cki";
+    
+    private UserService us;
 
     private class AddNewBookDialogPanel extends JPanel
     {
@@ -19,7 +27,12 @@ public class AddNewBookDialog extends JFrame
         private static final String OK_BUTTON_TEXT="OK";
         private static final String CANCEL_BUTTON_TEXT="NIE";
         private static final String UNDO_BUTTON_TEXT="Cofnij";
+        
+        private static final String EMPTY_FIELDS_MSG="Wpisz wszystkie dane ksi\u0105\u017Cki";
+        private static final String ADD_BOOK_SUCCESS_MSG="Uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Ck\u0119 do bazy danych";
+        private static final String ADD_BOOK_UNSUCCESS_MSG="Nie uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Cki do bazy danych";
 
+        
         private static final int LABEL_WIDTH=100;
         private static final int LABEL_HEIGHT=15;
         private static final int TEXT_FIELD_WIDTH=300;
@@ -36,10 +49,12 @@ public class AddNewBookDialog extends JFrame
 
         private JButton okButton;
         private JButton cancelButton;
-        private JButton undoButton;
+       // private JButton undoButton; to nam sie nie przyda
 
+      
 
-
+    
+        
         public AddNewBookDialogPanel()
         {
             super();
@@ -82,8 +97,23 @@ public class AddNewBookDialog extends JFrame
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    /*Dodajemy książkę*/
-                    dispose();
+                    String title= nameTextField.getText();
+                    String author=authorTextField.getText();
+                    String signature=signatureTextField.getText();
+                    //Data dodania - dzisiejsza
+                    Date currentDate=new Date();
+                    if(title.isEmpty()||author.isEmpty()||signature.isEmpty())
+                    {
+                        JOptionPane.showMessageDialog(null, EMPTY_FIELDS_MSG);
+                    	
+                    }
+                    else	
+                    {
+                    	Book newBook=new Book(title, author, signature, null, currentDate);
+                    	if(us.addBook(newBook)!=UserService.SUCCESS)  JOptionPane.showMessageDialog(null, ADD_BOOK_SUCCESS_MSG);
+                    	else JOptionPane.showMessageDialog(null, ADD_BOOK_UNSUCCESS_MSG);
+                    	dispose();
+                    }
                 }
             });
             this.add(okButton);
@@ -100,6 +130,7 @@ public class AddNewBookDialog extends JFrame
             });
             this.add(cancelButton);
 
+            /*
             undoButton=new JButton(UNDO_BUTTON_TEXT);
             undoButton.setBounds(x+120, y, 100, 25 );
             undoButton.addActionListener(new ActionListener()
@@ -111,17 +142,24 @@ public class AddNewBookDialog extends JFrame
                 }
             });
             this.add(undoButton);
+            */
 
         }
     }
 
-    public AddNewBookDialog()
+    public AddNewBookDialog(UserService us)
     {
         super();
         setBounds(100, 100, 550, 300);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(DIALOG_TITLE);
         this.add(new AddNewBookDialogPanel());
+        this.us=us;
+
+    }
+    
+    public void showDialog()
+    {
         this.setVisible(true);
 
     }
