@@ -110,8 +110,8 @@ public class AddNewBookDialog extends JFrame
                     else	
                     {
                     	Book newBook=new Book(title, author, signature, null, currentDate);
-                    	if(us.addBook(newBook)!=UserService.SUCCESS)  JOptionPane.showMessageDialog(null, ADD_BOOK_SUCCESS_MSG);
-                    	else JOptionPane.showMessageDialog(null, ADD_BOOK_UNSUCCESS_MSG);
+                    	if(us.addBook(newBook)!=UserService.SUCCESS)  JOptionPane.showMessageDialog(null, ADD_BOOK_UNSUCCESS_MSG);
+                    	else JOptionPane.showMessageDialog(null, ADD_BOOK_SUCCESS_MSG);
                     	dispose();
                     }
                 }
