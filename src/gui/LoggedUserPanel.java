@@ -54,6 +54,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		btnMojeKonto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainWindow.changeGui("mojeKonto");
+				
 			}
 		});
 		btnMojeKonto.setFont(new Font("Tahoma", Font.PLAIN, 11));

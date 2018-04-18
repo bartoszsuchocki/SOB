@@ -90,6 +90,13 @@ public class UserService
     	else return db.getBooks(title);
     }
     
+    
+    public List<Book> getUsersBooks()
+    {
+    	if(u==null) return null;
+    	return db.getUserBooks(u.getLogin());
+    }
+    
     /*ZMIENIAMY STATUS KSIAZKI W BAZIE NA WYPOZYCZONA (JEZELI DA SIE ZMNIENIC)
      * WPP ZWRACAMY UNSUCCESS*/
     public int returnBook(Book book)
