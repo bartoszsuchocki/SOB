@@ -29,6 +29,7 @@ public class DataBase
 	private final String RETURN_BOOK_QUERY="call returnbook(?);";
 	private final String GET_USER_QUERY="call getuser(?);";
 	private final String ADD_USER_QUERY="call adduser(?,?,?,?,?);";
+	private final String GET_USER_BOOKS="call getuserbooks(?);";
 	
 	private Connection connection = null;
 	private PreparedStatement statement = null; 
@@ -346,12 +347,35 @@ public class DataBase
 		}
 		return rowsAffected;
 	}
-
+	public List<Book> getUserBooks(String login)
+	{
+		List<Book> bookList;
+		ResultSet result=null;
+		try {
+			openRecources();
+			statement = connection.prepareStatement(GET_USER_BOOKS);
+			statement.setString(1, login);
+			result = statement.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bookList = transformResultSetToBookList(result);
+		try {
+			closeRecources();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return bookList;
+	}
+	
+/*
 	//do testowania/debuggowania
-/*	public static void main(String[] args)
+	public static void main(String[] args)
 	{
 		DataBase db = new DataBase();
-		List<Book> l = db.getBooks("Sk¹piec");
+		List<Book> l = db.getUserBooks("suchy");
 		for(Book b: l)
 		{
 			System.out.println(b.getSignature()+" "+b.getTitle()+ " "+b.getAuthor());
@@ -371,8 +395,8 @@ public class DataBase
 		
 		//do przetestowania jeszcze: zwracane wartosci jak nie znajdzie ksiazek/usera
 		
-	}
-	*/
+	}*/
+	
 
 
 }
