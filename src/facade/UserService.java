@@ -34,13 +34,16 @@ public class UserService
 
         u = db.getUser(login);
 
-        if (u != null && !(login.equals(u.getLogin())) && !(password.equals(u.getPassword()))) {
+        if (u != null && !(password.equals(u.getPassword()))) {
             u = null;
-        } else {
+            errorBuffer.append("Bledne haslo");
+        } else if (u != null) {
             if (u.getRole() == 1)
                 whichGui.append("wypozyczanie");
             else if (u.getRole() == 2)
                 whichGui.append("admin");
+        } else {
+            errorBuffer.append("Nie ma takiego uzytkownika");
         }
 
 
