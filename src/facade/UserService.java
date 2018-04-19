@@ -68,11 +68,11 @@ public class UserService
 
     
     /*ZLEEEE. TRZEBA TO DOKONCZYC*/
-    public List<Book> getLendBooks()
-    {
-    
-    	return new ArrayList();
-    }
+//    public List<Book> getLendBooks()
+//    {
+//    
+//    	return new ArrayList();
+//    }
     
     
     /*ZWRACAMY NOWE KSIAZKI*/
