@@ -101,7 +101,7 @@ public class LoginekPanel extends JPanel {
 			}
 		});
 		
-		JButton btnWejdzJakoGo = new JButton("Wejdz jako go\u015B\u0107");
+		JButton btnWejdzJakoGo = new JButton("Wejd\u017A jako go\u015B\u0107");
 		btnWejdzJakoGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainWindow.changeGui("gosc");
