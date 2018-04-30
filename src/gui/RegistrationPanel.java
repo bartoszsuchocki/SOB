@@ -93,9 +93,9 @@ public class RegistrationPanel extends JPanel {
                     loginTextField.setText("");
                     wyswietlKomunikatOBledzie("Podano b³êdny login!");
 
-//                } else if (!peselCorrect(peselTextField.getText())) {
-//                    peselTextField.setText("");
-//                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
+                } else if (!peselCorrect(peselTextField.getText())) {
+                    peselTextField.setText("");
+                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
                 } else if (!(passwordsCorrect(String.valueOf(firstPasswordField.getPassword()),
                         String.valueOf(repeatPasswordField.getPassword())))) {
                     firstPasswordField.setText("");

@@ -20,7 +20,7 @@ public class BooksTableModel extends AbstractTableModel
     public BooksTableModel()
     {
         columnsHeads=new String[] { "Nazwa ksi\u0105\u017Cki", "Autor", "Sygnatura", "Status", "Data dodania"};
-        books=new ArrayList();
+        books=new ArrayList<>();
        
     }
     

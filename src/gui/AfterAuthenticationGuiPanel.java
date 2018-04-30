@@ -1,18 +1,13 @@
 package gui;
-import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
-	protected static final String EMPTY_SEARCH_FIELD_MSG="Wpisz dane do wyszukiwania";
-	protected static final String EMPTY_SEARCH_LIST_MSG="Nie ma takich ksi\u0105\u017Cek";
-	
+	protected static final String EMPTY_SEARCH_FIELD_MSG = "Wpisz dane do wyszukiwania";
+	protected static final String EMPTY_SEARCH_LIST_MSG = "Nie ma takich ksi\u0105\u017Cek";
 	private JLabel logoLabel; //na nazw� programu
 	private JLabel iconLabel; //na ikon� programu
 	MainWindow mainWindow; //potrzebny, zeby np. uzyc funkcji changeGui
@@ -44,11 +39,19 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 		
 	}
 	
-	
-	protected void showMessage(String msg)
+	public void showMessage(DefaultDialog dialog)
 	{
-        JOptionPane.showMessageDialog(null, msg);
-
+		dialog.setVisible(true);
+	}
+	public void showMessage(String message)
+	{
+		showMessage("Komunikat",message);
+	}
+	
+	public void showMessage(String title, String message)
+	{
+        DefaultDialog defaultDialog = new DefaultDialog(title, message);
+        defaultDialog.setVisible(true);
 	}
 
 }

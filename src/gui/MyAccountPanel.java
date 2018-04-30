@@ -19,7 +19,8 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 	private JTable tableWypozyczone;
 
 	private BooksTableModel booksTableModel;
-	private  MainWindow mainWindow;
+	private MainWindow mainWindow;
+
 	
 	
 	
