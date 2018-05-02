@@ -33,8 +33,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 	private UserService us;
 	private BooksTableModel booksTableModel;
-	private DefaultDialog emptySearchFieldDialog;
-	private DefaultDialog emptySearchListDialog;
+	
 
 	public LoggedUserPanel(MainWindow mainWindow) {
 		super(mainWindow);
@@ -87,7 +86,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible())) {
-					search();
+					searchBooks(textFieldWyszukiwanie, us, booksTableModel);
 				}
 			}
 
@@ -104,7 +103,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		btnWyszukaj.setToolTipText("");
 		btnWyszukaj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				search();
+				searchBooks(textFieldWyszukiwanie, us, booksTableModel);
 			}
 		});
 
@@ -182,22 +181,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 	}
 
-	private void search() {
-		String title = textFieldWyszukiwanie.getText();
-		if (title.isEmpty()) {
-			showMessage(emptySearchFieldDialog);
-
-		} else {
-			List<Book> searchedBooks = us.searchForBook(title);
-			if (searchedBooks == null || searchedBooks.size() == 0) {
-				
-				showMessage(emptySearchListDialog);
-
-			}
-
-			if (searchedBooks != null)
-				booksTableModel.setBooks(searchedBooks);
-		}
-	}
+	
+	
 
 }
