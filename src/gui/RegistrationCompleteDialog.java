@@ -9,6 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
@@ -20,16 +22,42 @@ public class RegistrationCompleteDialog extends JDialog {
 	private final String TITLE="Registration complete"; 
 	private final String MSG="Registrated succesfully!";
 
-
+	private MainWindow mainWindow;
+	
 	public RegistrationCompleteDialog(MainWindow mainWindow) {
+		
+		this.mainWindow = mainWindow;
 		this.setTitle(TITLE);
+		
+		
 		
 		setBounds(200,200, 200, 150); //tu mozna dodac inne wspolrzedne, zeby ladniej wygladalo
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrationCompleteDialog.this.setVisible(false);
-				mainWindow.changeGui("logowanie");
+				returnToLoginPanel();
+			}
+		});
+		btnNewButton.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					returnToLoginPanel();
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
@@ -56,5 +84,10 @@ public class RegistrationCompleteDialog extends JDialog {
 					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
+	}
+	private void returnToLoginPanel()
+	{
+		RegistrationCompleteDialog.this.setVisible(false);
+		mainWindow.changeGui("logowanie");
 	}
 }
