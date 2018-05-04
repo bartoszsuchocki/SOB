@@ -66,6 +66,11 @@ public class UserService {
 	// }
 
 	/* ZWRACAMY NOWE KSIAZKI */
+
+	public List<Book> getAllBooks()
+	{
+		return db.getAllBooks();
+	}
 	public List<Book> getNewBooks() {
 		return db.getNewBooks();
 	}
@@ -80,6 +85,7 @@ public class UserService {
 			return db.getBooks(title);
 	}
 
+	
 	public List<Book> getUsersBooks() {
 		if (u == null)
 			return new ArrayList<Book>(); // bylo return null

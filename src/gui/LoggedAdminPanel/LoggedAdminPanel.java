@@ -14,6 +14,7 @@ import javax.swing.table.AbstractTableModel;
 import database.DataBase;
 import facade.UserService;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,6 +27,8 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 	private static final String SEARCH_BUTTON_TEXT = "Szukaj";
 	private static final String ADD_BOOK_BUTTON_TEXT = "Dodaj ksi\u0105\u017Ck\u0119";
 	private static final String CHANGE_STATUS_BUTTON_TEXT = "Zmie\u0144 status";
+	private static final String SHOW_ALL_BOOKS_BUTTON_TEXT="Wy\u015Bwietl wszystkie ksi\u0105zki";
+	private static final String SHOW_NEW_BOOKS_BUTTON_TEXT="Wy\u015Bwietl nowe ksi\u0105\u017Cki";
 
 	/* Rozne komunikaty typu, ze cos sie udalo albo ze sie nie udalo itp */
 	private static final String DELETE_BOOK_SUCCESS_MSG = "Uda\u0142o si\u0119 usun\u0105\u0107 zaznaczone ksi\u0105\u017Cki";
@@ -41,7 +44,8 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 	private JScrollPane booksScrollPane;
 	private JButton addBookButton;
 	private JButton changeStatusButton;
-	
+	private JButton showAllBooksButton;
+	private JButton showNewBooksButton;
 
 	private BooksTableModel booksTableModel;
 	private UserService userService;
@@ -63,6 +67,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		
 		/* Przycisk 'Wyloguj się' */
 		signUpButton = new JButton(SIGN_UP_BUTTON_TEXT);
+		signUpButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		signUpButton.setBounds(576, 11, 89, 23);
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
@@ -73,7 +78,8 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		add(signUpButton);
 
 		/* Przycisk 'Dodaj nową ksiązke' */
-		addBookButton = new JButton("Dodaj ksi\u0105\u017Ck\u0119");
+		addBookButton = new JButton(ADD_BOOK_BUTTON_TEXT);
+		addBookButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		addBookButton.setBounds(53, 52, 201, 23);
 		addBookButton.addActionListener(new ActionListener() {
 			@Override
@@ -124,6 +130,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 
 		/* Przycisk 'Wyszukaj' */
 		searchButton = new JButton(SEARCH_BUTTON_TEXT);
+		searchButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		searchButton.setBounds(530, 107, 89, 23);
 		searchButton.addActionListener(new ActionListener() {
 			@Override
@@ -139,12 +146,13 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 
 		booksScrollPane = new JScrollPane(booksTable);
 
-		booksScrollPane.setBounds(52, 154, 474, 211);
+		booksScrollPane.setBounds(53, 169, 566, 211);
 
 		add(booksScrollPane);
 
-		changeStatusButton = new JButton("Zmie\u0144 status");
-		changeStatusButton.setBounds(531, 154, 150, 23);
+		changeStatusButton = new JButton(CHANGE_STATUS_BUTTON_TEXT);
+		changeStatusButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		changeStatusButton.setBounds(53, 135, 150, 23);
 		changeStatusButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -200,6 +208,31 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 			}
 		});
 		add(changeStatusButton);
+		showAllBooksButton = new JButton(SHOW_ALL_BOOKS_BUTTON_TEXT);
+		showAllBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		showAllBooksButton.setBounds(213, 135, 162, 23);
+		showAllBooksButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				booksTableModel.setBooks(userService.getAllBooks());
+			}
+		});
+
+		add(showAllBooksButton);
+		
+		showNewBooksButton = new JButton(SHOW_NEW_BOOKS_BUTTON_TEXT);
+		showNewBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		showNewBooksButton.setBounds(385, 135, 142, 23);
+		showNewBooksButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				displayFirstState();
+			}
+		});
+		add(showNewBooksButton);
+		
 	}
 	public void displayFirstState()
 	{

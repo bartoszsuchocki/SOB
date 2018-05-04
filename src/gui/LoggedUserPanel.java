@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.sun.javafx.collections.SetAdapterChange;
+//import com.sun.javafx.collections.SetAdapterChange;
 
 import facade.UserService;
 import usersAndBooks.Book;
@@ -98,7 +98,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 		});
 
-		JButton btnWyszukaj = new JButton("Wyszukaj");
+		JButton btnWyszukaj = new JButton("Szukaj");
 		btnWyszukaj.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnWyszukaj.setToolTipText("");
 		btnWyszukaj.addActionListener(new ActionListener() {
@@ -140,41 +140,82 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 			}
 		});
+		
+		JButton btnWywietlWszystkieKsiki = new JButton("Wy\u015Bwietl wszystkie ksi\u0105\u017Cki");
+		btnWywietlWszystkieKsiki.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnWywietlWszystkieKsiki.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				booksTableModel.setBooks(us.getAllBooks());
+			}
+		});
+
+		
+		JButton btnWywietlNoweKsike = new JButton("Wy\u015Bwietl nowe ksi\u0105\u017Cki");
+		btnWywietlNoweKsike.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnWywietlNoweKsike.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				displayFistState();
+			}
+		});
+
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup().addGap(464).addComponent(btnMojeKonto).addGap(5)
-								.addComponent(btnWyloguj, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addGap(53).addComponent(lblDaneKsiazki,
-								GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addGap(53)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(scrollPaneTab, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(textFieldWyszukiwanie, GroupLayout.DEFAULT_SIZE, 519,
-														Short.MAX_VALUE)
-												.addGap(5).addComponent(btnWyszukaj))
-										.addComponent(btnWypozycz))))
-				.addGap(44)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE).addGap(32)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup().addComponent(btnWyloguj).addGap(53)
-										.addComponent(lblDaneKsiazki))
-								.addComponent(btnMojeKonto))
-						.addGap(5)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textFieldWyszukiwanie, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnWyszukaj, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnWypozycz).addGap(7)
-						.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(86, Short.MAX_VALUE)));
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(464)
+							.addComponent(btnMojeKonto)
+							.addGap(5)
+							.addComponent(btnWyloguj, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(53)
+							.addComponent(lblDaneKsiazki, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(53)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPaneTab, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(textFieldWyszukiwanie, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+									.addGap(5)
+									.addComponent(btnWyszukaj))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnWypozycz)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnWywietlWszystkieKsiki)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnWywietlNoweKsike)))))
+					.addGap(44))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
+					.addGap(32)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnWyloguj)
+							.addGap(53)
+							.addComponent(lblDaneKsiazki))
+						.addComponent(btnMojeKonto))
+					.addGap(5)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(textFieldWyszukiwanie, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnWyszukaj, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnWypozycz)
+						.addComponent(btnWywietlWszystkieKsiki)
+						.addComponent(btnWywietlNoweKsike))
+					.addGap(7)
+					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(83, Short.MAX_VALUE))
+		);
 
 		scrollPaneTab.setViewportView(booksTable);
 		setLayout(groupLayout);
@@ -187,6 +228,6 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 	}
 
 	
-	
+
 
 }

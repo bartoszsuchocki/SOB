@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class GuestPanel extends AfterAuthenticationGuiPanel {
 
@@ -24,6 +25,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 	private JTextField txtWpiszDaneKsiki;
 	private JTable booksTable;
 	
+	private BooksTableModel booksTableModel;
 	
 	private DefaultDialog emptySearchFieldDialog;
 	private DefaultDialog emptySearchListDialog;
@@ -31,8 +33,13 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 	public GuestPanel(MainWindow mainWindow) {
 		super(mainWindow);
 		
+		this.mainWindow=mainWindow;
 		emptySearchFieldDialog = new DefaultDialog(EMPTY_SEARCH_FIELD_MSG);
 		emptySearchListDialog = new DefaultDialog(EMPTY_SEARCH_LIST_MSG);
+		
+		booksTableModel=new BooksTableModel();
+		
+	
 		
 		JButton btnPowrt = new JButton("Powr\u00F3t");
 		btnPowrt.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -44,7 +51,6 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		
 		txtWpiszDaneKsiki = new JTextField();
 		txtWpiszDaneKsiki.setHorizontalAlignment(SwingConstants.LEFT);
-		txtWpiszDaneKsiki.setText("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
 		txtWpiszDaneKsiki.setColumns(10);
 		txtWpiszDaneKsiki.addKeyListener(new KeyListener() {
 
@@ -78,30 +84,36 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//searchBooks(txtWpiszDaneKsiki, userService, booksTableModel); //tu wpisaæ nazwy uworzonych obiektów UserService i BooksTableModel
+				 searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+
 				
 			}
 		});
 		
 		
-		BooksTableModel booksTableModel=new BooksTableModel();
+	
 		booksTable = new JTable(booksTableModel);
 
 		JScrollPane scrollPaneTab = new JScrollPane(booksTable);
+		
+		DisplayFirstState();
+		
+		JLabel lblWpiszDaneKsiki = new JLabel("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
 			
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(52)
-					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 573, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(52)
-					.addComponent(txtWpiszDaneKsiki, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnPowrt, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSzukaj, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblWpiszDaneKsiki)
+						.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 573, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(txtWpiszDaneKsiki, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnSzukaj, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnPowrt, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))))
 					.addGap(75))
 		);
 		groupLayout.setVerticalGroup(
@@ -109,19 +121,25 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(19)
 					.addComponent(btnPowrt)
-					.addGap(56)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtWpiszDaneKsiki, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSzukaj, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
+					.addGap(31)
+					.addComponent(lblWpiszDaneKsiki)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(txtWpiszDaneKsiki)
+						.addComponent(btnSzukaj, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(22)
 					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
 		);
 		setLayout(groupLayout);
 		//logoLabel.setBounds(100, 100, 60, 30);
 	}
 	
-	public void DisplayFirstState() {
+	public void DisplayFirstState() 
+	{
+		booksTableModel.setBooks(mainWindow.getUserService().getNewBooks());
+			
 		//tu zrobiæ booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym w¹tku
+		
 		txtWpiszDaneKsiki.setText("");
 	}
 	
