@@ -55,7 +55,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		
 		
 		userService = mainWindow.getUserService();
-		booksTableModel = new BooksTableModel(userService.getNewBooks());
+		booksTableModel = new BooksTableModel(userService.getNewBooks()); 
 
 		
 		
@@ -201,6 +201,10 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		});
 		add(changeStatusButton);
 	}
-
+	public void displayFirstState()
+	{
+		booksTableModel.setBooks(userService.getNewBooks()); // to te¿ powinno byæ zrobione w oddzielnym w¹tku!!!
+		searchBookTextField.setText("");
+	}
 	
 }

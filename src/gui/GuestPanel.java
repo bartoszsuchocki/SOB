@@ -120,6 +120,9 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		//logoLabel.setBounds(100, 100, 60, 30);
 	}
 	
-	
+	public void DisplayFirstState() {
+		//tu zrobiæ booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym w¹tku
+		txtWpiszDaneKsiki.setText("");
+	}
 	
 }

@@ -46,7 +46,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		us = mainWindow.getUserService();
 
 		/* Model tabelki */
-		booksTableModel = new BooksTableModel(us.getNewBooks());
+		booksTableModel = new BooksTableModel(us.getNewBooks());  //To te¿ powinno byæ w odzielnym w¹tku !!!
 
 		/* Przycisk Moje konto */
 
@@ -179,6 +179,11 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		scrollPaneTab.setViewportView(booksTable);
 		setLayout(groupLayout);
 
+	}
+	public void displayFistState()
+	{
+		booksTableModel.setBooks(us.getNewBooks()); // to te¿ wielow¹tkowo !!!
+		textFieldWyszukiwanie.setText("");
 	}
 
 	

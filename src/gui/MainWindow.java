@@ -70,10 +70,20 @@ public class MainWindow {
 				
 				
 			}
+		else if(whichGui.equals("wypozyczanie")) {
+			loggedUserPanel.displayFistState();
+		}
+		else if(whichGui.equals("admin")) {
+			loggedAdminPanel.displayFirstState();
+		}
+		else if(whichGui.equals("gosc")) {
+			guestPanel.DisplayFirstState();
+		}
 		CardLayout cl = (CardLayout)frame.getContentPane().getLayout();
 	
 		
 		cl.show(frame.getContentPane(), whichGui);
+		
 		
 	}
 	
