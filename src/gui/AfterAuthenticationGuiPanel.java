@@ -1,23 +1,28 @@
 package gui;
-import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+
+import facade.UserService;
+import usersAndBooks.Book;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
-	protected static final String EMPTY_SEARCH_FIELD_MSG="Wpisz dane do wyszukiwania";
-	protected static final String EMPTY_SEARCH_LIST_MSG="Nie ma takich ksi\u0105\u017Cek";
-	
+	protected static final String EMPTY_SEARCH_FIELD_MSG = "Wpisz dane do wyszukiwania";
+	protected static final String EMPTY_SEARCH_LIST_MSG = "Nie ma takich ksi\u0105\u017Cek";
 	private JLabel logoLabel; //na nazw� programu
 	private JLabel iconLabel; //na ikon� programu
 	MainWindow mainWindow; //potrzebny, zeby np. uzyc funkcji changeGui
 	private final int width=700;
 	private final int height=500;
+	
+	protected DefaultDialog emptySearchFieldDialog;
+	protected DefaultDialog emptySearchListDialog;
+
+	
 	public AfterAuthenticationGuiPanel(MainWindow mainWindow)
 	{
 		
@@ -26,6 +31,9 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 		
 		setBounds(0,0,width,height);
 		
+		
+		emptySearchFieldDialog = new DefaultDialog(EMPTY_SEARCH_FIELD_MSG);
+		emptySearchListDialog = new DefaultDialog(EMPTY_SEARCH_LIST_MSG);
 		
 		/*tu trzeba zdefiniowac jak b�dzie wygl�da� logo naszego systemu wyswietlane na kazdym (oprocz logowania i rejestracji) gui.*/
 		/*iconLabel = new JLabel("");
@@ -44,11 +52,39 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 		
 	}
 	
-	
-	protected void showMessage(String msg)
+	public void searchBooks(JTextField searchTextField, UserService userService, BooksTableModel booksTableModel)
 	{
-        JOptionPane.showMessageDialog(null, msg);
+		/*
+		 * Wczytujemy tytul ksiazki. Jezeli uzytkownik cos wpisal, to ok -> szukamy
+		 * Jezeli nie, to nie szukamy + odpowiedni komunikat
+		 */
+		String title = searchTextField.getText();
+		if (title.isEmpty())
+			showMessage(emptySearchFieldDialog);
 
+		else {
+			List<Book> searchedBooks = userService.searchForBook(title);
+			if (searchedBooks == null || searchedBooks.size() == 0)
+				showMessage(emptySearchListDialog);
+
+			if (searchedBooks != null)
+				booksTableModel.setBooks(searchedBooks);
+		}
+	}
+	
+	public static void showMessage(DefaultDialog dialog)
+	{
+		dialog.setVisible(true);
+	}
+	public static void showMessage(String message)
+	{
+		showMessage("Komunikat",message);
+	}
+	
+	public static void showMessage(String title, String message)
+	{
+        DefaultDialog defaultDialog = new DefaultDialog(title, message);
+        defaultDialog.setVisible(true);
 	}
 
 }

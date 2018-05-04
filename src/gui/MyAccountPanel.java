@@ -6,6 +6,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import facade.UserService;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -15,9 +18,16 @@ import java.awt.event.ActionEvent;
 public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 	private JTable tableWypozyczone;
 
+	private BooksTableModel booksTableModel;
+	private MainWindow mainWindow;
+
+	
+	
 	
 	public MyAccountPanel(MainWindow mainWindow) {
 		super(mainWindow);
+		
+		this.mainWindow=mainWindow;
 		
 		JButton btnWyloguj = new JButton("Wyloguj");
 		btnWyloguj.addActionListener(new ActionListener() {
@@ -71,7 +81,9 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 					.addContainerGap(77, Short.MAX_VALUE))
 		);
 		
-		BooksTableModel booksTableModel=new BooksTableModel();
+		BooksTableModel booksTableModel=
+				new BooksTableModel(mainWindow.getUserService().getUsersBooks());
+		
 		tableWypozyczone = new JTable(booksTableModel);
 		
 		tableWypozyczone = new JTable(booksTableModel);
@@ -79,4 +91,6 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 		setLayout(groupLayout);
 
 	}
+	
+	
 }

@@ -1,6 +1,5 @@
 package facade;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import database.DataBase;
@@ -68,11 +67,11 @@ public class UserService
 
     
     /*ZLEEEE. TRZEBA TO DOKONCZYC*/
-    public List<Book> getLendBooks()
-    {
-    
-    	return new ArrayList();
-    }
+//    public List<Book> getLendBooks()
+//    {
+//    
+//    	return new ArrayList();
+//    }
     
     
     /*ZWRACAMY NOWE KSIAZKI*/
@@ -88,6 +87,13 @@ public class UserService
     	if(title.isEmpty()||title==null) return null;
     	
     	else return db.getBooks(title);
+    }
+    
+    
+    public List<Book> getUsersBooks()
+    {
+    	if(u==null) return null;
+    	return db.getUserBooks(u.getLogin());
     }
     
     /*ZMIENIAMY STATUS KSIAZKI W BAZIE NA WYPOZYCZONA (JEZELI DA SIE ZMNIENIC)

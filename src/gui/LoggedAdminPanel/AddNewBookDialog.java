@@ -4,11 +4,15 @@ import javax.swing.*;
 
 import database.DataBase;
 import facade.UserService;
+import gui.AfterAuthenticationGuiPanel;
+import gui.DefaultDialog;
 import usersAndBooks.Book;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 public class AddNewBookDialog extends JFrame
@@ -51,8 +55,10 @@ public class AddNewBookDialog extends JFrame
         private JButton cancelButton;
        // private JButton undoButton; to nam sie nie przyda
 
-      
-
+        private KeyListener addBookAfterEnterReleased;
+        private DefaultDialog notAbleToAddBookDialog;
+        private DefaultDialog addBookSuccessDialog;
+        
     
         
         public AddNewBookDialogPanel()
@@ -64,7 +70,33 @@ public class AddNewBookDialog extends JFrame
             int x=50;
             int y=50;
             int step=40;
-
+            
+            
+            notAbleToAddBookDialog = new DefaultDialog(ADD_BOOK_UNSUCCESS_MSG);
+            addBookSuccessDialog = new DefaultDialog(ADD_BOOK_SUCCESS_MSG);
+            
+            addBookAfterEnterReleased = new KeyListener() {
+    			
+    			@Override
+    			public void keyTyped(KeyEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    			
+    			@Override
+    			public void keyReleased(KeyEvent e) {
+    				if(e.getKeyCode()==KeyEvent.VK_ENTER && !(notAbleToAddBookDialog.isVisible()) && !(addBookSuccessDialog.isVisible()) ) {
+    					addBook();
+    				}
+    				
+    			}
+    			
+    			@Override
+    			public void keyPressed(KeyEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    		};
 
             nameLabel=new JLabel(NAME_LABEL_TEXT);
             nameLabel.setBounds(x, y, LABEL_WIDTH, LABEL_HEIGHT);
@@ -72,6 +104,7 @@ public class AddNewBookDialog extends JFrame
 
             nameTextField=new JTextField();
             nameTextField.setBounds(x+LABEL_WIDTH+step,  y, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+            nameTextField.addKeyListener(addBookAfterEnterReleased);
             this.add(nameTextField);
 
             authorLabel=new JLabel(AUTHOR_LABEL_TEXT);
@@ -80,6 +113,7 @@ public class AddNewBookDialog extends JFrame
 
             authorTextField=new JTextField();
             authorTextField.setBounds(x+LABEL_WIDTH+step, y, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+            authorTextField.addKeyListener(addBookAfterEnterReleased);
             this.add(authorTextField);
 
             signatureLabel=new JLabel(SIGNATURE_LABEL_TEXT);
@@ -88,8 +122,12 @@ public class AddNewBookDialog extends JFrame
 
             signatureTextField=new JTextField();
             signatureTextField.setBounds(x+LABEL_WIDTH+step, y, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+            signatureTextField.addKeyListener(addBookAfterEnterReleased);
             this.add(signatureTextField);
 
+            
+            
+            
             okButton=new JButton(OK_BUTTON_TEXT);
             okButton.setBounds(x+=50, y+=2*step, 100, 25);
             okButton.addActionListener(new ActionListener()
@@ -97,23 +135,7 @@ public class AddNewBookDialog extends JFrame
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    String title= nameTextField.getText();
-                    String author=authorTextField.getText();
-                    String signature=signatureTextField.getText();
-                    //Data dodania - dzisiejsza
-                    Date currentDate=new Date();
-                    if(title.isEmpty()||author.isEmpty()||signature.isEmpty())
-                    {
-                        JOptionPane.showMessageDialog(null, EMPTY_FIELDS_MSG);
-                    	
-                    }
-                    else	
-                    {
-                    	Book newBook=new Book(title, author, signature, null, currentDate);
-                    	if(us.addBook(newBook)!=UserService.SUCCESS)  JOptionPane.showMessageDialog(null, ADD_BOOK_UNSUCCESS_MSG);
-                    	else JOptionPane.showMessageDialog(null, ADD_BOOK_SUCCESS_MSG);
-                    	dispose();
-                    }
+                    addBook();
                 }
             });
             this.add(okButton);
@@ -145,6 +167,31 @@ public class AddNewBookDialog extends JFrame
             */
 
         }
+        private void addBook() {
+        	String title= nameTextField.getText();
+            String author=authorTextField.getText();
+            String signature=signatureTextField.getText();
+            //Data dodania - dzisiejsza
+            Date currentDate=new Date();
+            if(title.isEmpty()||author.isEmpty()||signature.isEmpty())
+            {
+            	notAbleToAddBookDialog.setMessage(EMPTY_FIELDS_MSG);
+            	AfterAuthenticationGuiPanel.showMessage(notAbleToAddBookDialog);
+            	
+            }
+            else	
+            {
+            	Book newBook=new Book(title, author, signature, null, currentDate);
+            	if(us.addBook(newBook)!=UserService.SUCCESS) {
+            		notAbleToAddBookDialog.setMessage(ADD_BOOK_UNSUCCESS_MSG);
+            		AfterAuthenticationGuiPanel.showMessage(notAbleToAddBookDialog);
+            	}
+            	else { 
+                	AfterAuthenticationGuiPanel.showMessage(addBookSuccessDialog);
+                	dispose();
+            	}
+            }
+        }
     }
 
     public AddNewBookDialog(UserService us)
@@ -158,11 +205,14 @@ public class AddNewBookDialog extends JFrame
 
     }
     
+    
+    
     public void showDialog()
     {
         this.setVisible(true);
 
     }
+    
 
 
 }

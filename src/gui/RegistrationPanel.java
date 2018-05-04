@@ -16,27 +16,72 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 public class RegistrationPanel extends JPanel {
-    private JTextField loginTextField;
+    
+	private final String INCORRECT_LOGIN_MESSAGE = "Podano b³êdny login!";
+	private final String INCORRECT_PESEL_MESSAGE = "Podano b³êdny pesel!";
+	private final String INCORRECT_PASSWORD_MESSAGE = "Któreœ has³o jest b³êdne!";
+	private final String ERROR_TITLE = "B³êdnie podane dane.";
+	
+	
+	
+	private JTextField loginTextField;
     private JPasswordField firstPasswordField;
     private JPasswordField repeatPasswordField;
     private JTextField peselTextField;
-
+    private JTextField nameTextField;
+    private JTextField surnameTextField;
+    
+    private KeyListener pressEnterToRegistrateListener;
+    
     private DataBase db;
     private DefaultUser duser;
     private User user;
+    private MainWindow mainWindow;
     private StringBuilder errorBuffer;
-    private JTextField nameTextField;
-    private JTextField surnameTextField;
+   
+    private RegistrationCompleteDialog registrationCompleteDialog;
+    private DefaultDialog errorDialog;
 
     public RegistrationPanel(MainWindow mainWindow) {
 
-        setSize(700, 500);
-
+        this.mainWindow = mainWindow;
+        
+    	setSize(700, 500);
+        
+        errorDialog = new DefaultDialog(ERROR_TITLE,"");
+        registrationCompleteDialog = new RegistrationCompleteDialog(
+                mainWindow);
+        
+        pressEnterToRegistrateListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER && !(errorDialog.isVisible()) && !(registrationCompleteDialog.isVisible()) ) {
+					register();
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+        
         JLabel logoLabel = new JLabel("System Obs\u0142ugi Biblioteki");
         logoLabel.setHorizontalAlignment(SwingConstants.LEFT);
         logoLabel.setFont(new Font("Tahoma", Font.PLAIN, 32));
@@ -58,6 +103,7 @@ public class RegistrationPanel extends JPanel {
         loginTextField = new JTextField();
         loginTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         loginTextField.setColumns(10);
+        loginTextField.addKeyListener(pressEnterToRegistrateListener);
 
         JLabel loginLabel = new JLabel("Login");
         loginLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -69,6 +115,7 @@ public class RegistrationPanel extends JPanel {
 
         firstPasswordField = new JPasswordField();
         firstPasswordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        firstPasswordField.addKeyListener(pressEnterToRegistrateListener);
 
         JLabel firstPasswordLabel = new JLabel("Has\u0142o");
         firstPasswordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -80,70 +127,17 @@ public class RegistrationPanel extends JPanel {
 
         repeatPasswordField = new JPasswordField();
         repeatPasswordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        repeatPasswordField.addKeyListener(pressEnterToRegistrateListener);
 
         peselTextField = new JTextField();
         peselTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         peselTextField.setColumns(10);
+        peselTextField.addKeyListener(pressEnterToRegistrateListener);
 
         JButton registrationButton = new JButton("Zarejestruj");
         registrationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-
-                if (!loginCorrect(loginTextField.getText())) {
-                    loginTextField.setText("");
-                    wyswietlKomunikatOBledzie("Podano b³êdny login!");
-
-//                } else if (!peselCorrect(peselTextField.getText())) {
-//                    peselTextField.setText("");
-//                    wyswietlKomunikatOBledzie("Podano b³êdny pesel!");
-                } else if (!(passwordsCorrect(String.valueOf(firstPasswordField.getPassword()),
-                        String.valueOf(repeatPasswordField.getPassword())))) {
-                    firstPasswordField.setText("");
-                    repeatPasswordField.setText("");
-                    wyswietlKomunikatOBledzie("Któreœ has³o jest b³êdne!");
-                } else {
-
-                    new Thread() {
-                        public void run() {
-
-                            errorBuffer = new StringBuilder("");
-
-                            mainWindow.getUserService().register(loginTextField.getText(),
-                                    peselTextField.getText(), nameTextField.getText(), surnameTextField.getText(),
-                                    String.valueOf(firstPasswordField.getPassword()), errorBuffer);
-
-                            try {
-                                Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
-                            } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                            SwingUtilities.invokeLater(new Runnable() {
-                                public void run() {
-                                    if (String.valueOf(errorBuffer).equals("")) {
-                                        //wyswietl, ze jest super za pomoca RegistrationCompleteDialog
-                                        RegistrationCompleteDialog registrationCompleteDialog = new RegistrationCompleteDialog(
-                                                mainWindow);
-                                        registrationCompleteDialog.setVisible(true);
-                                    } else {
-                                        JOptionPane.showMessageDialog(RegistrationPanel.this, errorBuffer, "Blednie podane dane",
-                                                JOptionPane.ERROR_MESSAGE);
-                                    }
-
-                                    nameTextField.setText("");
-                                    surnameTextField.setText("");
-                                    loginTextField.setText("");
-                                    peselTextField.setText("");
-                                    firstPasswordField.setText(""); //to dla przykladu, ze z tego w¹tku mogê zmieniaæ wszystkie komponenty gui
-                                    repeatPasswordField.setText("");
-
-                                }
-                            });
-
-                        }
-                    }.start();
-
-                }
+            	register();
             }
         });
         registrationButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -263,6 +257,59 @@ public class RegistrationPanel extends JPanel {
 
     }
 
+    
+    private void register() {
+    	if (!loginCorrect(loginTextField.getText())) {
+            loginTextField.setText("");
+            wyswietlKomunikatOBledzie(INCORRECT_LOGIN_MESSAGE);
+
+        } else if (!peselCorrect(peselTextField.getText())) {
+            peselTextField.setText("");
+            wyswietlKomunikatOBledzie(INCORRECT_PESEL_MESSAGE);
+        } else if (!(passwordsCorrect(String.valueOf(firstPasswordField.getPassword()),
+                String.valueOf(repeatPasswordField.getPassword())))) {
+            firstPasswordField.setText("");
+            repeatPasswordField.setText("");
+            wyswietlKomunikatOBledzie(INCORRECT_PASSWORD_MESSAGE);
+        } else {
+
+            new Thread() {
+                public void run() {
+
+                    errorBuffer = new StringBuilder("");
+
+                    mainWindow.getUserService().register(loginTextField.getText(),
+                            peselTextField.getText(), nameTextField.getText(), surnameTextField.getText(),
+                            String.valueOf(firstPasswordField.getPassword()), errorBuffer);
+
+                    
+                   
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            if (String.valueOf(errorBuffer).equals("")) {
+                                //wyswietl, ze jest super za pomoca RegistrationCompleteDialog
+                                registrationCompleteDialog.setVisible(true);
+                            } else {
+                                wyswietlKomunikatOBledzie(errorBuffer.toString());
+                            	
+                            }
+
+                            nameTextField.setText("");
+                            surnameTextField.setText("");
+                            loginTextField.setText("");
+                            peselTextField.setText("");
+                            firstPasswordField.setText(""); //to dla przykladu, ze z tego w¹tku mogê zmieniaæ wszystkie komponenty gui
+                            repeatPasswordField.setText("");
+
+                        }
+                    });
+
+                }
+            }.start();
+
+        }
+    }
+    
     private boolean loginCorrect(String login) {
         return !(login.equals(""));
     }
@@ -285,7 +332,7 @@ public class RegistrationPanel extends JPanel {
     }
 
     private void wyswietlKomunikatOBledzie(String komunikat) {
-        JOptionPane.showMessageDialog(RegistrationPanel.this, komunikat, "Blednie podane dane",
-                JOptionPane.ERROR_MESSAGE);
+        errorDialog.setMessage(komunikat);
+        errorDialog.setVisible(true);
     }
 }

@@ -370,7 +370,7 @@ public class DataBase
 		return bookList;
 	}
 	
-/*
+
 	//do testowania/debuggowania
 	public static void main(String[] args)
 	{
@@ -395,7 +395,7 @@ public class DataBase
 		
 		//do przetestowania jeszcze: zwracane wartosci jak nie znajdzie ksiazek/usera
 		
-	}*/
+	}
 	
 
 
