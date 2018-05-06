@@ -59,7 +59,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		
 		
 		userService = mainWindow.getUserService();
-		booksTableModel = new BooksTableModel(userService.getNewBooks()); 
+		booksTableModel = new BooksTableModel(); 
 
 		
 		
@@ -84,8 +84,17 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		addBookButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddNewBookDialog addDialog = new AddNewBookDialog(userService);
-				addDialog.showDialog();
+				SwingUtilities.invokeLater(new Runnable()
+					
+				{
+					public void run()
+					{
+						AddNewBookDialog addDialog = new AddNewBookDialog(userService);
+						addDialog.showDialog();
+					}
+						
+				});
+				
 			}
 		});
 		add(addBookButton);
@@ -112,7 +121,16 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 			public void keyReleased(KeyEvent arg0) {
 				System.out.println(emptySearchFieldDialog.isVisible() +" "+ emptySearchListDialog.isVisible());
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible()) ) {
-					searchBooks(searchBookTextField,userService,booksTableModel);
+					new Thread(new Runnable()
+	        		{
+	        			public void run()
+	        			{
+	        				synchronized(userService)
+	        				{
+	        					searchBooks(searchBookTextField,userService,booksTableModel);
+	        				}
+	        			}
+	        		}).start();
 				}
 
 			}
@@ -135,13 +153,22 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				searchBooks(searchBookTextField,userService,booksTableModel);
+				new Thread(new Runnable()
+        		{
+        			public void run()
+        			{
+        				synchronized(userService)
+        				{
+        					searchBooks(searchBookTextField,userService,booksTableModel);
+        				}
+        			}
+        		}).start();
 			}
 		});
 		add(searchButton);
 
 		/* Tabelka */
-
+		displayFirstState();
 		booksTable = new JTable(booksTableModel);
 
 		booksScrollPane = new JScrollPane(booksTable);
@@ -161,48 +188,30 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				new ChangeBookStatusDialog(new ChangeBookStatusInterface() {
 					@Override
 					public void deleteButtonPressed() {
-						/*
-						 * Zmienna pomocnicza: Jezeli nie uda sie usunac jakiejs ksiazki, to zminiamy
-						 * jej wartosc na false. Na koncu wyswietlamy komunikat: 1) Jezeli sie udalo
-						 * usunac wszystkie ksiazki, czyli isDeleted=true, to ok 2) Jezeli sie nie
-						 * udalo, to nie ok.
-						 */
-						boolean isDeleted = true;
-
-						for (int i = 0; i < indexesSelected.length; i++) {
-							Book b = booksTableModel.getBook(indexesSelected[i] - i);
-							if (userService.deleteBook(b) == UserService.SUCCESS) {
-								booksTableModel.deleteBook(indexesSelected[i] - i);
-							} else
-								isDeleted = false;
-
-						}
-						if (isDeleted)
-							showMessage(DELETE_BOOK_SUCCESS_MSG);
-						else
-							showMessage(DELETE_BOOK_UNSUCCESS_MSG);
+						new Thread(new Runnable()
+	            		{
+	            			public void run()
+	            			{
+	            				synchronized(userService)
+	            				{
+	            					deleteSelectedBooks(indexesSelected);
+	            				}
+	            			}
+	            		}).start();
 					}
 
 					@Override
 					public void giveBackButtonPressed() {
-						/*
-						 * Podobna sytuacja jak z Usuwaniem ksiazki. Patrz wyzej
-						 */
-						boolean isGaveBack = true;
-
-						for (int i = 0; i < indexesSelected.length; i++) {
-							Book b = booksTableModel.getBook(indexesSelected[i]);
-							if (userService.returnBook(b) == UserService.SUCCESS) {
-								b.setLent(!b.isLent());
-								booksTableModel.updateBook(indexesSelected[i], b);
-							} else
-								isGaveBack = false;
-
-						}
-						if (isGaveBack)
-							showMessage(GIVE_BACK_SUCCESS_MSG);
-						else
-							showMessage(GIVE_BACK_UNSUCCESS_MSG);
+						new Thread(new Runnable()
+	            		{
+	            			public void run()
+	            			{
+	            				synchronized(userService)
+	            				{
+	            					giveBackSelectedBooks(indexesSelected);
+	            				}
+	            			}
+	            		}).start();
 					}
 				}).showDialog();
 			}
@@ -236,8 +245,72 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 	}
 	public void displayFirstState()
 	{
-		booksTableModel.setBooks(userService.getNewBooks()); // to te¿ powinno byæ zrobione w oddzielnym w¹tku!!!
-		searchBookTextField.setText("");
+		Thread t=new Thread(new Runnable()
+		{
+			public void run()
+			{
+				synchronized(userService)
+				{
+					booksTableModel.setBooks(userService.getNewBooks());
+				}
+			}
+		});
+		
+		t.start();
+		
+		try
+		{
+			t.join();
+			searchBookTextField.setText("");
+
+		}
+		catch( InterruptedException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+	
+	private void giveBackSelectedBooks(int[] indexesSelected)
+	{
+		boolean isGaveBack = true;
+
+		for (int i = 0; i < indexesSelected.length; i++) {
+			Book b = booksTableModel.getBook(indexesSelected[i]);
+			if (userService.returnBook(b) == UserService.SUCCESS) {
+				b.setLent(!b.isLent());
+				booksTableModel.updateBook(indexesSelected[i], b);
+			} else
+				isGaveBack = false;
+
+		}
+		if (isGaveBack)
+			showMessage(GIVE_BACK_SUCCESS_MSG);
+		else
+			showMessage(GIVE_BACK_UNSUCCESS_MSG);
+	}
+	
+	private void deleteSelectedBooks(int[] indexesSelected)
+	{
+		/*
+		 * Zmienna pomocnicza: Jezeli nie uda sie usunac jakiejs ksiazki, to zminiamy
+		 * jej wartosc na false. Na koncu wyswietlamy komunikat: 1) Jezeli sie udalo
+		 * usunac wszystkie ksiazki, czyli isDeleted=true, to ok 2) Jezeli sie nie
+		 * udalo, to nie ok.
+		 */
+		boolean isDeleted = true;
+
+		for (int i = 0; i < indexesSelected.length; i++) {
+			Book b = booksTableModel.getBook(indexesSelected[i] - i);
+			if (userService.deleteBook(b) == UserService.SUCCESS) {
+				booksTableModel.deleteBook(indexesSelected[i] - i);
+			} else
+				isDeleted = false;
+
+		}
+		if (isDeleted)
+			showMessage(DELETE_BOOK_SUCCESS_MSG);
+		else
+			showMessage(DELETE_BOOK_UNSUCCESS_MSG);
 	}
 	
 }

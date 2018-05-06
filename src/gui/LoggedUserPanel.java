@@ -46,7 +46,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		us = mainWindow.getUserService();
 
 		/* Model tabelki */
-		booksTableModel = new BooksTableModel(us.getNewBooks());  //To te¿ powinno byæ w odzielnym w¹tku !!!
+		booksTableModel = new BooksTableModel();  //To te¿ powinno byæ w odzielnym w¹tku !!!
 
 		/* Przycisk Moje konto */
 
@@ -86,7 +86,18 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible())) {
-					searchBooks(textFieldWyszukiwanie, us, booksTableModel);
+				
+					new Thread(new Runnable()
+					{
+						public void run()
+						{
+							synchronized(us)
+							{
+								searchBooks(textFieldWyszukiwanie, us, booksTableModel);
+							}
+								
+						}
+					}).start();
 				}
 			}
 
@@ -102,13 +113,26 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		btnWyszukaj.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnWyszukaj.setToolTipText("");
 		btnWyszukaj.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				searchBooks(textFieldWyszukiwanie, us, booksTableModel);
+			public void actionPerformed(ActionEvent e) 
+			{
+				new Thread(new Runnable()
+				{
+					public void run()
+					{
+						synchronized(us)
+						{
+							searchBooks(textFieldWyszukiwanie, us, booksTableModel);
+						}
+							
+					}
+				}).start();
+				
 			}
 		});
 
 		/* Tabelka */
 
+		displayFistState();
 		booksTable = new JTable(booksTableModel);
 
 		JScrollPane scrollPaneTab = new JScrollPane(booksTable);
@@ -121,22 +145,34 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 		btnWypozycz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int indexesSelected[] = booksTable.getSelectedRows();
-				boolean isLend = true;
+				
+				new Thread(new Runnable()
+				{
+					public void run()
+					{
+						synchronized(us)
+						{
+							int indexesSelected[] = booksTable.getSelectedRows();
+							boolean isLend = true;
 
-				for (int i = 0; i < indexesSelected.length; i++) {
-					Book b = booksTableModel.getBook(indexesSelected[i]);
-					if (us.lendBook(b) == UserService.SUCCESS) {
-						b.setLent(!b.isLent());
-						booksTableModel.updateBook(indexesSelected[i], b);
-					} else
-						isLend = false;
+							for (int i = 0; i < indexesSelected.length; i++) {
+								Book b = booksTableModel.getBook(indexesSelected[i]);
+								if (us.lendBook(b) == UserService.SUCCESS) {
+									b.setLent(!b.isLent());
+									booksTableModel.updateBook(indexesSelected[i], b);
+								} else
+									isLend = false;
 
-				}
-				if (isLend)
-					showMessage(LEND_SUCCESS_MSG);
-				else
-					showMessage(LEND_UNSUCCESS_MSG);
+							}
+							if (isLend)
+								showMessage(LEND_SUCCESS_MSG);
+							else
+								showMessage(LEND_UNSUCCESS_MSG);
+						}
+							
+					}
+				}).start();
+				
 
 			}
 		});
@@ -147,7 +183,17 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				booksTableModel.setBooks(us.getAllBooks());
+				new Thread(new Runnable()
+				{
+					public void run()
+					{
+						synchronized(us)
+						{
+							booksTableModel.setBooks(us.getAllBooks());
+						}
+							
+					}
+				}).start();
 			}
 		});
 
@@ -158,7 +204,17 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				displayFistState();
+				new Thread(new Runnable()
+				{
+					public void run()
+					{
+						synchronized(us)
+						{
+							booksTableModel.setBooks(us.getNewBooks());
+						}
+						
+					}
+				}).start();
 			}
 		});
 
@@ -223,8 +279,30 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 	}
 	public void displayFistState()
 	{
-		booksTableModel.setBooks(us.getNewBooks()); // to te¿ wielow¹tkowo !!!
-		textFieldWyszukiwanie.setText("");
+		Thread t=new Thread(new Runnable()
+		{
+			public void run()
+			{
+				synchronized(us)
+				{
+					booksTableModel.setBooks(us.getNewBooks()); // to te¿ wielow¹tkowo !!!
+				}
+			}
+		});
+		
+		t.start();
+		
+		try
+		{
+			t.join();
+			textFieldWyszukiwanie.setText("");
+
+		}
+		catch( InterruptedException ex)
+		{
+			ex.printStackTrace();
+		}
+		
 	}
 
 	

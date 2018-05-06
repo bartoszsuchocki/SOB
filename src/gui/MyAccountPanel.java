@@ -81,8 +81,9 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 					.addContainerGap(77, Short.MAX_VALUE))
 		);
 		
-		BooksTableModel booksTableModel=
-				new BooksTableModel(mainWindow.getUserService().getUsersBooks());
+		booksTableModel=
+				new BooksTableModel();
+		showUserBooks();
 		
 		tableWypozyczone = new JTable(booksTableModel);
 		
@@ -92,5 +93,18 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 
 	}
 	
+	private void showUserBooks()
+	{
+	   new Thread(new Runnable()
+		{
+			public void run()
+			{
+				synchronized(mainWindow.getUserService())
+				{
+					booksTableModel.setBooks(mainWindow.getUserService().getUsersBooks());
+				}
+			}
+		}).start();
+	}
 	
 }

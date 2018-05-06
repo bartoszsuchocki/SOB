@@ -65,6 +65,18 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible()) ) {
 					//searchBooks(txtWpiszDaneKsiki, userService, booksTableModel); //tu wpisaæ nazwy uworzonych obiektów UserService i BooksTableModel
 					
+					Thread t=new Thread(new Runnable()
+					{
+						public void run()
+						{
+							synchronized(mainWindow.getUserService())
+							{
+								searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+							}
+						}
+					});
+					
+					t.start();
 				}
 			}
 
@@ -84,7 +96,22 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+				
+				Thread t=new Thread(new Runnable()
+				{
+					public void run()
+					{
+						synchronized(mainWindow.getUserService())
+						{
+							searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+						}
+					}
+				});
+				
+				t.start();
+				
+			
+				// searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
 
 				
 			}
@@ -136,11 +163,32 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 	
 	public void DisplayFirstState() 
 	{
-		booksTableModel.setBooks(mainWindow.getUserService().getNewBooks());
-			
+		Thread t=new Thread(new Runnable()
+		{
+			public void run()
+			{
+				synchronized(mainWindow.getUserService())
+				{
+					booksTableModel.setBooks(mainWindow.getUserService().getNewBooks());
+				}
+			}
+		});
+		
+		t.start();
+		
+		try
+		{
+			t.join();
+			txtWpiszDaneKsiki.setText("");
+
+		}
+		catch( InterruptedException ex)
+		{
+			ex.printStackTrace();
+		}
+		
 		//tu zrobiæ booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym w¹tku
 		
-		txtWpiszDaneKsiki.setText("");
 	}
 	
 }

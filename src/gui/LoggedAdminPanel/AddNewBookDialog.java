@@ -86,7 +86,16 @@ public class AddNewBookDialog extends JFrame
     			@Override
     			public void keyReleased(KeyEvent e) {
     				if(e.getKeyCode()==KeyEvent.VK_ENTER && !(notAbleToAddBookDialog.isVisible()) && !(addBookSuccessDialog.isVisible()) ) {
-    					addBook();
+    					new Thread(new Runnable()
+                		{
+                			public void run()
+                			{
+                				synchronized(us)
+                				{
+                					addBook();
+                				}
+                			}
+                		}).start();
     				}
     				
     			}
@@ -135,7 +144,16 @@ public class AddNewBookDialog extends JFrame
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    addBook();
+                	new Thread(new Runnable()
+            		{
+            			public void run()
+            			{
+            				synchronized(us)
+            				{
+            					addBook();
+            				}
+            			}
+            		}).start();
                 }
             });
             this.add(okButton);
