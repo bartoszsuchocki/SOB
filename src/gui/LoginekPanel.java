@@ -30,7 +30,7 @@ public class LoginekPanel extends JPanel {
 
 		this.mainWindow = mainWindow;
 
-		errorDialog = new DefaultDialog("B³êdne dane logowania","B³¹d!");
+		errorDialog = new DefaultDialog("Bledne dane logowania", "Blad!");
 		
 		JLabel lblLogowanieDoSystemu = new JLabel("Logowanie do systemu");
 		lblLogowanieDoSystemu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -167,7 +167,7 @@ public class LoginekPanel extends JPanel {
 		String password = String.valueOf(passwordField.getPassword());
 		if (!loginCorrect(login)) {
 			loginTextField.setText("");
-			wyswietlKomunikatOBledzie("Podano bÅ‚Ä™dny login!");
+			wyswietlKomunikatOBledzie("Podano bledny login!");
 		} else {
 
 			new Thread() {
@@ -175,8 +175,8 @@ public class LoginekPanel extends JPanel {
 					errorBuffer = new StringBuilder("");
 					whichGui = new StringBuilder("");
 
-					mainWindow.getUserService().autheniticate(loginTextField.getText(),
-							String.valueOf(passwordField.getPassword()), errorBuffer, whichGui);
+					mainWindow.getUserService().autheniticate(login,
+							password, errorBuffer, whichGui);
 
 					try {
 						Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
@@ -191,12 +191,15 @@ public class LoginekPanel extends JPanel {
 										String.valueOf(whichGui));
 								loginCompleteDialog.setVisible(true);
 							} else {
-								wyswietlKomunikatOBledzie("B³êdnie podane dane");
+								wyswietlKomunikatOBledzie("Blednie podane dane");
 							}
 
-							loginTextField.setText("");
-							passwordField.setText(""); // to dla przykladu, ze z tego wÄ…tku mogÄ™ zmieniaÄ‡ wszystkie
-														// komponenty gui
+							if (String.valueOf(errorBuffer).equals("Bledne haslo"))
+								passwordField.setText("");
+							else if (String.valueOf(errorBuffer).equals("Nie ma takiego uzytkownika")) {
+								loginTextField.setText("");
+								passwordField.setText("");
+							}
 
 						}
 					});

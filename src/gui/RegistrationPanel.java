@@ -294,12 +294,16 @@ public class RegistrationPanel extends JPanel {
                             	
                             }
 
-                            nameTextField.setText("");
-                            surnameTextField.setText("");
-                            loginTextField.setText("");
-                            peselTextField.setText("");
-                            firstPasswordField.setText(""); //to dla przykladu, ze z tego w¹tku mogê zmieniaæ wszystkie komponenty gui
-                            repeatPasswordField.setText("");
+                            if (String.valueOf(errorBuffer).equals("Login zajety!"))
+                                loginTextField.setText("");
+                            else if (String.valueOf(errorBuffer).equals("Nie udalo sie zarejestrowac")) {
+                                loginTextField.setText("");
+                                firstPasswordField.setText("");
+                                repeatPasswordField.setText("");
+                                peselTextField.setText("");
+                                surnameTextField.setText("");
+                                nameTextField.setText("");
+                            }
 
                         }
                     });
