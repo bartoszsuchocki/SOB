@@ -292,16 +292,16 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		
 		t.start();
 		
-		try
-		{
-			t.join();
+//		try
+//		{
+//			t.join();
 			textFieldWyszukiwanie.setText("");
-
-		}
-		catch( InterruptedException ex)
-		{
-			ex.printStackTrace();
-		}
+//
+//		}
+//		catch( InterruptedException ex)
+//		{
+//			ex.printStackTrace();
+//		}
 		
 	}
 

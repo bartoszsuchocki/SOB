@@ -106,5 +106,9 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 			}
 		}).start();
 	}
+	public void displayFistState()
+	{
+		showUserBooks();
+	}
 	
 }

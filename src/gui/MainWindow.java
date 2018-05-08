@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
@@ -31,67 +32,76 @@ public class MainWindow {
 		});
 	}
 
-
 	public MainWindow() {
 		initialize();
 	}
-	
+
 	private void initialize() {
 		userService = new UserService();
 		frame = new JFrame();
-		frame.setBounds(100,100,700,500);
+		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
-		
+
 		loginPanel = new LoginekPanel(this);
-		registrationPanel = new RegistrationPanel(this);
-		loggedUserPanel = new LoggedUserPanel(this);
-		//myAccountPanel = new MyAccountPanel(this);
-		guestPanel = new GuestPanel(this);
-		loggedAdminPanel = new LoggedAdminPanel(this);
 
 		frame.getContentPane().add(loginPanel, "logowanie");
-		frame.getContentPane().add(registrationPanel, "rejestracja");
-		frame.getContentPane().add(loggedUserPanel, "wypozyczanie");
-		//frame.getContentPane().add(myAccountPanel, "mojeKonto");
-		frame.getContentPane().add(guestPanel, "gosc");
-		frame.getContentPane().add(loggedAdminPanel, "admin");
-		
-	}
-	
-	public void changeGui(String whichGui)
-	{
-		
-		if(whichGui.equals("mojeKonto")) 
-			{
-				myAccountPanel = new MyAccountPanel(this);
 
-				frame.getContentPane().add(myAccountPanel, "mojeKonto");
-				
-				
-			}
-		else if(whichGui.equals("wypozyczanie")) {
-			loggedUserPanel.displayFistState();
-		}
-		else if(whichGui.equals("admin")) {
-			loggedAdminPanel.displayFirstState();
-		}
-		else if(whichGui.equals("gosc")) {
-			guestPanel.DisplayFirstState();
-		}
-		CardLayout cl = (CardLayout)frame.getContentPane().getLayout();
-	
-		
-		cl.show(frame.getContentPane(), whichGui);
-		
-		
 	}
-	
-	
-	
-	public UserService getUserService()
-	{
+
+	public void changeGui(String whichGui) {
+
+		if (whichGui.equals("mojeKonto")) {
+			if (myAccountPanel == null) {
+				myAccountPanel = new MyAccountPanel(this);
+				frame.getContentPane().add(myAccountPanel, "mojeKonto");
+			} else {
+				myAccountPanel.displayFistState();
+			}
+
+		}
+
+		else if (whichGui.equals("wypozyczanie")) {
+			if (loggedUserPanel == null) {
+				loggedUserPanel = new LoggedUserPanel(this);
+				frame.getContentPane().add(loggedUserPanel, "wypozyczanie");
+			} else
+				loggedUserPanel.displayFistState();
+		} else if (whichGui.equals("admin")) {
+			if (loggedAdminPanel == null) {
+				loggedAdminPanel = new LoggedAdminPanel(this);
+				frame.getContentPane().add(loggedAdminPanel, "admin");
+			} else {
+				loggedAdminPanel.displayFirstState();
+
+			}
+		} else if (whichGui.equals("gosc")) {
+			if (guestPanel == null) {
+				guestPanel = new GuestPanel(this);
+				frame.getContentPane().add(guestPanel, "gosc");
+			} else {
+				guestPanel.DisplayFirstState();
+			}
+
+		} else if (whichGui.equals("rejestracja")) {
+			if (registrationPanel == null) {
+				registrationPanel = new RegistrationPanel(this);
+				frame.getContentPane().add(registrationPanel, "rejestracja");
+			} else {
+				// Tu zrobi� displayFirstState
+			}
+		} else if (whichGui.equals("logowanie")) {
+			// Tu zrobi� displayFirstState
+
+		}
+		CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
+
+		cl.show(frame.getContentPane(), whichGui);
+
+	}
+
+	public UserService getUserService() {
 		return userService;
 	}
-	
+
 }
