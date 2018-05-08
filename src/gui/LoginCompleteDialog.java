@@ -21,13 +21,13 @@ public class LoginCompleteDialog extends JDialog {
         this.whichGui = whichGui;
         
         setBounds(DefaultDialog.X, DefaultDialog.Y, DefaultDialog.WIDTH, DefaultDialog.HEIGHT);
-        JButton btnNewButton = new JButton("OK");
-        btnNewButton.addActionListener(new ActionListener() {
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 goToMyAccount();
             }
         });
-        btnNewButton.addKeyListener(new KeyListener() {
+        okButton.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -51,26 +51,26 @@ public class LoginCompleteDialog extends JDialog {
 			}
 		});
 
-        JLabel lblNewLabel = new JLabel("Zalogowano pomy\u015Blnie!");
+        JLabel succesLogged = new JLabel("Zalogowano pomy\u015Blnie!");
         GroupLayout groupLayout = new GroupLayout(getContentPane());
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblNewLabel)
+                                .addComponent(succesLogged)
                                 .addGap(35))
                         .addGroup(GroupLayout.Alignment.LEADING, groupLayout.createSequentialGroup()
                                 .addGap(71)
-                                .addComponent(btnNewButton)
+                                .addComponent(okButton)
                                 .addContainerGap(70, Short.MAX_VALUE))
         );
         groupLayout.setVerticalGroup(
                 groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(GroupLayout.Alignment.LEADING, groupLayout.createSequentialGroup()
                                 .addGap(30)
-                                .addComponent(lblNewLabel)
+                                .addComponent(succesLogged)
                                 .addGap(18)
-                                .addComponent(btnNewButton)
+                                .addComponent(okButton)
                                 .addContainerGap(26, Short.MAX_VALUE))
         );
         getContentPane().setLayout(groupLayout);

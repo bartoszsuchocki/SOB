@@ -19,11 +19,13 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 
 	private final String NO_SUCH_BOOK_MESSAGE="Nie ma takiej ksi\u0105\u017Cki";
 	
-	private  MainWindow mainWindow;
+	private MainWindow mainWindow;
 	private JLabel logoLabel;
 	private JLabel iconLabel;
-	private JTextField txtWpiszDaneKsiki;
+	private JTextField searchBookField;
 	private JTable booksTable;
+	private JButton signOutButton;
+	private JButton searchButton;
 	
 	private BooksTableModel booksTableModel;
 	
@@ -41,18 +43,18 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		
 	
 		
-		JButton btnPowrt = new JButton("Powr\u00F3t");
-		btnPowrt.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnPowrt.addActionListener(new ActionListener() {
+		signOutButton = new JButton("Powr\u00F3t");
+		signOutButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		signOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainWindow.changeGui("logowanie");
 			}
 		});
 		
-		txtWpiszDaneKsiki = new JTextField();
-		txtWpiszDaneKsiki.setHorizontalAlignment(SwingConstants.LEFT);
-		txtWpiszDaneKsiki.setColumns(10);
-		txtWpiszDaneKsiki.addKeyListener(new KeyListener() {
+		searchBookField = new JTextField();
+		searchBookField.setHorizontalAlignment(SwingConstants.LEFT);
+		searchBookField.setColumns(10);
+		searchBookField.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -65,18 +67,16 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible()) ) {
 					//searchBooks(txtWpiszDaneKsiki, userService, booksTableModel); //tu wpisa� nazwy uworzonych obiekt�w UserService i BooksTableModel
 					
-					Thread t=new Thread(new Runnable()
+					new Thread(new Runnable()
 					{
 						public void run()
 						{
 							synchronized(mainWindow.getUserService())
 							{
-								searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+								searchBooks(searchBookField, mainWindow.getUserService(), booksTableModel);
 							}
 						}
-					});
-					
-					t.start();
+					}).start();
 				}
 			}
 
@@ -90,25 +90,23 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 			
 		});
 		
-		JButton btnSzukaj = new JButton("Szukaj");
-		btnSzukaj.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSzukaj.addActionListener(new ActionListener() {
+		searchButton = new JButton("Szukaj");
+		searchButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		searchButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				Thread t=new Thread(new Runnable()
+				new Thread(new Runnable()
 				{
 					public void run()
 					{
 						synchronized(mainWindow.getUserService())
 						{
-							searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
+							searchBooks(searchBookField, mainWindow.getUserService(), booksTableModel);
 						}
 					}
-				});
-				
-				t.start();
+				}).start();;
 				
 			
 				// searchBooks(txtWpiszDaneKsiki, mainWindow.getUserService(), booksTableModel);
@@ -125,7 +123,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		
 		DisplayFirstState();
 		
-		JLabel lblWpiszDaneKsiki = new JLabel("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
+		JLabel searchLabel = new JLabel("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
 			
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -133,27 +131,27 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(52)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblWpiszDaneKsiki)
+						.addComponent(searchLabel)
 						.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 573, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(txtWpiszDaneKsiki, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE)
+							.addComponent(searchBookField, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnSzukaj, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnPowrt, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+								.addComponent(signOutButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))))
 					.addGap(75))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(19)
-					.addComponent(btnPowrt)
+					.addComponent(signOutButton)
 					.addGap(31)
-					.addComponent(lblWpiszDaneKsiki)
+					.addComponent(searchLabel)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(txtWpiszDaneKsiki)
-						.addComponent(btnSzukaj, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(searchBookField)
+						.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(22)
 					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
 		);
@@ -163,7 +161,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 	
 	public void DisplayFirstState() 
 	{
-		Thread t=new Thread(new Runnable()
+		new Thread(new Runnable()
 		{
 			public void run()
 			{
@@ -172,9 +170,8 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 					booksTableModel.setBooks(mainWindow.getUserService().getNewBooks());
 				}
 			}
-		});
-		
-		t.start();
+		}).start();;
+
 		
 		//tu zrobi� booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym w�tku
 		

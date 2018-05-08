@@ -245,7 +245,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 	}
 	public void displayFirstState()
 	{
-		Thread t=new Thread(new Runnable()
+		new Thread(new Runnable()
 		{
 			public void run()
 			{
@@ -254,10 +254,8 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 					booksTableModel.setBooks(userService.getNewBooks());
 				}
 			}
-		});
-		
-		t.start();
-		
+		}).start();;
+
 		
 	}
 	

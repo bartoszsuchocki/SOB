@@ -40,8 +40,8 @@ public class RegistrationPanel extends JPanel {
     
     private KeyListener pressEnterToRegistrateListener;
     
-    private DataBase db;
-    private DefaultUser duser;
+    private DataBase dataBase;
+    private DefaultUser defaultUser;
     private User user;
     private MainWindow mainWindow;
     private StringBuilder errorBuffer;

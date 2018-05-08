@@ -16,24 +16,24 @@ public class UserService {
 	public static final int SUCCESS = 1;
 	public static final int UNSUCCESS = 0;
 
-	private DataBase db;
-	private User u;
+	private DataBase DataBase;
+	private User currentUser;
 
 	public UserService() {
-		db = new DataBase();
+		DataBase = new DataBase();
 	}
 
 	public void autheniticate(String login, String password, StringBuilder errorBuffer, StringBuilder whichGui) {
 
-		u = db.getUser(login);
+		currentUser = DataBase.getUser(login);
 
-		if (u != null && !(password.equals(u.getPassword()))) {
-			u = null;
+		if (currentUser != null && !(password.equals(currentUser.getPassword()))) {
+			currentUser = null;
 			errorBuffer.append("Bledne haslo");
-		} else if (u != null) {
-			if (u.getRole() == 1)
+		} else if (currentUser != null) {
+			if (currentUser.getRole() == 1)
 				whichGui.append("wypozyczanie");
-			else if (u.getRole() == 2)
+			else if (currentUser.getRole() == 2)
 				whichGui.append("admin");
 		} else {
 			errorBuffer.append("Nie ma takiego uzytkownika");
@@ -44,12 +44,12 @@ public class UserService {
 	public void register(String login, String pesel, String name, String surname, String password,
 			StringBuilder errorBuffer) {
 
-		User resultUser = db.getUser(login);
+		User resultUser = DataBase.getUser(login);
 
 		if (resultUser != null) {
 			errorBuffer.append("Login zajety!");
 		} else {
-			if (db.addUser(Long.valueOf(pesel), name, surname, login, password) == 1) {
+			if (DataBase.addUser(Long.valueOf(pesel), name, surname, login, password) == 1) {
 				errorBuffer.append("");
 			} else {
 				errorBuffer.append("Nie udalo sie zarejestrowac");
@@ -69,10 +69,10 @@ public class UserService {
 
 	public List<Book> getAllBooks()
 	{
-		return db.getAllBooks();
+		return DataBase.getAllBooks();
 	}
 	public List<Book> getNewBooks() {
-		return db.getNewBooks();
+		return DataBase.getNewBooks();
 	}
 
 	/* ZWRACAMY KSIAZKI O TYTULE 'title' */
@@ -82,14 +82,14 @@ public class UserService {
 			return null;
 
 		else
-			return db.getBooks(title);
+			return DataBase.getBooks(title);
 	}
 
 	
 	public List<Book> getUsersBooks() {
-		if (u == null)
+		if (currentUser == null)
 			return new ArrayList<Book>(); // bylo return null
-		return db.getUserBooks(u.getLogin());
+		return DataBase.getUserBooks(currentUser.getLogin());
 	}
 
 	/*
@@ -97,7 +97,7 @@ public class UserService {
 	 * ZWRACAMY UNSUCCESS
 	 */
 	public int returnBook(Book book) {
-		if (db.returnBook(book.getSignature()) > 0)
+		if (DataBase.returnBook(book.getSignature()) > 0)
 			return SUCCESS;
 		return UNSUCCESS;
 	}
@@ -106,7 +106,7 @@ public class UserService {
 	 * TO SAMO CO WYZEJ TYLKO WYPOZYCZAMY
 	 */
 	public int lendBook(Book book) {
-		if (db.lendBook(book.getSignature(), u.getLogin()) > 0)
+		if (DataBase.lendBook(book.getSignature(), currentUser.getLogin()) > 0)
 			return SUCCESS;
 		return UNSUCCESS;
 	}
@@ -115,7 +115,7 @@ public class UserService {
 		if (book == null)
 			return UNSUCCESS;
 
-		if (db.addBook(book) > 0)
+		if (DataBase.addBook(book) > 0)
 			return SUCCESS;
 		return UNSUCCESS;
 	}
@@ -124,16 +124,16 @@ public class UserService {
 		if (book == null)
 			return UNSUCCESS;
 
-		if (db.deleteBook(book.getSignature()) > 0)
+		if (DataBase.deleteBook(book.getSignature()) > 0)
 			return SUCCESS;
 		return UNSUCCESS;
 	}
 
-	public User getU() {
-		return u;
+	public User getUser() {
+		return currentUser;
 	}
 
-	public void setU(User u) {
-		this.u = u;
+	public void setUser(User user) {
+		this.currentUser = user;
 	}
 }

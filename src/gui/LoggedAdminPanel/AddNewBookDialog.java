@@ -20,7 +20,7 @@ public class AddNewBookDialog extends JFrame
 
     private static final String DIALOG_TITLE="Dodawanie ksi\u0105\u017Cki";
     
-    private UserService us;
+    private UserService userService;
 
     private class AddNewBookDialogPanel extends JPanel
     {
@@ -90,7 +90,7 @@ public class AddNewBookDialog extends JFrame
                 		{
                 			public void run()
                 			{
-                				synchronized(us)
+                				synchronized(userService)
                 				{
                 					addBook();
                 				}
@@ -148,7 +148,7 @@ public class AddNewBookDialog extends JFrame
             		{
             			public void run()
             			{
-            				synchronized(us)
+            				synchronized(userService)
             				{
             					addBook();
             				}
@@ -200,7 +200,7 @@ public class AddNewBookDialog extends JFrame
             else	
             {
             	Book newBook=new Book(title, author, signature, null, currentDate);
-            	if(us.addBook(newBook)!=UserService.SUCCESS) {
+            	if(userService.addBook(newBook)!=UserService.SUCCESS) {
             		notAbleToAddBookDialog.setMessage(ADD_BOOK_UNSUCCESS_MSG);
             		AfterAuthenticationGuiPanel.showMessage(notAbleToAddBookDialog);
             	}
@@ -219,7 +219,7 @@ public class AddNewBookDialog extends JFrame
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(DIALOG_TITLE);
         this.add(new AddNewBookDialogPanel());
-        this.us=us;
+        this.userService=us;
 
     }
     

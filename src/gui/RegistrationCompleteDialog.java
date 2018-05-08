@@ -32,13 +32,13 @@ public class RegistrationCompleteDialog extends JDialog {
 		
 		
 		setBounds(DefaultDialog.X, DefaultDialog.Y, DefaultDialog.WIDTH, DefaultDialog.HEIGHT);
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				returnToLoginPanel();
 			}
 		});
-		btnNewButton.addKeyListener(new KeyListener() {
+		okButton.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -61,26 +61,26 @@ public class RegistrationCompleteDialog extends JDialog {
 			}
 		});
 		
-		JLabel lblNewLabel = new JLabel(MSG);
+		JLabel messageLabel = new JLabel(MSG);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(lblNewLabel)
+					.addComponent(messageLabel)
 					.addGap(35))
 				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addGap(71)
-					.addComponent(btnNewButton)
+					.addComponent(okButton)
 					.addContainerGap(70, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addGap(30)
-					.addComponent(lblNewLabel)
+					.addComponent(messageLabel)
 					.addGap(18)
-					.addComponent(btnNewButton)
+					.addComponent(okButton)
 					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);

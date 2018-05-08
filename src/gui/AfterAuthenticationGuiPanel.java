@@ -78,7 +78,7 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 	}
 	public static void showMessage(String message)
 	{
-		showMessage("Komunikat",message);
+		showMessage("Komunikat", message);
 	}
 	
 	public static void showMessage(String title, String message)
