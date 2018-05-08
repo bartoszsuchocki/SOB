@@ -24,8 +24,8 @@ import usersAndBooks.Book;
 
 public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
-	private static final String LEND_SUCCESS_MSG = "Uda\u0142o si\u0119 wypo\u0105yczy\u0107 zaznaczone ksi\u0105\u017Cki";
-	private static final String LEND_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 wypo\u0105yczy\u0107 zaznaczonych ksi\u0105\u017Aek";
+	private static final String LEND_SUCCESS_MSG = "Uda\u0142o si\u0119 wypo\u017Cyczy\u0107";
+	private static final String LEND_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 wypo\u017Cyczy\u0107";
 	
 
 	private JTextField textFieldWyszukiwanie;
@@ -46,7 +46,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		us = mainWindow.getUserService();
 
 		/* Model tabelki */
-		booksTableModel = new BooksTableModel();  //To te¿ powinno byæ w odzielnym w¹tku !!!
+		booksTableModel = new BooksTableModel();  //To teï¿½ powinno byï¿½ w odzielnym wï¿½tku !!!
 
 		/* Przycisk Moje konto */
 
@@ -164,10 +164,17 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 									isLend = false;
 
 							}
-							if (isLend)
-								showMessage(LEND_SUCCESS_MSG);
-							else
-								showMessage(LEND_UNSUCCESS_MSG);
+							
+							/*WyÅ›wietlamy komunikaty wtw, gdy coÅ› wybraliÅ›my
+							 * JeÅ¼eli nic nie wybraliÅ›my, to nic nie wypoÅ¼yczymy a zatem komunikaty o tym, czy siÄ™ udaÅ‚o, 
+							 * czy nie sÄ… bez sensu*/
+							if(indexesSelected.length>0)
+							{
+								if (isLend)
+									showMessage(LEND_SUCCESS_MSG);
+								else
+									showMessage(LEND_UNSUCCESS_MSG);
+							}
 						}
 							
 					}
@@ -285,23 +292,15 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 			{
 				synchronized(us)
 				{
-					booksTableModel.setBooks(us.getNewBooks()); // to te¿ wielow¹tkowo !!!
+					booksTableModel.setBooks(us.getNewBooks()); // to teï¿½ wielowï¿½tkowo !!!
 				}
 			}
 		});
 		
 		t.start();
 		
-//		try
-//		{
-//			t.join();
 			textFieldWyszukiwanie.setText("");
-//
-//		}
-//		catch( InterruptedException ex)
-//		{
-//			ex.printStackTrace();
-//		}
+
 		
 	}
 

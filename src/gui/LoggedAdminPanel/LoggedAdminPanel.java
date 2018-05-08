@@ -27,14 +27,14 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 	private static final String SEARCH_BUTTON_TEXT = "Szukaj";
 	private static final String ADD_BOOK_BUTTON_TEXT = "Dodaj ksi\u0105\u017Ck\u0119";
 	private static final String CHANGE_STATUS_BUTTON_TEXT = "Zmie\u0144 status";
-	private static final String SHOW_ALL_BOOKS_BUTTON_TEXT="Wy\u015Bwietl wszystkie ksi\u0105zki";
+	private static final String SHOW_ALL_BOOKS_BUTTON_TEXT="Wy\u015Bwietl wszystkie ksi\u0105\u017Cki";
 	private static final String SHOW_NEW_BOOKS_BUTTON_TEXT="Wy\u015Bwietl nowe ksi\u0105\u017Cki";
 
 	/* Rozne komunikaty typu, ze cos sie udalo albo ze sie nie udalo itp */
-	private static final String DELETE_BOOK_SUCCESS_MSG = "Uda\u0142o si\u0119 usun\u0105\u0107 zaznaczone ksi\u0105\u017Cki";
-	private static final String DELETE_BOOK_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 usun\u0105\u0107 zaznaczonych ksi\u0105\u017Cek";
-	private static final String GIVE_BACK_SUCCESS_MSG = "Uda\u0142o si\u0119 zwr\u00F3ci\u0107 zaznaczone ksi\u0105\u017Cki";
-	private static final String GIVE_BACK_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 zwr\u00F3ci\u0107 zaznaczonych ksi\u0105\u017Aek";
+	private static final String DELETE_BOOK_SUCCESS_MSG = "Uda\u0142o si\u0119 usun\u0105\u0107";
+	private static final String DELETE_BOOK_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 usun\u0105\u0107";
+	private static final String GIVE_BACK_SUCCESS_MSG = "Uda\u0142o si\u0119 zwr\u00F3ci\u0107";
+	private static final String GIVE_BACK_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 zwr\u00F3ci\u0107";
 
 	private JLabel searchFieldLabel;
 	private JButton signUpButton;
@@ -258,16 +258,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		
 		t.start();
 		
-		try
-		{
-			t.join();
-			searchBookTextField.setText("");
-
-		}
-		catch( InterruptedException ex)
-		{
-			ex.printStackTrace();
-		}
+		
 	}
 	
 	private void giveBackSelectedBooks(int[] indexesSelected)
@@ -283,10 +274,17 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				isGaveBack = false;
 
 		}
-		if (isGaveBack)
-			showMessage(GIVE_BACK_SUCCESS_MSG);
-		else
-			showMessage(GIVE_BACK_UNSUCCESS_MSG);
+		
+		/*Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie wybraliśmy
+		 * to nic nie zwrócimy*/
+		if(indexesSelected.length>0)
+		{
+		
+			if (isGaveBack)
+				showMessage(GIVE_BACK_SUCCESS_MSG);
+			else
+				showMessage(GIVE_BACK_UNSUCCESS_MSG);
+		}
 	}
 	
 	private void deleteSelectedBooks(int[] indexesSelected)
@@ -307,10 +305,17 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				isDeleted = false;
 
 		}
-		if (isDeleted)
-			showMessage(DELETE_BOOK_SUCCESS_MSG);
-		else
-			showMessage(DELETE_BOOK_UNSUCCESS_MSG);
+		
+		/*Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie wybraliśmy
+		 * to nic nie zwrócimy*/
+		if(indexesSelected.length!=0)
+		{
+		
+			if (isDeleted)
+				showMessage(DELETE_BOOK_SUCCESS_MSG);
+			else
+				showMessage(DELETE_BOOK_UNSUCCESS_MSG);
+		}
 	}
 	
 }

@@ -17,7 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class GuestPanel extends AfterAuthenticationGuiPanel {
 
-	private final String NO_SUCH_BOOK_MESSAGE="Nie ma takiej ksi¹¿ki";
+	private final String NO_SUCH_BOOK_MESSAGE="Nie ma takiej ksi\u0105\u017Cki";
 	
 	private  MainWindow mainWindow;
 	private JLabel logoLabel;
@@ -63,7 +63,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible()) ) {
-					//searchBooks(txtWpiszDaneKsiki, userService, booksTableModel); //tu wpisaæ nazwy uworzonych obiektów UserService i BooksTableModel
+					//searchBooks(txtWpiszDaneKsiki, userService, booksTableModel); //tu wpisaï¿½ nazwy uworzonych obiektï¿½w UserService i BooksTableModel
 					
 					Thread t=new Thread(new Runnable()
 					{
@@ -176,18 +176,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		
 		t.start();
 		
-		try
-		{
-			t.join();
-			txtWpiszDaneKsiki.setText("");
-
-		}
-		catch( InterruptedException ex)
-		{
-			ex.printStackTrace();
-		}
-		
-		//tu zrobiæ booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym w¹tku
+		//tu zrobiï¿½ booksTableModel.setBooks(UserService.getNewBooks()) w oddzialnym wï¿½tku
 		
 	}
 	

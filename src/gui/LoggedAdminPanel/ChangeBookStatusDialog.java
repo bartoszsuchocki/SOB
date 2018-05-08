@@ -1,6 +1,9 @@
 package gui.LoggedAdminPanel;
 
 import javax.swing.*;
+
+import gui.DefaultDialog;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +21,7 @@ public class ChangeBookStatusDialog extends JDialog
 
     private static final String DIALOG_TITLE="Zmiana statusu ksi\u0105\u017Cki";
     private static final String CANCEL_BUTTON_TEXT="Cofnij";
-    private static final String DELETE_BUTTON_TEXT="Delete";
+    private static final String DELETE_BUTTON_TEXT="Usu\u0144";
     private static final String GIVE_BACK_BUTTON="Oddaj";
     private static final String LABEL_TEXT="Zmie\u0144 status ksi\u0105\u017Cki";
 
@@ -37,7 +40,7 @@ public class ChangeBookStatusDialog extends JDialog
         super();
         this.changeBookStatusInterface=changeBookStatusInterface;
 
-        setBounds(100, 100, 200, 150);
+        setBounds(DefaultDialog.X, DefaultDialog.Y, DefaultDialog.WIDTH, DefaultDialog.HEIGHT);
         setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setTitle(DIALOG_TITLE);
 
