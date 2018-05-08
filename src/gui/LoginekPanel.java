@@ -172,18 +172,15 @@ public class LoginekPanel extends JPanel {
 
 			new Thread() {
 				public void run() {
-					errorBuffer = new StringBuilder("");
-					whichGui = new StringBuilder("");
-
-					mainWindow.getUserService().autheniticate(login,
-							password, errorBuffer, whichGui);
-
-					try {
-						Thread.sleep(1);// imitacja dlugiej opercaji, dowod, ze nie blokujemy gui
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					synchronized(mainWindow.getUserService()) {
+						errorBuffer = new StringBuilder("");
+					
+						whichGui = new StringBuilder("");
+	
+						mainWindow.getUserService().autheniticate(login,
+								password, errorBuffer, whichGui);
 					}
+						
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							if (String.valueOf(errorBuffer).equals("")) {

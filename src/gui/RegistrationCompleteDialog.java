@@ -31,7 +31,7 @@ public class RegistrationCompleteDialog extends JDialog {
 		
 		
 		
-		setBounds(200,200, 200, 150); //tu mozna dodac inne wspolrzedne, zeby ladniej wygladalo
+		setBounds(DefaultDialog.X, DefaultDialog.Y, DefaultDialog.WIDTH, DefaultDialog.HEIGHT);
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -44,7 +44,7 @@ public class DataBase
 			
 		}
 	}
-	private void openRecources() throws SQLException {
+	private synchronized void openRecources() throws SQLException {
 		if (connection==null || connection.isClosed())
 			connection = DriverManager.getConnection(DBPATH, USERNAME, USER_PASSWORD);
 
