@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Color;
 
 public class LoginCompleteDialog extends JDialog {
     private final String TITLE = "Logowanie zakonczone";
@@ -15,6 +16,7 @@ public class LoginCompleteDialog extends JDialog {
 
 
     public LoginCompleteDialog(MainWindow mainWindow, String whichGui) {
+    	getContentPane().setBackground(new Color(255, 228, 181));
         this.setTitle(TITLE);
 
         this.mainWindow = mainWindow;

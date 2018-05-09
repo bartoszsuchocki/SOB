@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class LoginekPanel extends JPanel {
 	private JTextField loginTextField;
@@ -25,6 +27,7 @@ public class LoginekPanel extends JPanel {
 	private DefaultDialog errorDialog;
 
 	public LoginekPanel(MainWindow mainWindow) {
+		setBackground(new Color(255, 228, 181));
 
 		setSize(700, 500);
 
@@ -76,6 +79,7 @@ public class LoginekPanel extends JPanel {
 		passwordField.addKeyListener(enterToConfirmListener);
 
 		JButton loginButton = new JButton("Zaloguj");
+		loginButton.setForeground(new Color(0, 0, 0));
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -109,45 +113,63 @@ public class LoginekPanel extends JPanel {
 		 */
 
 		JLabel logoLabel = new JLabel("System Obs\u0142ugi Biblioteki");
-		logoLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		logoLabel.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(66).addComponent(logoLabel,
-						GroupLayout.PREFERRED_SIZE, 634, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(234).addComponent(signInLabel,
-						GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(170)
-						.addComponent(loginLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(170)
-						.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(234)
-						.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-						.addGap(10)
-						.addComponent(registerButton, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(234).addComponent(guestButton,
-						GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addComponent(logoLabel, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-				.addGap(65)
-				.addComponent(signInLabel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-				.addGap(9)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(234)
+							.addComponent(signInLabel, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(170)
+							.addComponent(loginLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(170)
+							.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(255, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(232, Short.MAX_VALUE)
+					.addComponent(registerButton, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(guestButton)
+					.addGap(208))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(276)
+					.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(316, Short.MAX_VALUE))
+				.addComponent(logoLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(logoLabel, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.addGap(65)
+					.addComponent(signInLabel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGap(9)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(loginLabel, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup().addGap(2).addComponent(loginTextField,
-								GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
-				.addGap(9)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-				.addGap(11)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(registerButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-				.addGap(11).addComponent(guestButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)));
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(2)
+							.addComponent(loginTextField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+					.addGap(14)
+					.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(guestButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(registerButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+					.addGap(169))
+		);
 		setLayout(groupLayout);
 
 	}

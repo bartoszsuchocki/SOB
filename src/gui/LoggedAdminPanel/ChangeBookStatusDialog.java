@@ -38,14 +38,15 @@ public class ChangeBookStatusDialog extends JDialog
     public ChangeBookStatusDialog(ChangeBookStatusInterface changeBookStatusInterface)
     {
         super();
+        getContentPane().setBackground(new Color(255, 228, 181));
         this.changeBookStatusInterface=changeBookStatusInterface;
 
         setBounds(DefaultDialog.X, DefaultDialog.Y, DefaultDialog.WIDTH, DefaultDialog.HEIGHT);
-        setLayout(new FlowLayout(FlowLayout.CENTER));
+        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setTitle(DIALOG_TITLE);
 
         msgLabel=new JLabel(LABEL_TEXT);
-        this.add(msgLabel);
+        getContentPane().add(msgLabel);
 
         /*Przycisk 'Usuń'*/
         deleteButton=new JButton(DELETE_BUTTON_TEXT);
@@ -59,7 +60,7 @@ public class ChangeBookStatusDialog extends JDialog
                 dispose();
             }
         });
-        this.add(deleteButton);
+        getContentPane().add(deleteButton);
 
         /*Przycisk 'Oddaj'*/
         giveBackButton=new JButton(GIVE_BACK_BUTTON);
@@ -74,7 +75,7 @@ public class ChangeBookStatusDialog extends JDialog
                 dispose();
             }
         });
-        this.add(giveBackButton);
+        getContentPane().add(giveBackButton);
 
         /*Przycisk 'Cofnij'*/
         cancelButton=new JButton(CANCEL_BUTTON_TEXT);
@@ -86,7 +87,7 @@ public class ChangeBookStatusDialog extends JDialog
                 dispose();
             }
         });
-        this.add(cancelButton);
+        getContentPane().add(cancelButton);
 
 
 

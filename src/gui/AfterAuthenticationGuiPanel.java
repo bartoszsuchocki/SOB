@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 
 import facade.UserService;
 import usersAndBooks.Book;
+import java.awt.Color;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
@@ -25,6 +26,7 @@ public abstract class AfterAuthenticationGuiPanel extends JPanel
 	
 	public AfterAuthenticationGuiPanel(MainWindow mainWindow)
 	{
+		setBackground(new Color(255, 228, 181));
 		
 		this.mainWindow = mainWindow;
 		setLayout(null);

@@ -17,6 +17,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
 
 public class RegistrationCompleteDialog extends JDialog {
 	private final String TITLE="Registration complete"; 
@@ -25,6 +26,7 @@ public class RegistrationCompleteDialog extends JDialog {
 	private MainWindow mainWindow;
 	
 	public RegistrationCompleteDialog(MainWindow mainWindow) {
+		getContentPane().setBackground(new Color(255, 228, 181));
 		
 		this.mainWindow = mainWindow;
 		this.setTitle(TITLE);

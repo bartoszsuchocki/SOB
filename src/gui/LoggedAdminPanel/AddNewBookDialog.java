@@ -215,10 +215,11 @@ public class AddNewBookDialog extends JFrame
     public AddNewBookDialog(UserService us)
     {
         super();
+        getContentPane().setBackground(new Color(255, 228, 181));
         setBounds(DefaultDialog.X, DefaultDialog.Y, 550, 300);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(DIALOG_TITLE);
-        this.add(new AddNewBookDialogPanel());
+        getContentPane().add(new AddNewBookDialogPanel());
         this.userService=us;
 
     }
