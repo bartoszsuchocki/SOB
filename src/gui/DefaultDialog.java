@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
+import java.awt.Color;
 
 public class DefaultDialog extends JDialog {
 
@@ -23,6 +24,7 @@ public class DefaultDialog extends JDialog {
 	public DefaultDialog(String title, String message) {
 
 		setBounds(X, Y, WIDTH, HEIGHT);
+		getContentPane().setBackground(new Color(255, 228, 181));
 		okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 
@@ -75,6 +77,12 @@ public class DefaultDialog extends JDialog {
 
 	}
 
+	public DefaultDialog(String statement) {
+
+		this("komunikat", statement);
+
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -96,9 +104,6 @@ public class DefaultDialog extends JDialog {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public DefaultDialog(String statement) {
-		this("komunikat", statement);
-	}
 
 	public void setWindowListener(WindowAdapter windowAdapter) {
 		this.addWindowListener(windowAdapter);

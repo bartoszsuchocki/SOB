@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,7 +20,8 @@ public class MainWindow {
 	public static final String LOGGEDUSER = "wypozyczenia";
 	public static final String ADMIN = "admin";
 	public static final String GUEST = "gosc";
-
+	
+	
 	private JFrame frame;
 	private LoginekPanel loginPanel;
 	private RegistrationPanel registrationPanel;
@@ -27,6 +30,8 @@ public class MainWindow {
 	private MyAccountPanel myAccountPanel;
 	private LoggedAdminPanel loggedAdminPanel;
 	private UserService userService;
+	
+	private QuitAppDialog quitAppDialog;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -47,6 +52,8 @@ public class MainWindow {
 
 	private void initialize() {
 		userService = new UserService();
+		quitAppDialog = new  QuitAppDialog();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -54,7 +61,8 @@ public class MainWindow {
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				JFrame frame = (JFrame) e.getSource();
+				quitAppDialog.setVisible(true);
+				/*JFrame frame = (JFrame) e.getSource();
 
 				int result = JOptionPane.showConfirmDialog(
 						frame,
@@ -63,7 +71,7 @@ public class MainWindow {
 						JOptionPane.YES_NO_OPTION);
 
 				if (result == JOptionPane.YES_OPTION)
-					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 			}
 		});
 

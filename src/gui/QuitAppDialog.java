@@ -19,17 +19,17 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 
-public class RegistrationCompleteDialog extends JDialog {
-	private final String TITLE="Rejestracja zakoñczona"; 
-	private final String MSG="Zarejestrowano!";
+public class QuitAppDialog extends JDialog {
+	private final String TITLE="Wychodzisz z aplikacji"; 
+	private final String MSG="Jesteœ pewien?";
 
-	private MainWindow mainWindow;
 	
-	public RegistrationCompleteDialog(MainWindow mainWindow) {
+	public QuitAppDialog() {
 		getContentPane().setBackground(new Color(255, 228, 181));
 		
-		this.mainWindow = mainWindow;
+	
 		this.setTitle(TITLE);
+		
 		
 		
 		
@@ -37,7 +37,7 @@ public class RegistrationCompleteDialog extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				returnToLoginPanel();
+				System.exit(0);
 			}
 		});
 		okButton.addKeyListener(new KeyListener() {
@@ -51,7 +51,7 @@ public class RegistrationCompleteDialog extends JDialog {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					returnToLoginPanel();
+					System.exit(0);
 				}
 				
 			}
@@ -64,32 +64,42 @@ public class RegistrationCompleteDialog extends JDialog {
 		});
 		
 		JLabel messageLabel = new JLabel(MSG);
+		
+		JButton cancelButton = new JButton("Anuluj");
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(20)
+					.addComponent(okButton, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+					.addGap(18))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(55)
 					.addComponent(messageLabel)
-					.addGap(35))
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(71)
-					.addComponent(okButton)
-					.addContainerGap(70, Short.MAX_VALUE))
+					.addContainerGap(56, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(30)
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(33)
 					.addComponent(messageLabel)
 					.addGap(18)
-					.addComponent(okButton)
-					.addContainerGap(26, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(okButton)
+						.addComponent(cancelButton))
+					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
 	}
-	private void returnToLoginPanel()
-	{
-		RegistrationCompleteDialog.this.setVisible(false);
-		mainWindow.changeGui(MainWindow.LOGGING);
-	}
+	
 }
