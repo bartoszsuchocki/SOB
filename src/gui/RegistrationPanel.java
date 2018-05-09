@@ -26,10 +26,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class RegistrationPanel extends JPanel {
     
-	private final String INCORRECT_LOGIN_MESSAGE = "Podano b³êdny login!";
-	private final String INCORRECT_PESEL_MESSAGE = "Podano b³êdny pesel!";
-	private final String INCORRECT_PASSWORD_MESSAGE = "Któreœ has³o jest b³êdne!";
-	private final String ERROR_TITLE = "B³êdnie podane dane.";
+	private final String INCORRECT_LOGIN_MESSAGE = "Podano b\u0119dny login!";
+	private final String INCORRECT_PESEL_MESSAGE = "Podano b\u0119dny pesel!";
+	private final String INCORRECT_PASSWORD_MESSAGE = "Kt\u00F3re\u015B has\u0142o jest b\u0142\u0119dne!";
+	private final String ERROR_TITLE = "B\u0142\u0119dnie podane dane.";
 	
 	
 	
@@ -159,7 +159,7 @@ public class RegistrationPanel extends JPanel {
         surnameTextField = new JTextField();
         surnameTextField.setColumns(10);
 
-        JLabel nameLabel = new JLabel("Imie");
+        JLabel nameLabel = new JLabel("Imi\u0119");
         nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
@@ -277,9 +277,9 @@ public class RegistrationPanel extends JPanel {
                             	
                             }
 
-                            if (String.valueOf(errorBuffer).equals("Login zajety!"))
+                            if (String.valueOf(errorBuffer).equals("Login zaj\u0119ty!"))
                                 loginTextField.setText("");
-                            else if (String.valueOf(errorBuffer).equals("Nie udalo sie zarejestrowac")) {
+                            else if (String.valueOf(errorBuffer).equals("Nie uda\u0142o si\u0119 zarejestrowa\u0107")) {
                                 loginTextField.setText("");
                                 firstPasswordField.setText("");
                                 repeatPasswordField.setText("");

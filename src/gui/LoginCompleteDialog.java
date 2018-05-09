@@ -8,8 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.Color;
 
 public class LoginCompleteDialog extends JDialog {
-    private final String TITLE = "Logowanie zakonczone";
-    private final String MSG = "Zalogowano pomyslnie!";
+    private final String TITLE = "Logowanie zako\u0144czone";
+    private final String MSG = "Zalogowano pomy\u015Blnie!";
     private String whichGui;
     private MainWindow mainWindow;
     

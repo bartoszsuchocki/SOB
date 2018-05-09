@@ -20,7 +20,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 
 public class RegistrationCompleteDialog extends JDialog {
-	private final String TITLE="Rejestracja zakoñczona"; 
+	private final String TITLE="Rejestracja zako\u0144czona"; 
 	private final String MSG="Zarejestrowano!";
 
 	private MainWindow mainWindow;

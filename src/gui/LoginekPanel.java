@@ -32,7 +32,7 @@ public class LoginekPanel extends JPanel {
 
 		this.mainWindow = mainWindow;
 
-		errorDialog = new DefaultDialog("Bledne dane logowania", "Blad!");
+		errorDialog = new DefaultDialog("B\u0142\u0119dne dane logowania", "B\u0142\u0105d!");
 		
 		JLabel signInLabel = new JLabel("Logowanie do systemu");
 		signInLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -190,7 +190,7 @@ public class LoginekPanel extends JPanel {
 		String password = String.valueOf(passwordField.getPassword());
 		if (!loginCorrect(login)) {
 			loginTextField.setText("");
-			showErrorMessage("Podano bledny login!");
+			showErrorMessage("Podano b\u0142\u0119dny login!");
 		} else {
 
 			new Thread() {
@@ -211,12 +211,12 @@ public class LoginekPanel extends JPanel {
 										String.valueOf(whichGui));
 								loginCompleteDialog.setVisible(true);
 							} else {
-								showErrorMessage("Blednie podane dane");
+								showErrorMessage("B\u0142\u0119dnie podane dane");
 							}
 
-							if (String.valueOf(errorBuffer).equals("Bledne haslo"))
+							if (String.valueOf(errorBuffer).equals("B\u0142\u0119dne has\u0142o"))
 								passwordField.setText("");
-							else if (String.valueOf(errorBuffer).equals("Nie ma takiego uzytkownika")) {
+							else if (String.valueOf(errorBuffer).equals("Nie ma takiego u\u017Cytkownika")) {
 								loginTextField.setText("");
 								passwordField.setText("");
 							}

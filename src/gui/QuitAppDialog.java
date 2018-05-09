@@ -21,7 +21,7 @@ import java.awt.Color;
 
 public class QuitAppDialog extends JDialog {
 	private final String TITLE="Wychodzisz z aplikacji"; 
-	private final String MSG="Jesteœ pewien?";
+	private final String MSG="Jeste\u015B pewien?";
 
 	
 	public QuitAppDialog() {

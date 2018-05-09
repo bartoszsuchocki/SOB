@@ -30,11 +30,11 @@ public class AddNewBookDialog extends JFrame
 
         private static final String OK_BUTTON_TEXT="OK";
         private static final String CANCEL_BUTTON_TEXT="NIE";
-        private static final String UNDO_BUTTON_TEXT="Cofnij";
+        
         
         private static final String EMPTY_FIELDS_MSG="Wpisz wszystkie dane ksi\u0105\u017Cki";
-        private static final String ADD_BOOK_SUCCESS_MSG="Uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Ck\u0119 do bazy danych";
-        private static final String ADD_BOOK_UNSUCCESS_MSG="Nie uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Cki do bazy danych";
+        private static final String ADD_BOOK_SUCCESS_MSG="Uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Ck\u0119";
+        private static final String ADD_BOOK_UNSUCCESS_MSG="Nie uda\u0142o si\u0119 doda\u0107 ksi\u0105\u017Cki";
 
         
         private static final int LABEL_WIDTH=100;

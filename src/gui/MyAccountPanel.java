@@ -48,7 +48,7 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 		JScrollPane scrollPaneTab = new JScrollPane();
 		
 		JLabel myBooksLabel = new JLabel("Moje wypo\u017Cyczone ksi\u0105\u017Cki");
-		myBooksLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)

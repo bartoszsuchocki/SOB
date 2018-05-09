@@ -70,7 +70,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		});
 
 		JLabel searchLabel = new JLabel("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
-		searchLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
 
 		searchTextField = new JTextField();
 		searchTextField.setToolTipText("");
