@@ -6,14 +6,13 @@ import usersAndBooks.User;
 import javax.swing.*;
 import java.awt.Font;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class LoginekPanel extends JPanel {
 	private JTextField loginTextField;
@@ -91,17 +90,19 @@ public class LoginekPanel extends JPanel {
 		registerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mainWindow.changeGui("rejestracja");
+				mainWindow.changeGui(MainWindow.REGISTRATION);
 			}
 		});
 
 		JButton guestButton = new JButton("Wejd\u017A jako go\u015B\u0107");
 		guestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.changeGui("gosc");
+				mainWindow.changeGui(MainWindow.GUEST);
 			}
 		});
 		guestButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+
 
 		/*
 		 * JLabel lblNewLabel = new JLabel(""); lblNewLabel.setBackground(Color.ORANGE);
@@ -196,13 +197,13 @@ public class LoginekPanel extends JPanel {
 				public void run() {
 					synchronized(mainWindow.getUserService()) {
 						errorBuffer = new StringBuilder("");
-					
+
 						whichGui = new StringBuilder("");
-	
+
 						mainWindow.getUserService().autheniticate(login,
 								password, errorBuffer, whichGui);
 					}
-						
+
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							if (String.valueOf(errorBuffer).equals("")) {
@@ -228,6 +229,11 @@ public class LoginekPanel extends JPanel {
 
 		}
 
+	}
+
+	public void displayFirstState() {
+		loginTextField.setText("");
+		passwordField.setText("");
 	}
 
 }

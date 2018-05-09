@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.DataBase;
+import gui.MainWindow;
 import usersAndBooks.Book;
 import usersAndBooks.User;
 
@@ -32,9 +33,9 @@ public class UserService {
 			errorBuffer.append("Bledne haslo");
 		} else if (currentUser != null) {
 			if (currentUser.getRole() == 1)
-				whichGui.append("wypozyczanie");
+                whichGui.append(MainWindow.LOGGEDUSER);
 			else if (currentUser.getRole() == 2)
-				whichGui.append("admin");
+                whichGui.append(MainWindow.ADMIN);
 		} else {
 			errorBuffer.append("Nie ma takiego uzytkownika");
 		}

@@ -32,7 +32,7 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 		JButton logOutButton = new JButton("Wyloguj");
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.changeGui("logowanie");
+                mainWindow.changeGui(MainWindow.LOGGING);
 			}
 		});
 		logOutButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -40,7 +40,7 @@ public class MyAccountPanel extends AfterAuthenticationGuiPanel {
 		JButton lendButton = new JButton("Wypo\u017Cyczanie");
 		lendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.changeGui("wypozyczanie");
+                mainWindow.changeGui(MainWindow.LOGGEDUSER);
 			}
 		});
 		lendButton.setFont(new Font("Tahoma", Font.PLAIN, 11));

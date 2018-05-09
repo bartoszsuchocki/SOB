@@ -72,7 +72,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.changeGui("logowanie");
+                mainWindow.changeGui(MainWindow.LOGGING);
 			}
 		});
 		add(signUpButton);

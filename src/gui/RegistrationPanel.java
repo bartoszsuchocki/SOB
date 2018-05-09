@@ -148,7 +148,7 @@ public class RegistrationPanel extends JPanel {
         JButton backButton = new JButton("Cofnij");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                mainWindow.changeGui("logowanie");
+                mainWindow.changeGui(MainWindow.LOGGING);
             }
         });
         backButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -322,4 +322,14 @@ public class RegistrationPanel extends JPanel {
         errorDialog.setMessage(komunikat);
         errorDialog.setVisible(true);
     }
+
+    public void displayFirstState() {
+        loginTextField.setText("");
+        nameTextField.setText("");
+        surnameTextField.setText("");
+        peselTextField.setText("");
+        firstPasswordField.setText("");
+        repeatPasswordField.setText("");
+    }
+
 }

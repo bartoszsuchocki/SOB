@@ -90,6 +90,6 @@ public class RegistrationCompleteDialog extends JDialog {
 	private void returnToLoginPanel()
 	{
 		RegistrationCompleteDialog.this.setVisible(false);
-		mainWindow.changeGui("logowanie");
+		mainWindow.changeGui(MainWindow.LOGGING);
 	}
 }

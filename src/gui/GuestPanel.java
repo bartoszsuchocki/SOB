@@ -47,7 +47,7 @@ public class GuestPanel extends AfterAuthenticationGuiPanel {
 		signOutButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		signOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.changeGui("logowanie");
+                mainWindow.changeGui(MainWindow.LOGGING);
 			}
 		});
 		
