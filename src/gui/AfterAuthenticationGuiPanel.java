@@ -12,10 +12,11 @@ import java.awt.Color;
 
 public abstract class AfterAuthenticationGuiPanel extends JPanel
 {
+	
+	private static final long serialVersionUID = 7761692887511303570L;
 	protected static final String EMPTY_SEARCH_FIELD_MSG = "Wpisz dane do wyszukiwania";
 	protected static final String EMPTY_SEARCH_LIST_MSG = "Nie ma takich ksi\u0105\u017Cek";
 	private JLabel logoLabel; //na nazw� programu
-	private JLabel iconLabel; //na ikon� programu
 	MainWindow mainWindow; //potrzebny, zeby np. uzyc funkcji changeGui
 	private final int width=700;
 	private final int height=500;

@@ -1,25 +1,24 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
+
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.Color;
 
 public class RegistrationCompleteDialog extends JDialog {
+	
+	private static final long serialVersionUID = -6182365558038099047L;
 	private final String TITLE="Rejestracja zako\u0144czona"; 
 	private final String MSG="Zarejestrowano!";
 

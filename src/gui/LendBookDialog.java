@@ -11,11 +11,9 @@ import java.awt.Color;
 
 public class LendBookDialog extends JDialog {
 
+	private static final long serialVersionUID = 9041340520356341409L;
 	private final JPanel contentPanel = new JPanel();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			LendBookDialog dialog = new LendBookDialog();

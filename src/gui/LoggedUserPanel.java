@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -24,21 +23,19 @@ import usersAndBooks.Book;
 
 public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
+	private static final long serialVersionUID = 5656631469469782660L;
 	private static final String LEND_SUCCESS_MSG = "Uda\u0142o si\u0119 wypo\u017Cyczy\u0107";
 	private static final String LEND_UNSUCCESS_MSG = "Nie uda\u0142o si\u0119 wypo\u017Cyczy\u0107";
-	
 
 	private JTextField searchTextField;
 	private JTable booksTable;
 
 	private UserService userService;
 	private BooksTableModel booksTableModel;
-	
 
 	public LoggedUserPanel(MainWindow mainWindow) {
 		super(mainWindow);
 
-		
 		emptySearchFieldDialog = new DefaultDialog(EMPTY_SEARCH_FIELD_MSG);
 		emptySearchListDialog = new DefaultDialog(EMPTY_SEARCH_LIST_MSG);
 		JSeparator separator = new JSeparator();
@@ -46,7 +43,7 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		userService = mainWindow.getUserService();
 
 		/* Model tabelki */
-		booksTableModel = new BooksTableModel();  //To te� powinno by� w odzielnym w�tku !!!
+		booksTableModel = new BooksTableModel(); // To te� powinno by� w odzielnym w�tku !!!
 
 		/* Przycisk Moje konto */
 
@@ -70,7 +67,6 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		});
 
 		JLabel searchLabel = new JLabel("Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107");
-		
 
 		searchTextField = new JTextField();
 		searchTextField.setToolTipText("");
@@ -85,17 +81,15 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible())) {
-				
-					new Thread(new Runnable()
-					{
-						public void run()
-						{
-							synchronized(userService)
-							{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !(emptySearchFieldDialog.isVisible())
+						&& !(emptySearchListDialog.isVisible())) {
+
+					new Thread(new Runnable() {
+						public void run() {
+							synchronized (userService) {
 								searchBooks(searchTextField, userService, booksTableModel);
 							}
-								
+
 						}
 					}).start();
 				}
@@ -113,20 +107,16 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 		searchButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		searchButton.setToolTipText("");
 		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				new Thread(new Runnable()
-				{
-					public void run()
-					{
-						synchronized(userService)
-						{
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						synchronized (userService) {
 							searchBooks(searchTextField, userService, booksTableModel);
 						}
-							
+
 					}
 				}).start();
-				
+
 			}
 		});
 
@@ -145,13 +135,10 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 
 		lendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				new Thread(new Runnable()
-				{
-					public void run()
-					{
-						synchronized(userService)
-						{
+
+				new Thread(new Runnable() {
+					public void run() {
+						synchronized (userService) {
 							int indexesSelected[] = booksTable.getSelectedRows();
 							boolean isLend = true;
 
@@ -164,147 +151,120 @@ public class LoggedUserPanel extends AfterAuthenticationGuiPanel {
 									isLend = false;
 
 							}
-							
-							/*Wyświetlamy komunikaty wtw, gdy coś wybraliśmy
-							 * Jeżeli nic nie wybraliśmy, to nic nie wypożyczymy a zatem komunikaty o tym, czy się udało, 
-							 * czy nie są bez sensu*/
-							if(indexesSelected.length>0)
-							{
+
+							/*
+							 * Wyświetlamy komunikaty wtw, gdy coś wybraliśmy Jeżeli nic nie
+							 * wybraliśmy, to nic nie wypożyczymy a zatem komunikaty o tym, czy się
+							 * udało, czy nie są bez sensu
+							 */
+							if (indexesSelected.length > 0) {
 								if (isLend)
 									showMessage(LEND_SUCCESS_MSG);
 								else
 									showMessage(LEND_UNSUCCESS_MSG);
 							}
 						}
-							
+
 					}
 				}).start();
-				
 
 			}
 		});
-		
+
 		JButton showAllBooksButton = new JButton("Wy\u015Bwietl wszystkie ksi\u0105\u017Cki");
 		showAllBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		showAllBooksButton.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				new Thread(new Runnable()
-				{
-					public void run()
-					{
-						synchronized(userService)
-						{
+		showAllBooksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						synchronized (userService) {
 							booksTableModel.setBooks(userService.getAllBooks());
 						}
-							
+
 					}
 				}).start();
 			}
 		});
 
-		
 		JButton showNewBooksButton = new JButton("Wy\u015Bwietl nowe ksi\u0105\u017Cki");
 		showNewBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		showNewBooksButton.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				new Thread(new Runnable()
-				{
-					public void run()
-					{
-						synchronized(userService)
-						{
+		showNewBooksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						synchronized (userService) {
 							booksTableModel.setBooks(userService.getNewBooks());
 						}
-						
+
 					}
 				}).start();
 			}
 		});
 
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(464)
-							.addComponent(myAccountButton)
-							.addGap(5)
-							.addComponent(signOutButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(53)
-							.addComponent(searchLabel, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(53)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup().addGap(464).addComponent(myAccountButton)
+								.addGap(5).addComponent(signOutButton, GroupLayout.PREFERRED_SIZE, 89,
+										GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(53).addComponent(searchLabel,
+								GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addGap(53).addGroup(groupLayout
+								.createParallelGroup(Alignment.LEADING)
 								.addComponent(scrollPaneTab, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-											.addComponent(lendButton)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(showAllBooksButton, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(showNewBooksButton, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addGroup(groupLayout
+										.createParallelGroup(Alignment.TRAILING)
+										.addGroup(Alignment.LEADING,
+												groupLayout.createSequentialGroup().addComponent(lendButton)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(showAllBooksButton, GroupLayout.PREFERRED_SIZE,
+																165, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(showNewBooksButton, GroupLayout.DEFAULT_SIZE, 171,
+																Short.MAX_VALUE))
 										.addComponent(searchTextField, GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
-									.addGap(5)
-									.addComponent(searchButton)))))
-					.addGap(44))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGap(5).addComponent(searchButton)))))
+				.addGap(44)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
-					.addGap(32)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(signOutButton)
-							.addGap(53)
-							.addComponent(searchLabel))
-						.addComponent(myAccountButton))
-					.addGap(5)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(searchTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lendButton)
-						.addComponent(showNewBooksButton)
-						.addComponent(showAllBooksButton))
-					.addGap(7)
-					.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(84, Short.MAX_VALUE))
-		);
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE).addGap(32)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup().addComponent(signOutButton).addGap(53)
+										.addComponent(searchLabel))
+								.addComponent(myAccountButton))
+						.addGap(5)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(searchTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lendButton)
+								.addComponent(showNewBooksButton).addComponent(showAllBooksButton))
+						.addGap(7)
+						.addComponent(scrollPaneTab, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(84, Short.MAX_VALUE)));
 
 		scrollPaneTab.setViewportView(booksTable);
 		setLayout(groupLayout);
 
 	}
-	public void displayFistState()
-	{
-		new Thread(new Runnable()
-		{
-			public void run()
-			{
-				synchronized(userService)
-				{
+
+	public void displayFistState() {
+		new Thread(new Runnable() {
+			public void run() {
+				synchronized (userService) {
 					booksTableModel.setBooks(userService.getNewBooks()); // to te� wielow�tkowo !!!
 				}
 			}
-		}).start();;
+		}).start();
+		;
 
-		
-			searchTextField.setText("");
+		searchTextField.setText("");
 
-		
 	}
-
-	
-
 
 }

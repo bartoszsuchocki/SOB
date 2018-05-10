@@ -10,6 +10,7 @@ import java.awt.Color;
 
 public class DefaultDialog extends JDialog {
 
+	private static final long serialVersionUID = -1716127284371057199L;
 	public static final int X = 200;
 	public static final int Y = 200;
 	public static final int WIDTH = 200;

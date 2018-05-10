@@ -2,7 +2,7 @@ package gui.LoggedAdminPanel;
 
 import javax.swing.*;
 
-import database.DataBase;
+
 import facade.UserService;
 import gui.AfterAuthenticationGuiPanel;
 import gui.DefaultDialog;
@@ -18,13 +18,18 @@ import java.util.Date;
 public class AddNewBookDialog extends JFrame
 {
 
-    private static final String DIALOG_TITLE="Dodawanie ksi\u0105\u017Cki";
+ 
+	private static final long serialVersionUID = 1L;
+
+	private static final String DIALOG_TITLE="Dodawanie ksi\u0105\u017Cki";
     
     private UserService userService;
 
     private class AddNewBookDialogPanel extends JPanel
     {
-        private static final String NAME_LABEL_TEXT="Wpisz nazw\u0119";
+        
+		private static final long serialVersionUID = 1L;
+		private static final String NAME_LABEL_TEXT="Wpisz nazw\u0119";
         private static final String AUTHOR_LABEL_TEXT="Wpisz autora";
         private static final String SIGNATURE_LABEL_TEXT="Wpisz sygnatur\u0119";
 
@@ -74,6 +79,8 @@ public class AddNewBookDialog extends JFrame
             
             notAbleToAddBookDialog = new DefaultDialog(ADD_BOOK_UNSUCCESS_MSG);
             addBookSuccessDialog = new DefaultDialog(ADD_BOOK_SUCCESS_MSG);
+            
+            
             
             addBookAfterEnterReleased = new KeyListener() {
     			
@@ -169,20 +176,8 @@ public class AddNewBookDialog extends JFrame
                 }
             });
             this.add(cancelButton);
+            this.setBackground(new Color(255, 228, 181));
 
-            /*
-            undoButton=new JButton(UNDO_BUTTON_TEXT);
-            undoButton.setBounds(x+120, y, 100, 25 );
-            undoButton.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    dispose();
-                }
-            });
-            this.add(undoButton);
-            */
 
         }
         private void addBook() {

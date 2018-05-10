@@ -2,16 +2,12 @@ package gui.LoggedAdminPanel;
 
 import gui.AfterAuthenticationGuiPanel;
 import gui.BooksTableModel;
-import gui.DefaultDialog;
+
 import gui.MainWindow;
 import usersAndBooks.Book;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 
-import database.DataBase;
 import facade.UserService;
 
 import java.awt.Font;
@@ -19,16 +15,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
+
+	private static final long serialVersionUID = 1204129598397080733L;
 	private static final String SIGN_UP_BUTTON_TEXT = "Wyloguj";
 	private static final String SEARCH_FIELD_TEXT = "Wpisz dane ksi\u0105\u017Cki, kt\u00F3r\u0105 chcesz wyszuka\u0107";
 	private static final String SEARCH_BUTTON_TEXT = "Szukaj";
 	private static final String ADD_BOOK_BUTTON_TEXT = "Dodaj ksi\u0105\u017Ck\u0119";
 	private static final String CHANGE_STATUS_BUTTON_TEXT = "Zmie\u0144 status";
-	private static final String SHOW_ALL_BOOKS_BUTTON_TEXT="Wy\u015Bwietl wszystkie ksi\u0105\u017Cki";
-	private static final String SHOW_NEW_BOOKS_BUTTON_TEXT="Wy\u015Bwietl nowe ksi\u0105\u017Cki";
+	private static final String SHOW_ALL_BOOKS_BUTTON_TEXT = "Wy\u015Bwietl wszystkie ksi\u0105\u017Cki";
+	private static final String SHOW_NEW_BOOKS_BUTTON_TEXT = "Wy\u015Bwietl nowe ksi\u0105\u017Cki";
 
 	/* Rozne komunikaty typu, ze cos sie udalo albo ze sie nie udalo itp */
 	private static final String DELETE_BOOK_SUCCESS_MSG = "Uda\u0142o si\u0119 usun\u0105\u0107";
@@ -49,22 +46,14 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 
 	private BooksTableModel booksTableModel;
 	private UserService userService;
-	
-
 
 	public LoggedAdminPanel(MainWindow mainWindow) {
 		super(mainWindow);
 		setLayout(null);
-		
-		
-		
-		userService = mainWindow.getUserService();
-		booksTableModel = new BooksTableModel(); 
 
-		
-		
-		
-		
+		userService = mainWindow.getUserService();
+		booksTableModel = new BooksTableModel();
+
 		/* Przycisk 'Wyloguj się' */
 		signUpButton = new JButton(SIGN_UP_BUTTON_TEXT);
 		signUpButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -72,7 +61,7 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-                mainWindow.changeGui(MainWindow.LOGGING);
+				mainWindow.changeGui(MainWindow.LOGGING);
 			}
 		});
 		add(signUpButton);
@@ -85,16 +74,15 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable()
-					
+
 				{
-					public void run()
-					{
+					public void run() {
 						AddNewBookDialog addDialog = new AddNewBookDialog(userService);
 						addDialog.showDialog();
 					}
-						
+
 				});
-				
+
 			}
 		});
 		add(addBookButton);
@@ -119,18 +107,16 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				System.out.println(emptySearchFieldDialog.isVisible() +" "+ emptySearchListDialog.isVisible());
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER &&!(emptySearchFieldDialog.isVisible()) && !(emptySearchListDialog.isVisible()) ) {
-					new Thread(new Runnable()
-	        		{
-	        			public void run()
-	        			{
-	        				synchronized(userService)
-	        				{
-	        					searchBooks(searchBookTextField,userService,booksTableModel);
-	        				}
-	        			}
-	        		}).start();
+				System.out.println(emptySearchFieldDialog.isVisible() + " " + emptySearchListDialog.isVisible());
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER && !(emptySearchFieldDialog.isVisible())
+						&& !(emptySearchListDialog.isVisible())) {
+					new Thread(new Runnable() {
+						public void run() {
+							synchronized (userService) {
+								searchBooks(searchBookTextField, userService, booksTableModel);
+							}
+						}
+					}).start();
 				}
 
 			}
@@ -153,16 +139,13 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable()
-        		{
-        			public void run()
-        			{
-        				synchronized(userService)
-        				{
-        					searchBooks(searchBookTextField,userService,booksTableModel);
-        				}
-        			}
-        		}).start();
+				new Thread(new Runnable() {
+					public void run() {
+						synchronized (userService) {
+							searchBooks(searchBookTextField, userService, booksTableModel);
+						}
+					}
+				}).start();
 			}
 		});
 		add(searchButton);
@@ -188,30 +171,24 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				new ChangeBookStatusDialog(new ChangeBookStatusInterface() {
 					@Override
 					public void deleteButtonPressed() {
-						new Thread(new Runnable()
-	            		{
-	            			public void run()
-	            			{
-	            				synchronized(userService)
-	            				{
-	            					deleteSelectedBooks(indexesSelected);
-	            				}
-	            			}
-	            		}).start();
+						new Thread(new Runnable() {
+							public void run() {
+								synchronized (userService) {
+									deleteSelectedBooks(indexesSelected);
+								}
+							}
+						}).start();
 					}
 
 					@Override
 					public void giveBackButtonPressed() {
-						new Thread(new Runnable()
-	            		{
-	            			public void run()
-	            			{
-	            				synchronized(userService)
-	            				{
-	            					giveBackSelectedBooks(indexesSelected);
-	            				}
-	            			}
-	            		}).start();
+						new Thread(new Runnable() {
+							public void run() {
+								synchronized (userService) {
+									giveBackSelectedBooks(indexesSelected);
+								}
+							}
+						}).start();
 					}
 				}).showDialog();
 			}
@@ -220,47 +197,39 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 		showAllBooksButton = new JButton(SHOW_ALL_BOOKS_BUTTON_TEXT);
 		showAllBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		showAllBooksButton.setBounds(213, 135, 162, 23);
-		showAllBooksButton.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		showAllBooksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				booksTableModel.setBooks(userService.getAllBooks());
 			}
 		});
 
 		add(showAllBooksButton);
-		
+
 		showNewBooksButton = new JButton(SHOW_NEW_BOOKS_BUTTON_TEXT);
 		showNewBooksButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		showNewBooksButton.setBounds(385, 135, 142, 23);
-		showNewBooksButton.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		showNewBooksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				displayFirstState();
 			}
 		});
 		add(showNewBooksButton);
-		
+
 	}
-	public void displayFirstState()
-	{
-		new Thread(new Runnable()
-		{
-			public void run()
-			{
-				synchronized(userService)
-				{
+
+	public void displayFirstState() {
+		new Thread(new Runnable() {
+			public void run() {
+				synchronized (userService) {
 					booksTableModel.setBooks(userService.getNewBooks());
 				}
 			}
-		}).start();;
+		}).start();
+		;
 
-		
 	}
-	
-	private void giveBackSelectedBooks(int[] indexesSelected)
-	{
+
+	private void giveBackSelectedBooks(int[] indexesSelected) {
 		boolean isGaveBack = true;
 
 		for (int i = 0; i < indexesSelected.length; i++) {
@@ -272,21 +241,21 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				isGaveBack = false;
 
 		}
-		
-		/*Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie wybraliśmy
-		 * to nic nie zwrócimy*/
-		if(indexesSelected.length>0)
-		{
-		
+
+		/*
+		 * Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie
+		 * wybraliśmy to nic nie zwrócimy
+		 */
+		if (indexesSelected.length > 0) {
+
 			if (isGaveBack)
 				showMessage(GIVE_BACK_SUCCESS_MSG);
 			else
 				showMessage(GIVE_BACK_UNSUCCESS_MSG);
 		}
 	}
-	
-	private void deleteSelectedBooks(int[] indexesSelected)
-	{
+
+	private void deleteSelectedBooks(int[] indexesSelected) {
 		/*
 		 * Zmienna pomocnicza: Jezeli nie uda sie usunac jakiejs ksiazki, to zminiamy
 		 * jej wartosc na false. Na koncu wyswietlamy komunikat: 1) Jezeli sie udalo
@@ -303,17 +272,18 @@ public class LoggedAdminPanel extends AfterAuthenticationGuiPanel {
 				isDeleted = false;
 
 		}
-		
-		/*Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie wybraliśmy
-		 * to nic nie zwrócimy*/
-		if(indexesSelected.length!=0)
-		{
-		
+
+		/*
+		 * Wyświetlamy komunikaty wtw, gdy coś wybraliśmy, bo jeżeli nic nie
+		 * wybraliśmy to nic nie zwrócimy
+		 */
+		if (indexesSelected.length != 0) {
+
 			if (isDeleted)
 				showMessage(DELETE_BOOK_SUCCESS_MSG);
 			else
 				showMessage(DELETE_BOOK_UNSUCCESS_MSG);
 		}
 	}
-	
+
 }
