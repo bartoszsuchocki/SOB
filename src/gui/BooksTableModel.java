@@ -33,36 +33,25 @@ public class BooksTableModel extends AbstractTableModel {
 	}
 
 	public void deleteBook(int index) {
-		try {
-			if (index < 0 || index > books.size() - 1)
-				throw new ArrayIndexOutOfBoundsException();
-			books.remove(index);
-			this.fireTableRowsDeleted(index, index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+		if (index < 0 || index > books.size() - 1)
+			throw new ArrayIndexOutOfBoundsException();
+		books.remove(index);
+		this.fireTableRowsDeleted(index, index);
+
 	}
 
 	public Book getBook(int index) {
-		try {
-			if (index < 0 || index > books.size() - 1)
-				throw new ArrayIndexOutOfBoundsException();
-			return books.get(index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
-		return null;
+		if (index < 0 || index > books.size() - 1)
+			throw new ArrayIndexOutOfBoundsException();
+		return books.get(index);
+
 	}
 
 	public void updateBook(int index, Book newBook) {
-		try {
-			if (index < 0 || index > books.size() - 1)
-				throw new ArrayIndexOutOfBoundsException();
-			books.set(index, newBook);
-			this.fireTableRowsUpdated(index, index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+		if (index < 0 || index > books.size() - 1)
+			throw new ArrayIndexOutOfBoundsException();
+		books.set(index, newBook);
+		this.fireTableRowsUpdated(index, index);
 	}
 
 	@Override
