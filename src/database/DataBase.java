@@ -17,9 +17,9 @@ import usersAndBooks.User;
 public class DataBase 
 {
 	private final String DRIVER = "com.mysql.jdbc.Driver";
-	private final String DBPATH = "jdbc:mysql://localhost:3306/biblioteka";
-	private final String USERNAME = "user1";
-	private final String USER_PASSWORD = "userpassword";
+	private final static String DEFAULT_DBPATH = "jdbc:mysql://localhost:3306/biblioteka";
+	private final static String DEFAULT_USERNAME = "user1";
+	private final static String DEFAULT_USER_PASSWORD = "userpassword";
 	private final String GET_NEW_BOOKS_QUERY="call getnewbooks();";
 	private final String GET_BOOKS_QUERY="call getbooks(?)";
 	private final String GET_ALL_BOOKS_QUERY="call getallbooks();";
@@ -31,26 +31,36 @@ public class DataBase
 	private final String ADD_USER_QUERY="call adduser(?,?,?,?,?);";
 	private final String GET_USER_BOOKS="call getuserbooks(?);";
 	
+	private String dbPath;
+	private String username;
+	private String password;
+	
 	private Connection connection = null;
 	private PreparedStatement statement = null; 
 	
 	public DataBase()
 	{
+		this(DEFAULT_DBPATH,DEFAULT_USERNAME,DEFAULT_USER_PASSWORD);
+	}
+	public DataBase(String databasePath, String username, String password) {
+		this.dbPath = databasePath;
+		this.username = username;
+		this.password = password;
 		try {
 			Class.forName(DRIVER);
 		} catch (ClassNotFoundException e) {
-			// Nie mam pomys³u co tu zrobiæ !
 			e.printStackTrace();
 			
 		}
 	}
 	private synchronized void openRecources() throws SQLException {
 		if (connection==null || connection.isClosed())
-			connection = DriverManager.getConnection(DBPATH, USERNAME, USER_PASSWORD);
+			connection = DriverManager.getConnection(dbPath, username, password);
 
 //		System.out.println("Zasoby otwarte!");
 		
 	}
+	
 	private void closeRecources() throws SQLException
 	{
 		if(statement!=null && !(statement.isClosed()) )
@@ -81,27 +91,7 @@ public class DataBase
 		return bookList;
 	}
 	
-//	private List<Book> executeSelectBooksQuery(PreparedStatement preparedStatement)
-//	{
-//		List<Book> bookList=null;
-//		ResultSet result=null;
-//		try {
-//			openRecources();
-//			result=preparedStatement.executeQuery();
-//		} catch (SQLException e) {
-//			//najwyzej przekazemy nulla do transformatora, a on zwroci pusta liste
-//			e.printStackTrace();
-//		}
-//		bookList = transformResultSetToBookList(result);
-//		//nowy try catch, zeby transformacja byla poza nim. Dzieki temu w razie wczesniejszego bledu, transformacja zwroci pusta liste
-//		try {
-//			closeRecources();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return bookList;
-//	}
+
 	
 	public List<Book> getNewBooks()
 	{
@@ -128,7 +118,7 @@ public class DataBase
 		}
 		return bookList;
 	}
-	public List<Book> getBooks(String title) //jeszcze nie przetestowana
+	public List<Book> getBooks(String title) 
 	{
 		List<Book> bookList;
 		ResultSet result=null;
@@ -138,7 +128,6 @@ public class DataBase
 			statement.setString(1, title);
 			result = statement.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		bookList = transformResultSetToBookList(result);
@@ -159,7 +148,6 @@ public class DataBase
 			statement = connection.prepareStatement(GET_ALL_BOOKS_QUERY);
 			result = statement.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		bookList = transformResultSetToBookList(result);
@@ -287,7 +275,7 @@ public class DataBase
 		}
 		return user;
 	}
-	public User getUser(String login) // UWAGA: zwraca null, jesli nie ma takiego uzytkownika | w procedurze sql moze byc niepotrzebna obsluga braku uzytkownika 
+	public User getUser(String login) // UWAGA: zwraca null, jesli nie ma takiego uzytkownika  
 	{
 		ResultSet result=null;
 		User user;
