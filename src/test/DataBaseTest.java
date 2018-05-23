@@ -1,9 +1,10 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -64,7 +65,7 @@ public class DataBaseTest {
 		assertEquals("Antygona",book.getTitle());
 		
 		
-		resultList = dataBase.getBooks("Nie ma takiej ksi��ki");
+		resultList = dataBase.getBooks("Nie ma takiej ksi��ki");
 		assertEquals(0, resultList.size());
 		
 	}
@@ -91,6 +92,73 @@ public class DataBaseTest {
 		
 	}
 
+	
+	
+	@Test
+	public void testDeleteBook() 
+	{	
+		String signature="S002";
+	
+		assertEquals(1, dataBase.deleteBook(signature));
+		List<Book> potopBooks=dataBase.getBooks("Potop");
+		for(Book book: potopBooks)
+		
+			assertFalse(book.getSignature().equals(signature));
+		
+	}
+	
+	
+	/*
+	 * Po testowaniu usunięcia z bazy chcemy z powrotem dodać
+	 * "Potop". Jeżeli już jest, to się nie doda więc w każdym razie będzie ok
+	 * */
+	
+	@After
+	public void addPotop()
+	{
+		String signature="S002";
+		String author="Henryk Sienkiewicz";
+		String title="Potop";
+		
+		Book book=new Book(title, author, signature, false, null, new Date());
+		dataBase.addBook(book);
+		
+		
+	}
+
+	
+
+	@Test
+	public void testReturnBook() 
+	{
+		
+		assertEquals(1, dataBase.returnBook("H001"));
+		List<Book> illiadaBooks=dataBase.getBooks("Illiada");
+		for(Book book: illiadaBooks)
+		{
+			if(book.getSignature().equals("H001")) assertFalse(book.isLent());
+		}
+	}
+
+
+	
+	/*
+	 * Zmieniamy z powrotem status Illiady
+	 * po testowaniu returnBook();
+	 * */
+	
+	@After 
+	public void lendIlliada()
+	{
+		String signature="H001";
+		String userName="janko";
+		
+		dataBase.lendBook(signature, userName);
+	}
+	
+
+
+	/*
 	@Test
 	public void testAddBookStringStringString() {
 		fail("Not yet implemented");
@@ -106,15 +174,7 @@ public class DataBaseTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testDeleteBook() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testReturnBook() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
 	public void testGetUser() {
@@ -126,7 +186,7 @@ public class DataBaseTest {
 		fail("Not yet implemented");
 	}
 
-
+*/
 	@Test
 	public void testGetUserBooks() {
 		List<Book> resultList;
