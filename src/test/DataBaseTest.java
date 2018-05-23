@@ -2,13 +2,13 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Before;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import database.DataBase;
@@ -16,23 +16,13 @@ import usersAndBooks.Book;
 
 public class DataBaseTest {
 
-	private DataBase dataBase;
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
+	private static DataBase dataBase;
 	
-	@Before
-	public void initDatabaseObject() {
+	@BeforeClass
+	public static void initDatabaseObject() {
 		dataBase = new DataBase("jdbc:mysql://localhost:3306/biblioteka_testowa","user1","userpassword");
 	}
-	@After
-	public void closeDatabaseResources() {
-		
-	}
+	
 
 	@Test
 	public void testGetNewBooks() {
@@ -108,10 +98,7 @@ public class DataBaseTest {
 	}
 	
 	
-	/*
-	 * Po testowaniu usunięcia z bazy chcemy z powrotem dodać
-	 * "Potop". Jeżeli już jest, to się nie doda więc w każdym razie będzie ok
-	 * */
+	
 	
 	@After
 	public void addPotop()
