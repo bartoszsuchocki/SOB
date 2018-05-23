@@ -30,7 +30,8 @@ public class DataBase
 	private final String GET_USER_QUERY="call getuser(?);";
 	private final String ADD_USER_QUERY="call adduser(?,?,?,?,?);";
 	private final String GET_USER_BOOKS="call getuserbooks(?);";
-	
+	private final String DELETE_USER_QUERY = "call deleteuser(?);";
+
 	private String dbPath;
 	private String username;
 	private String password;
@@ -226,7 +227,8 @@ public class DataBase
 		}
 		return rowsAffected;
 	}
-	
+
+
 	public int returnBook(String signature)
 	{
 		int rowsAffected=0;
@@ -335,6 +337,22 @@ public class DataBase
 		}
 		return rowsAffected;
 	}
+
+	public int deleteUser(long pesel) {
+		int rowsAffected = 0;
+		try {
+			openRecources();
+			statement = connection.prepareStatement(DELETE_USER_QUERY);
+			statement.setLong(1, pesel);
+			rowsAffected = statement.executeUpdate();
+			closeRecources();
+		} catch (SQLException e) {
+			//najwyzej rowsAffected pozostanie 0
+			e.printStackTrace();
+		}
+		return rowsAffected;
+	}
+
 	public List<Book> getUserBooks(String login)
 	{
 		List<Book> bookList;
