@@ -35,7 +35,20 @@ public class DataBaseTest {
 
 	@Test
 	public void testGetNewBooks() {
-		fail("Not yet implemented");
+		List<Book> resultList;
+		Book book;
+		
+		resultList = dataBase.getNewBooks();
+		assertEquals(2,resultList.size());
+		
+		book = resultList.get(0);
+		assertEquals("Antygona", book.getTitle());
+		assertEquals("Sofokles", book.getAuthor());	
+		
+		book = resultList.get(1);
+		assertEquals("Potop", book.getTitle());
+		assertEquals("Henryk Sienkiewicz", book.getAuthor());
+		
 	}
 
 	@Test
@@ -45,6 +58,7 @@ public class DataBaseTest {
 		
 		resultList = dataBase.getBooks("Antygona");		
 		assertEquals(1,resultList.size());
+
 		
 		book = resultList.get(0);
 		assertEquals("Antygona",book.getTitle());
@@ -57,7 +71,24 @@ public class DataBaseTest {
 
 	@Test
 	public void testGetAllBooks() {
-		fail("Not yet implemented");
+		List<Book> resultList;
+		Book book;
+		
+		resultList = dataBase.getAllBooks();
+		assertEquals(3,resultList.size());
+		
+		book = resultList.get(0);
+		assertEquals("Illiada", book.getTitle());
+		assertEquals("Homer", book.getAuthor());
+				
+		book = resultList.get(1);
+		assertEquals("Antygona", book.getTitle());
+		assertEquals("Sofokles", book.getAuthor());
+		
+		book = resultList.get(2);
+		assertEquals("Potop", book.getTitle());
+		assertEquals("Henryk Sienkiewicz", book.getAuthor());
+		
 	}
 
 	@Test
