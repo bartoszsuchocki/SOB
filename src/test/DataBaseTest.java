@@ -100,10 +100,13 @@ public class DataBaseTest {
 	public void testGetUserBooks() {
 		List<Book> resultList;
 		
-		resultList = dataBase.getUserBooks("janko123");
+		resultList = dataBase.getUserBooks("janko");
 		
 		assertEquals(1, resultList.size());
 		assertEquals("Illiada", resultList.get(0).getTitle());
+		
+		resultList = dataBase.getUserBooks("kowal");
+		assertEquals(0,resultList.size());
 		
 	}
 
