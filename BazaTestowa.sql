@@ -176,6 +176,17 @@ END;
 //
 
 //
+CREATE PROCEDURE deleteuser
+	(
+    pesel BIGINT
+    )
+BEGIN
+	DELETE FROM users
+    WHERE users.PESEL  = PESEL;
+END;
+//
+
+//
 CREATE PROCEDURE getallbooks ()
 BEGIN
 	SELECT * FROM books b;
@@ -242,3 +253,6 @@ CALL addbook('S002', 'Potop', 'Henryk Sienkiewicz');
 CALL addadmin(1, 'admin', 'admin');
 CALL lentbook('H001', 'janko123');
 
+call deleteuser(98081109876);
+
+select * from users
