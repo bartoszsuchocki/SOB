@@ -35,13 +35,14 @@ public class DataBaseTest {
 		resultList = dataBase.getNewBooks();
 		assertEquals(2, resultList.size());
 
-		book = resultList.get(0);
-		assertEquals("Antygona", book.getTitle());
-		assertEquals("Sofokles", book.getAuthor());
 
-		book = resultList.get(1);
+		book = resultList.get(0);
 		assertEquals("Potop", book.getTitle());
 		assertEquals("Henryk Sienkiewicz", book.getAuthor());
+
+		book = resultList.get(1);
+		assertEquals("Antygona", book.getTitle());
+		assertEquals("Sofokles", book.getAuthor());
 
 	}
 
