@@ -3,4 +3,6 @@ System Obsługi Biblioteki - Library Management System. App can be used to add/d
 Using:
 -Java
 -Swing
--JDBC)
+-JDBC
+-MySQL
+-JUnit
